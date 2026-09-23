@@ -1,10 +1,7 @@
-workshop-1-getting-started
 about-this-site
 license
 citation
-workshop-1-understanding-data-with-descriptive-statistics-and-plots
 descriptive-statistics-and-plots
-learning-outcomes
 setup
 load-packages-and-import-data
 test
