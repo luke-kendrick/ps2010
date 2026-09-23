@@ -1,0 +1,15 @@
+---
+title: "PS2010 Workshop Code Book"
+author: "Luke Kendrick"
+site: bookdown::bookdown_site
+documentclass: book
+description: "Code and worked examples for PS2010 workshops."
+---
+
+# Preface {-}
+
+Welcome to the PS2010 Psychological Research Methods and Analysis workshop code book.
+
+This site will collect the workshop code and examples for the new teaching year. Chapters will be added as the module progresses.
+
+For material from the previous year, see the [2025 code book](https://luke-kendrick.github.io/ps2010_codebook_25/).

@@ -1,0 +1,10 @@
+# Workshop 1: Getting started
+
+This chapter is a starting point. Replace it with the first workshop's instructions and code.
+
+To add an R example, use a code chunk like this:
+
+```{r example-mean}
+scores <- c(4, 7, 9, 10)
+mean(scores)
+```

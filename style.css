@@ -1,0 +1,13 @@
+/* Small custom touches; the main colour is set in _output.yml. */
+.sidebar-book h1 a {
+  font-weight: 700;
+}
+
+.sidebar-book {
+  border-right: 3px solid #b8d8d6;
+}
+
+main a:not(.anchor) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
