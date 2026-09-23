@@ -1,10 +1,30 @@
-# Workshop 1: Getting started
+# Descriptive Statistics and Plots
 
-This chapter is a starting point. Replace it with the first workshop's instructions and code.
+## **Learning Outcomes** {-}
 
-To add an R example, use a code chunk like this:
+By the end of this workshop you should be able to:
 
-```{r example-mean}
-scores <- c(4, 7, 9, 10)
-mean(scores)
+- import and view data using `read_csv()` and `view()`
+- calculate descriptive statistics, including the mean and standard deviation.
+- create and interpret a histogram and a density plot
+- create and interpret a box plot and a violin plot
+
+## **Setup**
+
+## **Load Packages and Import Data**
+
+## **TEST**
+
+## **TEST**
+
+## **TEST**
+
+```r
+reac_csv()
 ```
+
+TEST
+
+## **Test**
+
+

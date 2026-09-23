@@ -1,6 +1,6 @@
 # PS2010 Workshop Code Book
 
-Source for the new PS2010 workshop code book. It follows the 2025 site's Bookdown layout, with a teal theme.
+Source for the new PS2010 workshop code book. It follows the 2025 site's Bookdown layout, with a blue theme.
 
 ## Edit and publish with RStudio
 

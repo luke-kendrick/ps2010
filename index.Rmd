@@ -8,8 +8,22 @@ description: "Code and worked examples for PS2010 workshops."
 
 # Preface {-}
 
-Welcome to the PS2010 Psychological Research Methods and Analysis workshop code book.
+Welcome to the PS2010 Psychological Research Methods and Analysis Codebook
 
-This site will collect the workshop code and examples for the new teaching year. Chapters will be added as the module progresses.
+## About this Site
 
-For material from the previous year, see the [2025 code book](https://luke-kendrick.github.io/ps2010_codebook_25/).
+This was developed to accompany the PS2010 Psychological Research Methods and Analysis module at the Department of Psychology, Royal Holloway University of London.
+
+This site is a work in progress and it is being continually updated and improved.
+
+If you spot an error or something that doesn’t look quite right, please get in touch:
+
+[luke.kendrick\@rhul.ac.uk](mailto:luke.kendrick@rhul.ac.uk){.email}.
+
+## **License**
+
+This work is licensed under Creative Commons Attribution-ShareAlike 4.0 International License [(CC-BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/). You are free to share and adapt the material for non-commercial purposes, with appropriate credit and under the same license. If you adapt the material, you must distribute your contributions under the same license.
+
+## **Citation**
+
+Kendrick, L. T. (2025). PS2010 Workshop Code Book (Version 2.0). <https://luke-kendrick.github.io/ps2010>
