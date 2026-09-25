@@ -80,9 +80,9 @@
 <blockquote>
 <p>Gamble, T., &amp; Walker, I. (2016). <a href="https://journals.sagepub.com/doi/10.1177/0956797615620784?utm_source=chatgpt.com">Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults</a>. Psychological Science, 27(2), 289–294, doi: 10.1177/09567976156207</p>
 </blockquote>
-<p>In this study, the researchers wanted to compare risk taking behaviour between a group wearing a bicycle helmet and one wearing a baseball cap. Participants were randomly assigned to one of these groups and completed the Balloon Analogue Risk Task (BART), which, which measured their risk taking behaviour.</p>
-<p>In this chapter you will use the real data from the published paper to look at the descriptive statistics in their results section in addition to exploring the data with different plots.</p>
-<p><strong>Q1(a)</strong> What would be a suitable research question for this study?</p>
+<p>In this study, the researchers wanted to compare risk taking behaviour between a group wearing a bicycle helmet and one wearing a baseball cap. Participants were randomly assigned to one of these groups and completed the Balloon Analogue Risk Task (BART), which measured their risk taking behaviour.</p>
+<p>In this chapter you will use the real data from the published paper to look at the descriptive statistics in addition to exploring the data with different plots.</p>
+<p><strong>Q1</strong> What would be a suitable research question for this study?</p>
 <hr>
 </div>
 <div id="load-packages-and-import-data" class="section level2" number="1.2">
@@ -148,8 +148,8 @@
 <span id="cb5-2"><a href="descriptive-statistics-and-plots.html#cb5-2" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="descriptive-statistics-and-plots.html#cb5-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanBART =</span> <span class="fu">mean</span>(BART),</span>
 <span id="cb5-4"><a href="descriptive-statistics-and-plots.html#cb5-4" tabindex="-1"></a>            <span class="at">sdBART =</span> <span class="fu">sd</span>(BART)</span></code></pre></div>
-<p><strong>Q3a</strong> What was the mean and standard deviation for the cap condition?</p>
-<p><strong>Q3b</strong> What was the mean and standard deviation for the helmet condition?</p>
+<p><strong>Q3a</strong>: What was the mean and standard deviation for the cap condition?</p>
+<p><strong>Q3b</strong>: What was the mean and standard deviation for the helmet condition?</p>
 <hr>
 </div>
 <div id="histogram" class="section level2" number="1.5">
@@ -184,7 +184,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">NULL1</span>, fill <span class="op">=</span> <span class="va">NULL2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Q4a</strong> When looking at the density plot, which condition (cap or helmet) had greater density of higher risk taking scores?</p>
+<p><strong>Q4a</strong>: When looking at the density plot, which condition (cap or helmet) had greater density of higher risk taking scores?</p>
 <p><strong>Q4b</strong> When looking at the density plot, which condition (cap or helmet) had greater density of lower risk taking scores?</p>
 <hr>
 </div>
@@ -208,7 +208,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">NULL2</span>, y <span class="op">=</span> <span class="va">NULL1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Q5</strong> Based on the descriptive statistics and plots produced in this workshop, what would be the answer to your research question? What statistics or plots would help support your answer?</p>
+<p><strong>Q5</strong> Using the descriptive statistics and plots produced in this workshop, what would be the answer to your research question? What statistics or plots would help support your answer?</p>
 <hr>
 </div>
 <div id="optional-exercise" class="section level2" number="1.9">

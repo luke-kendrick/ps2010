@@ -18,11 +18,11 @@ The data for this workshop come from:
 
 > Gamble, T., & Walker, I. (2016). [Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults](https://journals.sagepub.com/doi/10.1177/0956797615620784?utm_source=chatgpt.com). Psychological Science, 27(2), 289--294, doi: 10.1177/09567976156207
 
-In this study, the researchers wanted to compare risk taking behaviour between a group wearing a bicycle helmet and one wearing a baseball cap. Participants were randomly assigned to one of these groups and completed the Balloon Analogue Risk Task (BART), which, which measured their risk taking behaviour.
+In this study, the researchers wanted to compare risk taking behaviour between a group wearing a bicycle helmet and one wearing a baseball cap. Participants were randomly assigned to one of these groups and completed the Balloon Analogue Risk Task (BART), which measured their risk taking behaviour.
 
-In this chapter you will use the real data from the published paper to look at the descriptive statistics in their results section in addition to exploring the data with different plots.
+In this chapter you will use the real data from the published paper to look at the descriptive statistics in addition to exploring the data with different plots.
 
-**Q1(a)** What would be a suitable research question for this study?
+**Q1** What would be a suitable research question for this study?
 
 ---
 
@@ -109,9 +109,11 @@ stats <- data %>%
             sdBART = sd(BART)
 ```
 
-**Q3a** What was the mean and standard deviation for the cap condition?
 
-**Q3b** What was the mean and standard deviation for the helmet condition?
+
+**Q3a**: What was the mean and standard deviation for the cap condition?
+
+**Q3b**: What was the mean and standard deviation for the helmet condition?
 
 ------------------------------------------------------------------------
 
@@ -154,7 +156,9 @@ ggplot(data, aes(x = NULL1, fill = NULL2)) +
   geom_density(alpha = 0.2)
 ```
 
-**Q4a** When looking at the density plot, which condition (cap or helmet) had greater density of higher risk taking scores?
+
+
+**Q4a**: When looking at the density plot, which condition (cap or helmet) had greater density of higher risk taking scores?
 
 **Q4b** When looking at the density plot, which condition (cap or helmet) had greater density of lower risk taking scores?
 
@@ -168,6 +172,8 @@ Create a box plot (note the change of the x and y axis for this one)...
 ggplot(data, aes(x = NULL2, y = NULL1)) +
   geom_boxplot()
 ```
+
+
 
 Look back at your mean and standard deviations from questions 1(a) and 1(b). Do they match what the box plots show?
 
@@ -183,7 +189,9 @@ ggplot(data, aes(x = NULL2, y = NULL1)) +
   geom_boxplot(width = 0.2)
 ```
 
-**Q5** Based on the descriptive statistics and plots produced in this workshop, what would be the answer to your research question? What statistics or plots would help support your answer?
+
+
+**Q5** Using the descriptive statistics and plots produced in this workshop, what would be the answer to your research question? What statistics or plots would help support your answer?
 
 ---
 
