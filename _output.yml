@@ -1,4 +1,4 @@
 bookdown::bs4_book:
   css: style.css
   theme:
-    primary: "#4c3266"
+    primary: "#355C8A"

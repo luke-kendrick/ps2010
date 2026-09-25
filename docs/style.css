@@ -4,10 +4,38 @@
 }
 
 .sidebar-book {
-  border-right: 3px solid #bdd8f0;
+  border-right: 3px solid #355C8A;
 }
 
 main a:not(.anchor) {
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
+}
+
+@media (min-width: 1200px) {
+  .sidebar-book {
+    max-width: 18rem;
+  }
+}
+
+/* Outer source-code wrapper: no visible background */
+div.sourceCode {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* The actual visible code chunk */
+div.sourceCode > pre.sourceCode,
+pre.sourceCode {
+  background: #f2f6fb !important;
+  border: 1px solid #c7d8e8 !important;
+  border-radius: 7px !important;
+  margin: 0 !important;
+}
+
+/* Don't let the code element add another background */
+div.sourceCode > pre.sourceCode code,
+pre.sourceCode code {
+  background: transparent !important;
 }

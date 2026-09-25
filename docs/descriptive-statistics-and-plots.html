@@ -6,17 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>1 Descriptive Statistics and Plots | PS2010 Workshop Code Book</title>
 <meta name="author" content="Luke Kendrick">
-<meta name="description" content="Learning Outcomes By the end of this workshop you should be able to: import and view data using read_csv() and view() calculate descriptive statistics, including the mean and standard deviation....">
-<meta name="generator" content="bookdown 0.46 with bs4_book()">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: import and view data using read_csv() and view() select relevant variables using select() calculate descriptive statistics,...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
 <meta property="og:title" content="1 Descriptive Statistics and Plots | PS2010 Workshop Code Book">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Learning Outcomes By the end of this workshop you should be able to: import and view data using read_csv() and view() calculate descriptive statistics, including the mean and standard deviation....">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: import and view data using read_csv() and view() select relevant variables using select() calculate descriptive statistics,...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1 Descriptive Statistics and Plots | PS2010 Workshop Code Book">
-<meta name="twitter:description" content="Learning Outcomes By the end of this workshop you should be able to: import and view data using read_csv() and view() calculate descriptive statistics, including the mean and standard deviation....">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: import and view data using read_csv() and view() select relevant variables using select() calculate descriptive statistics,...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -42,10 +42,7 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">Preface</a></li>
-<li><a class="active" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
-</ul>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li></ul>
 
         <div class="book-extra">
           
@@ -60,9 +57,11 @@
 <h2>
 <strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes"><i class="fas fa-link"></i></a>
 </h2>
-<p>By the end of this workshop you should be able to:</p>
+<p>By the end of this chapter you should be able to:</p>
 <ul>
-<li>import and view data using <code>read_csv()</code> and <code>view()</code>
+<li>import and view data using <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> and <code><a href="https://tibble.tidyverse.org/reference/view.html">view()</a></code>
+</li>
+<li>select relevant variables using <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>
 </li>
 <li>calculate descriptive statistics, including the mean and standard deviation.</li>
 <li>create and interpret a histogram and a density plot</li>
@@ -73,52 +72,151 @@
 <h2>
 <span class="header-section-number">1.1</span> <strong>Setup</strong><a class="anchor" aria-label="anchor" href="#setup"><i class="fas fa-link"></i></a>
 </h2>
+<p>The data for this workshop come from:</p>
+<blockquote>
+<p>Gamble, T., &amp; Walker, I. (2016). <a href="https://journals.sagepub.com/doi/10.1177/0956797615620784?utm_source=chatgpt.com">Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults</a>. Psychological Science, 27(2), 289–294, doi: 10.1177/09567976156207</p>
+</blockquote>
+<p>In this study, the researchers wanted to compare risk taking behaviour between a group wearing a bicycle helmet and one wearing a baseball cap. Participants were randomly assigned to one of these groups and completed the Balloon Analogue Risk Task (BART), which, which measured their risk taking behaviour.</p>
+<p>In this chapter you will use the real data from the published paper to look at the descriptive statistics in their results section in addition to exploring the data with different plots.</p>
+<p><strong>Q1(a)</strong> Write a suitable research question for this study?</p>
 </div>
 <div id="load-packages-and-import-data" class="section level2" number="1.2">
 <h2>
 <span class="header-section-number">1.2</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data"><i class="fas fa-link"></i></a>
 </h2>
-</div>
-<div id="test" class="section level2" number="1.3">
-<h2>
-<span class="header-section-number">1.3</span> <strong>TEST</strong><a class="anchor" aria-label="anchor" href="#test"><i class="fas fa-link"></i></a>
-</h2>
-</div>
-<div id="test-1" class="section level2" number="1.4">
-<h2>
-<span class="header-section-number">1.4</span> <strong>TEST</strong><a class="anchor" aria-label="anchor" href="#test-1"><i class="fas fa-link"></i></a>
-</h2>
-</div>
-<div id="test-2" class="section level2" number="1.5">
-<h2>
-<span class="header-section-number">1.5</span> <strong>TEST</strong><a class="anchor" aria-label="anchor" href="#test-2"><i class="fas fa-link"></i></a>
-</h2>
+<div id="load-packages" class="section level3" number="1.2.1">
+<h3>
+<span class="header-section-number">1.2.1</span> Load Package(s)<a class="anchor" aria-label="anchor" href="#load-packages"><i class="fas fa-link"></i></a>
+</h3>
+<p>You only need one package today:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">reac_csv</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>TEST</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># loads tidyverse package</span></span></code></pre></div>
+<details class="dropdown"><summary>
+❓ Help
+</summary><p>If you see this error: there is no package called ‘tidyverse’ Make sure the Tidyverse package is installed <strong>before</strong> you load it.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span></code></pre></div>
+</details><hr>
 </div>
-<div id="test-3" class="section level2" number="1.6">
+<div id="import-data" class="section level3" number="1.2.2">
+<h3>
+<span class="header-section-number">1.2.2</span> Import Data<a class="anchor" aria-label="anchor" href="#import-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Remember to set your working directory first!</p>
+<p>Use this code:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"risky.csv"</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><p>This code will create an object called ‘data’ The assignment operator arrow <code>&lt;-</code> means anything to the right side will be put into the object.</p>
+<p><code>read_csv(risky.csv)</code> will then look in your working directory to find a file called “risky.csv”.</p>
+</details><hr>
+</div>
+</div>
+<div id="view-and-filter-the-data" class="section level2" number="1.3">
 <h2>
-<span class="header-section-number">1.6</span> <strong>Test</strong><a class="anchor" aria-label="anchor" href="#test-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.3</span> <strong>View and Filter the Data</strong><a class="anchor" aria-label="anchor" href="#view-and-filter-the-data"><i class="fas fa-link"></i></a>
 </h2>
+<p>Once you have imported data take a look at it using the <code><a href="https://tibble.tidyverse.org/reference/view.html">view()</a></code> function.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>For this chapter we are only interested in these variables:</p>
+<ul>
+<li><p><code>condition</code>: this tells us if participants were in the helmet or baseball cap condition.</p></li>
+<li><p><code>BART</code>: this was the dependent variable and tells us how risky participants were. A higher score indicates greater risk taking.</p></li>
+<li><p><code>id</code>: it is always helpful to use an identification variable for each participant, whilst strictly not an experimental variable, you should keep it.</p></li>
+</ul>
+<p><strong>Q2a:</strong> Which participant ID had the <strong>highest</strong> risk taking (BART) score?</p>
+<p>Tip: You can sort a column when viewing data by clicking on the variable name.</p>
+<p><strong>Q2b:</strong> What was the risk taking (BART) score for participant ID 63?</p>
+<hr>
+</div>
+<div id="descriptive-statistics" class="section level2" number="1.4">
+<h2>
+<span class="header-section-number">1.4</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics"><i class="fas fa-link"></i></a>
+</h2>
+<p>Calculate the mean and standard deviation for the BART score for <strong>both</strong> the helmet and beseball cap groups:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="descriptive-statistics-and-plots.html#cb5-1" tabindex="-1"></a>stats <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="descriptive-statistics-and-plots.html#cb5-2" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="descriptive-statistics-and-plots.html#cb5-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanBART =</span> <span class="fu">mean</span>(BART),</span>
+<span id="cb5-4"><a href="descriptive-statistics-and-plots.html#cb5-4" tabindex="-1"></a>            <span class="at">sdBART =</span> <span class="at">sd =</span> BART)</span></code></pre></div>
+<p><strong>Q3a</strong> What was the mean and standard deviation for the cap condition?</p>
+<p><strong>Q3b</strong> What was the mean and standard deviation for the helmet condition?</p>
+<hr>
+</div>
+<div id="histogram" class="section level2" number="1.5">
+<h2>
+<span class="header-section-number">1.5</span> <strong>Histogram</strong><a class="anchor" aria-label="anchor" href="#histogram"><i class="fas fa-link"></i></a>
+</h2>
+<p>For the remaining part of this chapter, you should focus on exploring and interpreting the plots rather than understanding the code. This is because you will learn about ggplot2 code (data visualisation) later on in term. For now just focus on adding the variable names and producing the basic plots.</p>
+<p>Create a histogram, but change the word <code>NULL1</code> to what you want to show on the x-axis (tip: it should be the name of dependent variable) and <code>NULL2</code> to your independent variable:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">NULL1</span>, fill <span class="op">=</span><span class="va">NUll2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span>, colour <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
+<div id="create-separate-histograms" class="section level3" number="1.5.1">
+<h3>
+<span class="header-section-number">1.5.1</span> Create Separate Histograms<a class="anchor" aria-label="anchor" href="#create-separate-histograms"><i class="fas fa-link"></i></a>
+</h3>
+<p>You can use the <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> function to separate the histograms by condition:</p>
+<pre><code>ggplot(data, aes(x = NULL1, fill =NUll2)) +
+  geom_histogram(bins = 20, colour = "black") +
+  facet_wrap(~ condition)</code></pre>
+</div>
+</div>
+<div id="density-plot" class="section level2" number="1.6">
+<h2>
+<span class="header-section-number">1.6</span> <strong>Density Plot</strong><a class="anchor" aria-label="anchor" href="#density-plot"><i class="fas fa-link"></i></a>
+</h2>
+<p>Create a density plot, again you will need to change <code>NULL1</code> and <code>NULL2</code> to the dependent variable:</p>
+<pre><code>ggplot(data, aes(x = NULL1, fill = NULL2)) +
+  geom_density(alpha = 0.2)</code></pre>
+<p><strong>Q4a</strong> When looking at the density plot, which condition (cap or helmet) had greater density of higher risk taking scores?</p>
+<p><strong>Q4b</strong> When looking at the density plot, which condition (cap or helmet) had greater density of lower risk taking scores?</p>
+</div>
+<div id="box-plot" class="section level2" number="1.7">
+<h2>
+<span class="header-section-number">1.7</span> <strong>Box Plot</strong><a class="anchor" aria-label="anchor" href="#box-plot"><i class="fas fa-link"></i></a>
+</h2>
+<p>Create a box plot (note the change of the x and y axis for this one)…</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">NULL2</span>, y <span class="op">=</span> <span class="va">NULL1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Look back at your mean and standard deviations from questions 1(a) and 1(b). Do they match what the box plots show?</p>
+</div>
+<div id="violin-plot" class="section level2" number="1.8">
+<h2>
+<span class="header-section-number">1.8</span> <strong>Violin Plot</strong><a class="anchor" aria-label="anchor" href="#violin-plot"><i class="fas fa-link"></i></a>
+</h2>
+<p>Create a box plot…</p>
+<pre><code>ggplot(data, aes(x = NULL2, y = NULL1)) +
+  geom_violin(alpha = 0) +
+  geom_boxplot(width = 0.2)</code></pre>
+<p><strong>Q5</strong> Based on the descriptive statistics and plots produced in this workshop, what would be the answer to your research question? What statistics or plots would help support your answer?</p>
+</div>
+<div id="optional-exercise" class="section level2" number="1.9">
+<h2>
+<span class="header-section-number">1.9</span> <strong>Optional Exercise</strong><a class="anchor" aria-label="anchor" href="#optional-exercise"><i class="fas fa-link"></i></a>
+</h2>
+<p>You can tidy up your plots a little bit by adding an extra line of code…</p>
+<p>Try adding <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic()</a></code> to the end of your plots.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">condition</span>, y <span class="op">=</span> <span class="va">BART</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Well done. You have reached the end the this chapter</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the quiz.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="index.html">Preface</a></div>
+<div class="empty"></div>
 <div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#descriptive-statistics-and-plots"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
-<li><a class="nav-link" href="#learning-outcomes">Learning Outcomes</a></li>
-<li><a class="nav-link" href="#setup"><span class="header-section-number">1.1</span> Setup</a></li>
-<li><a class="nav-link" href="#load-packages-and-import-data"><span class="header-section-number">1.2</span> Load Packages and Import Data</a></li>
-<li><a class="nav-link" href="#test"><span class="header-section-number">1.3</span> TEST</a></li>
-<li><a class="nav-link" href="#test-1"><span class="header-section-number">1.4</span> TEST</a></li>
-<li><a class="nav-link" href="#test-2"><span class="header-section-number">1.5</span> TEST</a></li>
-<li><a class="nav-link" href="#test-3"><span class="header-section-number">1.6</span> Test</a></li>
-</ul>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
