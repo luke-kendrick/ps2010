@@ -39,3 +39,9 @@ div.sourceCode > pre.sourceCode code,
 pre.sourceCode code {
   background: transparent !important;
 }
+div.sourceCode {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-bottom: 1.25rem;
+}

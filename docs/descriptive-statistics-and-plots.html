@@ -143,11 +143,12 @@
 <h2>
 <span class="header-section-number">1.4</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics"><i class="fas fa-link"></i></a>
 </h2>
-<p>Calculate the mean and standard deviation for the BART score for <strong>both</strong> the helmet and beseball cap groups:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="descriptive-statistics-and-plots.html#cb5-1" tabindex="-1"></a>stats <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="descriptive-statistics-and-plots.html#cb5-2" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="descriptive-statistics-and-plots.html#cb5-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanBART =</span> <span class="fu">mean</span>(BART),</span>
-<span id="cb5-4"><a href="descriptive-statistics-and-plots.html#cb5-4" tabindex="-1"></a>            <span class="at">sdBART =</span> <span class="fu">sd</span>(BART)</span></code></pre></div>
+<p>Calculate the mean and standard deviation for the BART score for <strong>both</strong> the helmet and baseball cap groups:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>meanBART <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">BART</span><span class="op">)</span>,</span>
+<span>            sdBART <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">BART</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Q3a</strong>: What was the mean and standard deviation for the cap condition?</p>
 <p><strong>Q3b</strong>: What was the mean and standard deviation for the helmet condition?</p>
 <hr>
@@ -224,7 +225,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <hr>
-<p><strong>Well done. You have reached the end the this chapter</strong></p>
+<p><strong>Well done. You have reached the end the this chapter.</strong></p>
 <p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
 
 </div>

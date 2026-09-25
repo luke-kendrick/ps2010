@@ -10,7 +10,7 @@ By the end of this chapter you should be able to:
 -   create and interpret a histogram and a density plot
 -   create and interpret a box plot and a violin plot
 
----
+------------------------------------------------------------------------
 
 ## **Setup**
 
@@ -24,7 +24,7 @@ In this chapter you will use the real data from the published paper to look at t
 
 **Q1** What would be a suitable research question for this study?
 
----
+------------------------------------------------------------------------
 
 ## **Load Packages and Import Data**
 
@@ -100,16 +100,14 @@ For this chapter we are only interested in these variables:
 
 ## **Descriptive Statistics**
 
-Calculate the mean and standard deviation for the BART score for **both** the helmet and beseball cap groups:
+Calculate the mean and standard deviation for the BART score for **both** the helmet and baseball cap groups:
 
 ``` r
 stats <- data %>%
   group_by(condition) %>%
   summarise(meanBART = mean(BART),
-            sdBART = sd(BART)
+            sdBART = sd(BART))
 ```
-
-
 
 **Q3a**: What was the mean and standard deviation for the cap condition?
 
@@ -125,7 +123,7 @@ Try not to worry too much about the specifics of the code right now.
 
 This is because you will learn about ggplot2 code (data visualisation) later on in term. For now just focus on adding the variable names and producing the basic plots.
 
----
+------------------------------------------------------------------------
 
 Create a histogram, but change the word `NULL1` to what you want to show on the x-axis (tip: it should be the name of dependent variable) and `NULL2` to your independent variable:
 
@@ -133,7 +131,6 @@ Create a histogram, but change the word `NULL1` to what you want to show on the 
 ggplot(data, aes(x = NULL1, fill =NUll2)) +
   geom_histogram(bins = 20, colour = "black")
 ```
-
 
 ### Create Separate Histograms
 
@@ -145,7 +142,7 @@ ggplot(data, aes(x = NULL1, fill =NUll2)) +
   facet_wrap(~ condition)
 ```
 
----
+------------------------------------------------------------------------
 
 ## **Density Plot**
 
@@ -156,13 +153,11 @@ ggplot(data, aes(x = NULL1, fill = NULL2)) +
   geom_density(alpha = 0.2)
 ```
 
-
-
 **Q4a**: When looking at the density plot, which condition (cap or helmet) had greater density of higher risk taking scores?
 
 **Q4b** When looking at the density plot, which condition (cap or helmet) had greater density of lower risk taking scores?
 
----
+------------------------------------------------------------------------
 
 ## **Box Plot**
 
@@ -173,11 +168,9 @@ ggplot(data, aes(x = NULL2, y = NULL1)) +
   geom_boxplot()
 ```
 
-
-
 Look back at your mean and standard deviations from questions 1(a) and 1(b). Do they match what the box plots show?
 
----
+------------------------------------------------------------------------
 
 ## **Violin Plot**
 
@@ -189,11 +182,9 @@ ggplot(data, aes(x = NULL2, y = NULL1)) +
   geom_boxplot(width = 0.2)
 ```
 
-
-
 **Q5** Using the descriptive statistics and plots produced in this workshop, what would be the answer to your research question? What statistics or plots would help support your answer?
 
----
+------------------------------------------------------------------------
 
 ## **Optional Exercise**
 
@@ -212,6 +203,6 @@ ggplot(data, aes(x = condition, y = BART)) +
 
 ------------------------------------------------------------------------
 
-**Well done. You have reached the end the this chapter**
+**Well done. You have reached the end the this chapter.**
 
 Remember to keep the answers to your questions as you'll need these for the Moodle quiz.
