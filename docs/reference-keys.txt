@@ -1,0 +1,16 @@
+about-this-site
+license
+citation
+descriptive-statistics-and-plots
+setup
+load-packages-and-import-data
+load-packages
+import-data
+view-and-filter-the-data
+descriptive-statistics
+histogram
+create-separate-histograms
+density-plot
+box-plot
+violin-plot
+optional-exercise

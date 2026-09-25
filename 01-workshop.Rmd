@@ -185,4 +185,3 @@ ggplot(data, aes(x = condition, y = BART)) +
 **Well done. You have reached the end the this chapter**
 
 Remember to keep the answers to your questions as you'll need these for the Moodle quiz.
----
