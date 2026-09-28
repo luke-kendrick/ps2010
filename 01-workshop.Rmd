@@ -15,7 +15,7 @@ By the end of this chapter you should be able to:
 
 The data for this workshop come from:
 
-> Gamble, T., & Walker, I. (2016). [Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults](https://journals.sagepub.com/doi/10.1177/0956797615620784?utm_source=chatgpt.com). Psychological Science, 27(2), 289--294, doi: 10.1177/09567976156207
+> Gamble, T., & Walker, I. (2016). [Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults](https://journals.sagepub.com/doi/full/10.1177/0956797615620784). Psychological Science, 27(2), 289--294, doi: 10.1177/09567976156207
 
 In this study, the researchers wanted to compare risk taking behaviour between a group wearing a bicycle helmet and one wearing a baseball cap. Participants were randomly assigned to one of these groups and completed the Balloon Analogue Risk Task (BART), which measured their risk taking behaviour.
 
