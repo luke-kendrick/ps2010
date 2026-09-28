@@ -5,7 +5,6 @@
 By the end of this chapter you should be able to:
 
 -   import and view data using `read_csv()` and `view()`
--   select relevant variables using `select()`
 -   calculate descriptive statistics, including the mean and standard deviation.
 -   create and interpret a histogram and a density plot
 -   create and interpret a box plot and a violin plot
