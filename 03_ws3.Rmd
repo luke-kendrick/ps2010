@@ -1,0 +1,316 @@
+# Paired *t*-Test
+
+## **Learning Outcomes** {.unnumbered}
+
+By the end of this chapter you should be able to:
+
+-   produce descriptive statistics and plots appropriate for a paired *t*-test 
+-   check the relevant assumptions for a paired *t*-test
+-   run and interpret a paired *t*-test using `t.test()`
+-   run and interpret the effect size using `cohens_d`.
+-   write-up the results suitable for a lab report.
+
+------------------------------------------------------------------------
+
+## **Before You Begin**
+
+The data for this chapter come from:
+
+> Palombo, D. J., Te, A. A., Checknita, K. J., & Madan, C. R. (2021). [Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”](https://journals.sagepub.com/doi/full/10.1177/0956797621991548). Psychological Science, 32(7), 1104-1114, doi: 10.1177/095679762199154.
+
+In this study, researchers investigated how negative emotion could impact different aspects of episodic memory. Participants took part in an experiment which used a repeated measures design. First participants completed an encoding phase where they watched video clips of everyday situations. During these clips a two second image appeared either showing a neutral or a negative picture (e.g., negative = picture of a car crash, neutral = picture of a pigeon).
+
+Participants were then tested on the "what" (item recognition), when (timing), and which (associative recognition).
+
+For this chapter we will focus on comparing the "what" (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d'prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d'prime scores indicate better recognition memory. This is the dependent variable for this chapter.
+
+---
+
+### **Hypotheses**
+
+**Q1(a)** What would be a suitable null hypothesis for this study?
+
+**Q1(b)** What would be a suitable alternative hypothesis for this study?
+
+---
+
+## **Load Packages and Import Data**
+
+```r
+library(tidyverse)
+library(lsr)
+library(qqplotr)
+
+install.packages("lsr") # only use if lsr is not installed
+install.packages("qqplotr") # only use if qqplotr is not installed
+```
+
+Import the data from the file `emotion.csv` and save it as an object called `memory`.
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+First make sure you working directory is set up so the `emotion.csv` file can be found. Then:
+
+``` r
+memory <- read_csv("emotion.csv")
+```
+
+</details>
+
+---
+
+## **View Data**
+
+Once you have imported the data take a look at it using the `view()` function. This helps to check it has imported correctly.
+
+``` r
+view(memory)
+```
+
+This data set is adapted from the open materials to include the relevant variables for today.
+
+-   `id` is an ID number for each participant.
+-   `neg` contains the d'prime scores for negative pictures.
+-   `neu` contains the d'prime scores for the neurtral pictures.
+
+**Q2(a)**: How many participants are in this data set?
+
+---
+
+## **Descriptive Statistics**
+
+Calculate descriptive statistics to compare scores for negative vs. neutral pictures.
+
+Change the NULL values and use the help drop down option for the solution.
+
+Save the descriptives in an object called `mem_stats` (shorthand for memory descriptive statistics) to not overwrite the object from the previous chapter.
+
+```r
+mem_stats <- NULL1 %>%
+  summarise(mean.neg = mean(NULL2),
+            sd.neg = sd(NULL2),
+            mean.neu = mean(NULL3),
+            sd.neu = sd(NULL3))
+```
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+```r
+mem_stats <- memory %>%
+  summarise(mean.neg = mean(neg),
+            sd.neg = sd(neg),
+            mean.neu = mean(neu),
+            sd.neu = sd(neg))
+```
+
+</details>
+
+---
+
+## **Create a Suitable Plot**
+
+### Wide vs. Long Data {-}
+
+Using R and RStudio can be fun...! But every now and again there are quirks which are a bit frustrating.
+
+`ggplot2` requires data to be in long format, and the current `memory` data are in wide format.
+
+The code below will create a long format version of the data suitable for any ggplot work. For today, focus on the difference between the wide data vs. long data structures, rather than the code.
+
+You'll use this code again in the future where you can learn about it properly.
+
+```r
+longd <- memory %>%
+  pivot_longer(cols = c(neg, neu),
+               names_to = "emotion",
+               values_to = "d")
+```
+
+For any ggplot or functions which require long format data, use the object called `longd` (shorthand for long data).
+
+View the data to see how this code restructured the data to long format.
+
+```r
+view(longd)
+```
+
+### Violin Plot {-}
+
+You might get the impression that I do love a violin plot when comparing conditions or groups...
+
+```r
+ggplot(longd, aes(x = emotion, y = d)) +
+         geom_violin(alpha = 0) +
+         geom_boxplot(width = 0.2) +
+         theme_classic()
+```
+
+Note that the object `longd` was used, as well as the corresponding variable names `emotion` for the two conditions, and `d` for the dependent variable (d'prime).
+
+**Q3(a)**: Look at the descriptive statistics and your violin plot. How would you interpret these? Think about if there is a difference between the conditions, and if so, which has better item recognition scores?
+
+---
+
+## **Check Assumptions**
+
+There are **three** assumptions for a paired *t*-test.
+
+---
+
+### **Continuous Dependent Variable**
+
+The dependent variable should be numerical and a continuous score.
+
+d'prime scores are continuous and so this assumption holds true.
+
+---
+
+### **Independent (Pairs of) Observations**
+
+This time we do not have separate groups. However, this assumption still matters as the pairs of observations need to be independent.
+
+Although each participant's pairs of scores are related (as each score comes from the same person), each participant must be independent of other participants for this assumption to hold true. We can assume this was the case for this study.
+
+---
+
+### **Roughly Normally Distributed Residuals**
+
+### **Q-Q Plot** {-}
+
+Unlike the previous chapter, we do not have Q-Q plots for separate groups. Instead we will need a Q-Q plot of participant's **difference** scores. Essentially, for each participant take their negative picture score and subtract the neutral picture score.
+
+No need for a calculator here, you can use code to work out these scores:
+
+Here it is fine to use the wide dataset called `memory`.
+
+```r
+memory <- memory %>%
+  mutate(diff = neu-neg)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `memory` <- memory %>%` means to overwrite the `memory` object using the original `memory` object and then...
+-   `mutate()` is a function which allows you to create a new variable.
+-   `diff = neu-neg` means to create a new cariable called `diff` and then populate it with the `neu` score minus (`-`) the neutral scores. This creates our difference score.
+
+</details>
+
+---
+
+Create the Q-Q plot:
+
+```r
+ggplot(memo, aes(sample = diff)) +
+  stat_qq_band(fill = "#EEE8AA", alpha = 0.5) +
+  stat_qq_point() +
+  stat_qq_line()
+```
+
+**WAIT!** That did not work?! Use your problem solving skills to fix this broken code. 
+
+Read the error message carefully.
+
+Once you have fixed the code you might look at the plot and find that you are a little bit concerned that many of the residuals fall outside of the shaded band on the left tail.
+
+This could indicate that this assumption was not met.
+
+---
+
+### **Shapiro-Wilk Test** {-}
+
+A Shapiro-Wilk test could give some more information.
+
+You only need to use the `diff` score 
+
+```r
+shapiro.test(memory$diff)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+We use a dollar sign `$` to point R to a particular column. For example, when using `shapiro.test(memory$diff)` you are saying to run the Shapiro Test on the difference scores in the `memory` data set which are in the scolumn called `diff`
+
+For this test, you want a non-significant p-value. This means the data are roughly normally distributed. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large [80+] or small sample).
+
+When reporting the Shapiro-Wilk test, you just need to report the test statistics (w = XX) and the p-value. Here is an example what it could look like:
+
+*W* = 0.98, *p* = .875
+
+</details>
+
+---
+
+### **A Comment on Normality**
+
+Assessing normality can be quite tricky. There is no "exact" way to do it as both Q-Q plots and Shapiro-Wilk test have their drawbacks. Real data are messy and we rarely end up with perfectly normally distributed residuals. 
+
+Rather than expecting a perfect distribution, focus instead on whether any deviation is only minor or if it is much more severe. Think about whether this could be an issue when interpreting your results. 
+
+In this case use both the Q-Q plot and the Shapiro-Wilk test, remember a little bit of "snaking" on a Q-Q plot is acceptable and many statistical tests are fairly robust against minor deviations from normality.
+
+For now, I think this violation of normality is relatively minor and so you can continue using the *t*-test.
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+Another option which applies here is to run something called a "non-parametric" test alongside your *t*-test. A non-parametric test does not rely on assumptions. You can then compare the results from both to see if normality had an impact.
+
+We will re-visit this later on in term...
+
+</details>
+
+---
+
+## **Run the *t*-Test and Effect Size**
+
+You should use the wide format data for a paired *t*-test, this means here you should use the `memory` object.
+
+```r
+#t.test code
+t.test(data$neg, data$neu, paired = TRUE)
+#effect size
+cohensD(data$neg, data$neu, method = "paired")
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `t.test()` is the t-test function.
+-   `memory$neg` is the first condition you want to use for the comparison (negative scores)
+-   `memory$neu` is the second condition you want to use for the comparison (neutral scores)
+-   `paired = TRUE` tells the funciton to run a paired version of the *t*-test.
+
+For effect size you need to use a function called `CohensD()`. Note it has capital letters and the arguments match the *t*-test code above.
+
+</details>
+
+## **Write-Up**
+
+Interpret your t-test before you write it up. Use your lecture notes to help.
+
+-   Is the test significant?
+-   What is the effect size?
+-   If significant, how do the conditions differ? Use descriptive statistics and violin plot to interpret.
+
+**Q4(a)**: Were the assumptions for the *t*-test met? Use the output from your analysis to support your answer and try to write-up in a style suitable for a research paper or lab report.
+
+**Q4(b)**: Write-up the results of the *t*-test and effect size. Remember to use APA formatting and to interpret the *t*-test, not merely report the numbers/statistics.
+
+**Q4(c)**: Explain if your findings support your alternative hypothesis from Q1(b).
+
+---
+
+**Well done. You have reached the end the this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.

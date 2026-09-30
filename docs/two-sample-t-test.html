@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>2 Two-Sample t-Test | PS2010 Workshop Code Book</title>
+<meta name="author" content="Luke Kendrick">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a two-sample t-test check the relevant assumptions for a Welch’s t-test...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="2 Two-Sample t-Test | PS2010 Workshop Code Book">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a two-sample t-test check the relevant assumptions for a Welch’s t-test...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2 Two-Sample t-Test | PS2010 Workshop Code Book">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a two-sample t-test check the relevant assumptions for a Welch’s t-test...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS2010 Workshop Code Book</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="active" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="two-sample-t-test" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Two-Sample <em>t</em>-Test<a class="anchor" aria-label="anchor" href="#two-sample-t-test"><i class="fas fa-link"></i></a>
+</h1>
+<div id="learning-outcomes-1" class="section level2 unnumbered">
+<h2>
+<strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>produce descriptive statistics and plots appropriate for a two-sample <em>t</em>-test<br>
+</li>
+<li>check the relevant assumptions for a Welch’s <em>t</em>-test</li>
+<li>run and interpret a two-sample <em>t</em>-test using <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code>
+</li>
+<li>run and interpret the effect size using <code>cohens_d</code>
+</li>
+<li>write-up the results suitable for a lab report</li>
+</ul>
+<hr>
+</div>
+<div id="before-you-begin-1" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> <strong>Before You Begin</strong><a class="anchor" aria-label="anchor" href="#before-you-begin-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>You should use the same data set as the previous descriptive statistics and plots chapter taken from:</p>
+<blockquote>
+<p>Gamble, T., &amp; Walker, I. (2016). <a href="https://journals.sagepub.com/doi/full/10.1177/0956797615620784">Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults</a>. Psychological Science, 27(2), 289–294, doi: 10.1177/09567976156207</p>
+</blockquote>
+<p>As a reminder, this study used an independent measure design to compare risk taking in <strong>two</strong> groups: a helmet group and a baseball cap group.</p>
+<hr>
+<div id="hypotheses" class="section level3" number="2.1.1">
+<h3>
+<span class="header-section-number">2.1.1</span> <strong>Hypotheses</strong><a class="anchor" aria-label="anchor" href="#hypotheses"><i class="fas fa-link"></i></a>
+</h3>
+<p>In last week’s workshop you were asked to propose a suitable research question for the Gamble and Walker (2006) study. Now decide:</p>
+<p><strong>Q1(a)</strong> What would be a suitable null hypothesis for this study?</p>
+<p><strong>Q1(b)</strong> What would be a suitable alternative hypothesis for this study?</p>
+<hr>
+</div>
+</div>
+<div id="load-packages-and-import-data-1" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>You’ll need these packages:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aloy/qqplotr">qqplotr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/rstatix/">rstatix</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"qqplotr"</span><span class="op">)</span> <span class="co"># only use if qqplotr is not installed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rstatix"</span><span class="op">)</span> <span class="co"># only use if rstatix is not installed</span></span></code></pre></div>
+<p>You will also need to import the <code>risky.csv</code> data set from the last chapter. Import it and save it as an object called <code>data</code>.</p>
+<details class="dropdown"><summary>
+❓ Help
+</summary><p>First make sure you working directory is set up so the <code>risky.csv</code> file can be found. Then:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"risky.csv"</span><span class="op">)</span></span></code></pre></div>
+</details><hr>
+</div>
+<div id="view-data-1" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> <strong>View Data</strong><a class="anchor" aria-label="anchor" href="#view-data-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Once you have imported the data take a look at it using the <code><a href="https://tibble.tidyverse.org/reference/view.html">view()</a></code> function. This helps to check it has imported correctly.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>For this chapter we are only interested in these variables:</p>
+<ul>
+<li><p><code>condition</code>: this tells us if participants were in the helmet or baseball cap condition.</p></li>
+<li><p><code>BART</code>: this was the dependent variable and tells us how risky participants were. A higher score indicates greater risk taking.</p></li>
+<li><p><code>id</code>: it is always helpful to use an identification variable for each participant, whilst strictly not an experimental variable, you should keep it.</p></li>
+</ul>
+<hr>
+</div>
+<div id="descriptive-statistics-1" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Usually you’d run descriptive statistics before conducting the t-test. If you remember last week, you already did this!</p>
+<p>This time you should use the code explanation below to learn more about what this code does.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>meanBART <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">BART</span><span class="op">)</span>,</span>
+<span>            sdBART <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">BART</span><span class="op">)</span><span class="op">)</span></span>
+<span>            </span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li><p><code>stats</code> is the name of an object that will hold the statistics.</p></li>
+<li><p><code>&lt;-</code> is the assignment operator which means anything on the right of the arrow gets passed into the object on the left.</p></li>
+<li><p><code>data</code> is our existing data set with a pipe <code>%&gt;%</code> this means “take <code>data</code> and then”…</p></li>
+<li><p><code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> is a function that will split a categorical variable. In this data set <code>condition</code> is the argument needed, as condition contains the helmet vs. baseball cap groupings.</p></li>
+<li><p><code>%&gt;%</code> is another pipe meaning once we have groups…</p></li>
+<li><p><code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> is a function which will summarise a data set.</p></li>
+<li><p><code>meanBART = mean(BART)</code> calculates the mean BART value for each condition.</p></li>
+<li><p><code>sdBART = sd(BART)</code> calculates the standard deviation of BART for each condition.</p></li>
+<li><p><code>view(stats)</code> will open your newly create object <code>stats</code> so you can view.</p></li>
+</ul></details><hr>
+</div>
+<div id="create-a-suitable-plot" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot"><i class="fas fa-link"></i></a>
+</h2>
+<p>This example involves comparing <strong>two</strong> groups. The violin plot that you produced last week will be sufficient.</p>
+<p>When deciding on an appropriate plot you should think back to your research question and hypotheses. What exactly is it you want to show? In this case, we want to easily compare the <strong>two</strong> groups to see if and how they are different.</p>
+<p>Create the violin box plot…</p>
+<ul>
+<li>
+<code>NULL1</code> should be the variable you want on your x-axis.</li>
+<li>
+<code>NULL2</code> should be the variable you want on your y-axis.</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">condition</span>, y <span class="op">=</span> <span class="va">BART</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+❓ Help
+</summary><p>On a violin plot <em>usually</em> the dependent variable would be placed on the y-axis (vertical axis)</p>
+</details><hr>
+</div>
+<div id="check-assumptions" class="section level2" number="2.6">
+<h2>
+<span class="header-section-number">2.6</span> <strong>Check Assumptions</strong><a class="anchor" aria-label="anchor" href="#check-assumptions"><i class="fas fa-link"></i></a>
+</h2>
+<p>Remember that there are usually <strong>four</strong> assumptions for a <em>t</em>-test.</p>
+<div id="continuous-dependent-variable" class="section level3" number="2.6.1">
+<h3>
+<span class="header-section-number">2.6.1</span> <strong>Continuous Dependent Variable</strong><a class="anchor" aria-label="anchor" href="#continuous-dependent-variable"><i class="fas fa-link"></i></a>
+</h3>
+<p>The dependent variable should be numerical and a continuous score.</p>
+<p>Looking at the BART task and the scores it produced, has this assumption been met?</p>
+<hr>
+</div>
+<div id="independent-observations" class="section level3" number="2.6.2">
+<h3>
+<span class="header-section-number">2.6.2</span> <strong>Independent Observations</strong><a class="anchor" aria-label="anchor" href="#independent-observations"><i class="fas fa-link"></i></a>
+</h3>
+<p>Participant scores across conditions should not influence one another. This means that there are separate conditions or groups, and the scores or observations in one condition/group does not influence what happens in the other.</p>
+<p>Given participants were placed in independent groups, we assume this is the case for the data in this example.</p>
+<hr>
+</div>
+<div id="roughly-normally-distributed-residuals" class="section level3" number="2.6.3">
+<h3>
+<span class="header-section-number">2.6.3</span> <strong>Roughly Normally Distributed Residuals</strong><a class="anchor" aria-label="anchor" href="#roughly-normally-distributed-residuals"><i class="fas fa-link"></i></a>
+</h3>
+<p>The residuals of the dependent variable for each group should be normally distributed.</p>
+<hr>
+</div>
+<div id="q-q-plot" class="section level3 unnumbered">
+<h3>Q-Q Plot<a class="anchor" aria-label="anchor" href="#q-q-plot"><i class="fas fa-link"></i></a>
+</h3>
+<p>You can use a Q-Q plot to check this. You will need to tweak the code:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">NULL1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">NULL2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_band.html">stat_qq_band</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_point.html">stat_qq_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">NULL3</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>
+<code>NULL1</code> should be the object containing your data (check the environment panel)</li>
+<li>
+<code>NULL2</code> should be the dependent variable</li>
+<li>
+<code>NULL3</code> should be your independent variable, so that the Q-Q plots are separated by condition/group using face_wrap()</li>
+</ul>
+<hr>
+</div>
+<div id="shapiro-wilk-test" class="section level3 unnumbered">
+<h3>Shapiro-Wilk Test<a class="anchor" aria-label="anchor" href="#shapiro-wilk-test"><i class="fas fa-link"></i></a>
+</h3>
+<p>You could also use a statistical test to check normality. It is important to remember though that this test can be a bit unreliable for large or small samples.</p>
+<p>The code for this is a little trickier as you will need to create separate objects for each group.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#first create an object with only cap data</span></span>
+<span><span class="va">cap</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"cap"</span><span class="op">)</span></span>
+<span><span class="co">#then run the test</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">cap</span><span class="op">$</span><span class="va">BART</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#first create an object with only helmet data</span></span>
+<span><span class="va">helmet</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"helmet"</span><span class="op">)</span></span>
+<span><span class="co">#then run the test</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">helmet</span><span class="op">$</span><span class="va">BART</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>We use a dollar sign <code>$</code> to point R to a particular column. For example, when using <code>shapiro.test(helmet$BART)</code> you are saying to run the Shapiro Test on the helmet only data set and the specific column called <code>BART</code></p>
+<p>For this test, you want a non-significant p-value. This means the data are roughly normally distributed. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large [80+] or small sample).</p>
+<p>When reporting the Shapiro-Wilk test, you just need to report the test statistics (w = XX) and the p-value. Here is an example what it could look like:</p>
+<p><em>W</em> = 0.98, <em>p</em> = .875</p>
+</details><hr>
+</div>
+<div id="heteroscedasticity" class="section level3" number="2.6.4">
+<h3>
+<span class="header-section-number">2.6.4</span> <strong>Heteroscedasticity</strong><a class="anchor" aria-label="anchor" href="#heteroscedasticity"><i class="fas fa-link"></i></a>
+</h3>
+<p>As this chapter uses of a variation of a <em>t</em>-test called Welch’s <em>t</em>-test, this assumption does not apply.</p>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>Welch’s <em>t</em>-test provides the same results as a student’s t-test when the variances are equal, but is the best option if you do have unequal variances.</p>
+<p>In practice, this means a Welch’s <em>t</em>-test will do the job regardless of this assumption.</p>
+<p>See <a href="https://rips-irsp.com/articles/10.5334/irsp.82">Delacre, Lakens, and Leys (2019)</a> for a full explanation.</p>
+<p>Why am I telling you this? You might come across this assumption elsewhere or in the future you might be asked to run a Student’s <em>t</em>-test. My argument would be that there is no point and to just run Welch’s instead.</p>
+</details><hr>
+</div>
+</div>
+<div id="run-the-t-test-and-effect-size" class="section level2" number="2.7">
+<h2>
+<span class="header-section-number">2.7</span> <strong>Run the <em>t</em>-Test and Effect Size</strong><a class="anchor" aria-label="anchor" href="#run-the-t-test-and-effect-size"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#t.test code</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">BART</span> <span class="op">~</span> <span class="va">condition</span>, <span class="va">data</span>, var.equal <span class="op">=</span> <span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span>
+<span><span class="co">#effect size</span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">BART</span> <span class="op">~</span> <span class="va">condition</span>, var.equal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> is the t-test function.</li>
+<li>
+<code>BART ~ condition</code> is a formula, essentially the <strong>DV</strong> ~ <strong>IV</strong>
+</li>
+<li>
+<code>var.equal = FALSE</code> means you get the Welch’s version of the t-test. If you set it to <code>=TRUE</code> you’ll get Student’s t-test instead.</li>
+<li>
+<code>alternative = "two-sided"</code> relates to your alternative hypothesis. This is set for a non-directional hypothesis.</li>
+</ul></details><hr>
+</div>
+<div id="write-up" class="section level2" number="2.8">
+<h2>
+<span class="header-section-number">2.8</span> <strong>Write-Up</strong><a class="anchor" aria-label="anchor" href="#write-up"><i class="fas fa-link"></i></a>
+</h2>
+<p>Interpret your t-test before you write it up. Use your lecture notes to help.</p>
+<ul>
+<li>Is the test significant?</li>
+<li>What is the effect size?</li>
+<li>If significant, how do the conditions differ? Use descriptive statistics and violin plot to interpret.</li>
+</ul>
+<p><strong>Q2(a)</strong>: Were the assumptions for the <em>t</em>-test met? Use the output from your analysis to support your answer and try to write-up in a style suitable for a research paper or lab report.</p>
+<p><strong>Q2(b)</strong>: Write-up the results of the <em>t</em>-test and effect size. Remember to use APA formatting and to interpret the <em>t</em>-test, not merely report the numbers/statistics.</p>
+<p><strong>Q2(c)</strong>: Explain if your findings support your alternative hypothesis from Q1(b).</p>
+<hr>
+</div>
+<div id="optional-exercise-1" class="section level2" number="2.9">
+<h2>
+<span class="header-section-number">2.9</span> <strong>Optional Exercise</strong><a class="anchor" aria-label="anchor" href="#optional-exercise-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Check your results with the published paper by <a href="https://journals.sagepub.com/doi/full/10.1177/0956797615620784">Gamble and Walker (2026)</a></p>
+<p>Head down to the first line of the results section…</p>
+<blockquote>
+<p>Wearing a helmet was associated with higher risk-taking scores (M = 40.40, SD = 18.18) than wearing a cap (M = 31.06, SD = 13.29), t(78) = 2.63, p = .01, d = 0.59 (Fig. 2a).</p>
+</blockquote>
+<p>Hold on! The <em>t</em>-test result is different even though we have used the same data?!</p>
+<p>This is because it looks as though the researchers used Student’s <em>t</em>-test. I am not sure why they did this because further on in the results section they do use Welch’s <em>t</em>-test for another analysis, perhaps because normality or homogeneity of variance looked a little bit more dodgy for the other dependent variable.</p>
+<p>Importantly, the pattern of results in both versions is the same and the differences between the two are minimal. This is why it is perfectly fine to always use Welch’s <em>t</em>-test.</p>
+<p>As an optional exercise, re-run your <em>t</em>-test but this time change it to a Student’s version of a <em>t</em>-test.</p>
+<p>Hint: You only need to amend <strong>one</strong> word in your code…</p>
+<details class="dropdown"><summary>
+❓ Help
+</summary><p>Change <code>var.equal = FALSE</code> to <code>var.equal = TRUE</code> to run a Student’s <em>t</em>-test.</p>
+</details><p>Now you should see the <em>t</em>-test result perfectly matches the values reported in the published paper!</p>
+<hr>
+<p><strong>Well done. You have reached the end the this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></div>
+<div class="next"><a href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#two-sample-t-test"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="nav-link" href="#learning-outcomes-1">Learning Outcomes</a></li>
+<li>
+<a class="nav-link" href="#before-you-begin-1"><span class="header-section-number">2.1</span> Before You Begin</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#hypotheses"><span class="header-section-number">2.1.1</span> Hypotheses</a></li></ul>
+</li>
+<li><a class="nav-link" href="#load-packages-and-import-data-1"><span class="header-section-number">2.2</span> Load Packages and Import Data</a></li>
+<li><a class="nav-link" href="#view-data-1"><span class="header-section-number">2.3</span> View Data</a></li>
+<li><a class="nav-link" href="#descriptive-statistics-1"><span class="header-section-number">2.4</span> Descriptive Statistics</a></li>
+<li><a class="nav-link" href="#create-a-suitable-plot"><span class="header-section-number">2.5</span> Create a Suitable Plot</a></li>
+<li>
+<a class="nav-link" href="#check-assumptions"><span class="header-section-number">2.6</span> Check Assumptions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#continuous-dependent-variable"><span class="header-section-number">2.6.1</span> Continuous Dependent Variable</a></li>
+<li><a class="nav-link" href="#independent-observations"><span class="header-section-number">2.6.2</span> Independent Observations</a></li>
+<li><a class="nav-link" href="#roughly-normally-distributed-residuals"><span class="header-section-number">2.6.3</span> Roughly Normally Distributed Residuals</a></li>
+<li><a class="nav-link" href="#q-q-plot">Q-Q Plot</a></li>
+<li><a class="nav-link" href="#shapiro-wilk-test">Shapiro-Wilk Test</a></li>
+<li><a class="nav-link" href="#heteroscedasticity"><span class="header-section-number">2.6.4</span> Heteroscedasticity</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#run-the-t-test-and-effect-size"><span class="header-section-number">2.7</span> Run the t-Test and Effect Size</a></li>
+<li><a class="nav-link" href="#write-up"><span class="header-section-number">2.8</span> Write-Up</a></li>
+<li><a class="nav-link" href="#optional-exercise-1"><span class="header-section-number">2.9</span> Optional Exercise</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS2010 Workshop Code Book</strong>" was written by Luke Kendrick. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

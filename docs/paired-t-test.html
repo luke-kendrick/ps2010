@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>3 Paired t-Test | PS2010 Workshop Code Book</title>
+<meta name="author" content="Luke Kendrick">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="3 Paired t-Test | PS2010 Workshop Code Book">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3 Paired t-Test | PS2010 Workshop Code Book">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS2010 Workshop Code Book</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="active" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="paired-t-test" class="section level1" number="3">
+<h1>
+<span class="header-section-number">3</span> Paired <em>t</em>-Test<a class="anchor" aria-label="anchor" href="#paired-t-test"><i class="fas fa-link"></i></a>
+</h1>
+<div id="learning-outcomes-2" class="section level2 unnumbered">
+<h2>
+<strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>produce descriptive statistics and plots appropriate for a paired <em>t</em>-test</li>
+<li>check the relevant assumptions for a paired <em>t</em>-test</li>
+<li>run and interpret a paired <em>t</em>-test using <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code>
+</li>
+<li>run and interpret the effect size using <code>cohens_d</code>.</li>
+<li>write-up the results suitable for a lab report.</li>
+</ul>
+<hr>
+</div>
+<div id="before-you-begin-2" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> <strong>Before You Begin</strong><a class="anchor" aria-label="anchor" href="#before-you-begin-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>The data for this chapter come from:</p>
+<blockquote>
+<p>Palombo, D. J., Te, A. A., Checknita, K. J., &amp; Madan, C. R. (2021). <a href="https://journals.sagepub.com/doi/full/10.1177/0956797621991548">Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”</a>. Psychological Science, 32(7), 1104-1114, doi: 10.1177/095679762199154.</p>
+</blockquote>
+<p>In this study, researchers investigated how negative emotion could impact different aspects of episodic memory. Participants took part in an experiment which used a repeated measures design. First participants completed an encoding phase where they watched video clips of everyday situations. During these clips a two second image appeared either showing a neutral or a negative picture (e.g., negative = picture of a car crash, neutral = picture of a pigeon).</p>
+<p>Participants were then tested on the “what” (item recognition), when (timing), and which (associative recognition).</p>
+<p>For this chapter we will focus on comparing the “what” (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d’prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d’prime scores indicate better recognition memory. This is the dependent variable for this chapter.</p>
+<hr>
+<div id="hypotheses-1" class="section level3" number="3.1.1">
+<h3>
+<span class="header-section-number">3.1.1</span> <strong>Hypotheses</strong><a class="anchor" aria-label="anchor" href="#hypotheses-1"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Q1(a)</strong> What would be a suitable null hypothesis for this study?</p>
+<p><strong>Q1(b)</strong> What would be a suitable alternative hypothesis for this study?</p>
+<hr>
+</div>
+</div>
+<div id="load-packages-and-import-data-2" class="section level2" number="3.2">
+<h2>
+<span class="header-section-number">3.2</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data-2"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/djnavarro/lsr">lsr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aloy/qqplotr">qqplotr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"lsr"</span><span class="op">)</span> <span class="co"># only use if lsr is not installed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"qqplotr"</span><span class="op">)</span> <span class="co"># only use if qqplotr is not installed</span></span></code></pre></div>
+<p>Import the data from the file <code>emotion.csv</code> and save it as an object called <code>memory</code>.</p>
+<details class="dropdown"><summary>
+❓ Help
+</summary><p>First make sure you working directory is set up so the <code>emotion.csv</code> file can be found. Then:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">memory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"emotion.csv"</span><span class="op">)</span></span></code></pre></div>
+</details><hr>
+</div>
+<div id="view-data-2" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> <strong>View Data</strong><a class="anchor" aria-label="anchor" href="#view-data-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>Once you have imported the data take a look at it using the <code><a href="https://tibble.tidyverse.org/reference/view.html">view()</a></code> function. This helps to check it has imported correctly.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">memory</span><span class="op">)</span></span></code></pre></div>
+<p>This data set is adapted from the open materials to include the relevant variables for today.</p>
+<ul>
+<li>
+<code>id</code> is an ID number for each participant.</li>
+<li>
+<code>neg</code> contains the d’prime scores for negative pictures.</li>
+<li>
+<code>neu</code> contains the d’prime scores for the neurtral pictures.</li>
+</ul>
+<p><strong>Q2(a)</strong>: How many participants are in this data set?</p>
+<hr>
+</div>
+<div id="descriptive-statistics-2" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>Calculate descriptive statistics to compare scores for negative vs. neutral pictures.</p>
+<p>Change the NULL values and use the help drop down option for the solution.</p>
+<p>Save the descriptives in an object called <code>mem_stats</code> (shorthand for memory descriptive statistics) to not overwrite the object from the previous chapter.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mem_stats</span> <span class="op">&lt;-</span> <span class="va">NULL1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean.neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">NULL2</span><span class="op">)</span>,</span>
+<span>            sd.neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">NULL2</span><span class="op">)</span>,</span>
+<span>            mean.neu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">NULL3</span><span class="op">)</span>,</span>
+<span>            sd.neu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">NULL3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+❓ Help
+</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mem_stats</span> <span class="op">&lt;-</span> <span class="va">memory</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean.neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">neg</span><span class="op">)</span>,</span>
+<span>            sd.neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">neg</span><span class="op">)</span>,</span>
+<span>            mean.neu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">neu</span><span class="op">)</span>,</span>
+<span>            sd.neu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">neg</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</details><hr>
+</div>
+<div id="create-a-suitable-plot-1" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot-1"><i class="fas fa-link"></i></a>
+</h2>
+<div id="wide-vs.-long-data" class="section level3 unnumbered">
+<h3>Wide vs. Long Data<a class="anchor" aria-label="anchor" href="#wide-vs.-long-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Using R and RStudio can be fun…! But every now and again there are quirks which are a bit frustrating.</p>
+<p><code>ggplot2</code> requires data to be in long format, and the current <code>memory</code> data are in wide format.</p>
+<p>The code below will create a long format version of the data suitable for any ggplot work. For today, focus on the difference between the wide data vs. long data structures, rather than the code.</p>
+<p>You’ll use this code again in the future where you can learn about it properly.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">longd</span> <span class="op">&lt;-</span> <span class="va">memory</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">neg</span>, <span class="va">neu</span><span class="op">)</span>,</span>
+<span>               names_to <span class="op">=</span> <span class="st">"emotion"</span>,</span>
+<span>               values_to <span class="op">=</span> <span class="st">"d"</span><span class="op">)</span></span></code></pre></div>
+<p>For any ggplot or functions which require long format data, use the object called <code>longd</code> (shorthand for long data).</p>
+<p>View the data to see how this code restructured the data to long format.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">longd</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="violin-plot-1" class="section level3 unnumbered">
+<h3>Violin Plot<a class="anchor" aria-label="anchor" href="#violin-plot-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>You might get the impression that I do love a violin plot when comparing conditions or groups…</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">longd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">emotion</span>, y <span class="op">=</span> <span class="va">d</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Note that the object <code>longd</code> was used, as well as the corresponding variable names <code>emotion</code> for the two conditions, and <code>d</code> for the dependent variable (d’prime).</p>
+<p><strong>Q3(a)</strong>: Look at the descriptive statistics and your violin plot. How would you interpret these? Think about if there is a difference between the conditions, and if so, which has better item recognition scores?</p>
+<hr>
+</div>
+</div>
+<div id="check-assumptions-1" class="section level2" number="3.6">
+<h2>
+<span class="header-section-number">3.6</span> <strong>Check Assumptions</strong><a class="anchor" aria-label="anchor" href="#check-assumptions-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are <strong>three</strong> assumptions for a paired <em>t</em>-test.</p>
+<hr>
+<div id="continuous-dependent-variable-1" class="section level3" number="3.6.1">
+<h3>
+<span class="header-section-number">3.6.1</span> <strong>Continuous Dependent Variable</strong><a class="anchor" aria-label="anchor" href="#continuous-dependent-variable-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>The dependent variable should be numerical and a continuous score.</p>
+<p>d’prime scores are continuous and so this assumption holds true.</p>
+<hr>
+</div>
+<div id="independent-pairs-of-observations" class="section level3" number="3.6.2">
+<h3>
+<span class="header-section-number">3.6.2</span> <strong>Independent (Pairs of) Observations</strong><a class="anchor" aria-label="anchor" href="#independent-pairs-of-observations"><i class="fas fa-link"></i></a>
+</h3>
+<p>This time we do not have separate groups. However, this assumption still matters as the pairs of observations need to be independent.</p>
+<p>Although each participant’s pairs of scores are related (as each score comes from the same person), each participant must be independent of other participants for this assumption to hold true. We can assume this was the case for this study.</p>
+<hr>
+</div>
+<div id="roughly-normally-distributed-residuals-1" class="section level3" number="3.6.3">
+<h3>
+<span class="header-section-number">3.6.3</span> <strong>Roughly Normally Distributed Residuals</strong><a class="anchor" aria-label="anchor" href="#roughly-normally-distributed-residuals-1"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="q-q-plot-1" class="section level3 unnumbered">
+<h3>
+<strong>Q-Q Plot</strong><a class="anchor" aria-label="anchor" href="#q-q-plot-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Unlike the previous chapter, we do not have Q-Q plots for separate groups. Instead we will need a Q-Q plot of participant’s <strong>difference</strong> scores. Essentially, for each participant take their negative picture score and subtract the neutral picture score.</p>
+<p>No need for a calculator here, you can use code to work out these scores:</p>
+<p>Here it is fine to use the wide dataset called <code>memory</code>.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">memory</span> <span class="op">&lt;-</span> <span class="va">memory</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>diff <span class="op">=</span> <span class="va">neu</span><span class="op">-</span><span class="va">neg</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code>memory</code> &lt;- memory %&gt;%<code>means to overwrite the</code>memory<code>object using the original</code>memory` object and then…</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> is a function which allows you to create a new variable.</li>
+<li>
+<code>diff = neu-neg</code> means to create a new cariable called <code>diff</code> and then populate it with the <code>neu</code> score minus (<code>-</code>) the neutral scores. This creates our difference score.</li>
+</ul></details><hr>
+<p>Create the Q-Q plot:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">memo</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">diff</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_band.html">stat_qq_band</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_point.html">stat_qq_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_line</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><strong>WAIT!</strong> That did not work?! Use your problem solving skills to fix this broken code.</p>
+<p>Read the error message carefully.</p>
+<p>Once you have fixed the code you might look at the plot and find that you are a little bit concerned that many of the residuals fall outside of the shaded band on the left tail.</p>
+<p>This could indicate that this assumption was not met.</p>
+<hr>
+</div>
+<div id="shapiro-wilk-test-1" class="section level3 unnumbered">
+<h3>
+<strong>Shapiro-Wilk Test</strong><a class="anchor" aria-label="anchor" href="#shapiro-wilk-test-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>A Shapiro-Wilk test could give some more information.</p>
+<p>You only need to use the <code>diff</code> score</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">memory</span><span class="op">$</span><span class="va">diff</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>We use a dollar sign <code>$</code> to point R to a particular column. For example, when using <code>shapiro.test(memory$diff)</code> you are saying to run the Shapiro Test on the difference scores in the <code>memory</code> data set which are in the scolumn called <code>diff</code></p>
+<p>For this test, you want a non-significant p-value. This means the data are roughly normally distributed. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large [80+] or small sample).</p>
+<p>When reporting the Shapiro-Wilk test, you just need to report the test statistics (w = XX) and the p-value. Here is an example what it could look like:</p>
+<p><em>W</em> = 0.98, <em>p</em> = .875</p>
+</details><hr>
+</div>
+<div id="a-comment-on-normality" class="section level3" number="3.6.4">
+<h3>
+<span class="header-section-number">3.6.4</span> <strong>A Comment on Normality</strong><a class="anchor" aria-label="anchor" href="#a-comment-on-normality"><i class="fas fa-link"></i></a>
+</h3>
+<p>Assessing normality can be quite tricky. There is no “exact” way to do it as both Q-Q plots and Shapiro-Wilk test have their drawbacks. Real data are messy and we rarely end up with perfectly normally distributed residuals.</p>
+<p>Rather than expecting a perfect distribution, focus instead on whether any deviation is only minor or if it is much more severe. Think about whether this could be an issue when interpreting your results.</p>
+<p>In this case use both the Q-Q plot and the Shapiro-Wilk test, remember a little bit of “snaking” on a Q-Q plot is acceptable and many statistical tests are fairly robust against minor deviations from normality.</p>
+<p>For now, I think this violation of normality is relatively minor and so you can continue using the <em>t</em>-test.</p>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>Another option which applies here is to run something called a “non-parametric” test alongside your <em>t</em>-test. A non-parametric test does not rely on assumptions. You can then compare the results from both to see if normality had an impact.</p>
+<p>We will re-visit this later on in term…</p>
+</details><hr>
+</div>
+</div>
+<div id="run-the-t-test-and-effect-size-1" class="section level2" number="3.7">
+<h2>
+<span class="header-section-number">3.7</span> <strong>Run the <em>t</em>-Test and Effect Size</strong><a class="anchor" aria-label="anchor" href="#run-the-t-test-and-effect-size-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>You should use the wide format data for a paired <em>t</em>-test, this means here you should use the <code>memory</code> object.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#t.test code</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#effect size</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/lsr/man/cohensD.html">cohensD</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, method <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> is the t-test function.</li>
+<li>
+<code>memory$neg</code> is the first condition you want to use for the comparison (negative scores)</li>
+<li>
+<code>memory$neu</code> is the second condition you want to use for the comparison (neutral scores)</li>
+<li>
+<code>paired = TRUE</code> tells the funciton to run a paired version of the <em>t</em>-test.</li>
+</ul>
+<p>For effect size you need to use a function called <code>CohensD()</code>. Note it has capital letters and the arguments match the <em>t</em>-test code above.</p>
+</details>
+</div>
+<div id="write-up-1" class="section level2" number="3.8">
+<h2>
+<span class="header-section-number">3.8</span> <strong>Write-Up</strong><a class="anchor" aria-label="anchor" href="#write-up-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Interpret your t-test before you write it up. Use your lecture notes to help.</p>
+<ul>
+<li>Is the test significant?</li>
+<li>What is the effect size?</li>
+<li>If significant, how do the conditions differ? Use descriptive statistics and violin plot to interpret.</li>
+</ul>
+<p><strong>Q4(a)</strong>: Were the assumptions for the <em>t</em>-test met? Use the output from your analysis to support your answer and try to write-up in a style suitable for a research paper or lab report.</p>
+<p><strong>Q4(b)</strong>: Write-up the results of the <em>t</em>-test and effect size. Remember to use APA formatting and to interpret the <em>t</em>-test, not merely report the numbers/statistics.</p>
+<p><strong>Q4(c)</strong>: Explain if your findings support your alternative hypothesis from Q1(b).</p>
+<hr>
+<p><strong>Well done. You have reached the end the this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#paired-t-test"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="nav-link" href="#learning-outcomes-2">Learning Outcomes</a></li>
+<li>
+<a class="nav-link" href="#before-you-begin-2"><span class="header-section-number">3.1</span> Before You Begin</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#hypotheses-1"><span class="header-section-number">3.1.1</span> Hypotheses</a></li></ul>
+</li>
+<li><a class="nav-link" href="#load-packages-and-import-data-2"><span class="header-section-number">3.2</span> Load Packages and Import Data</a></li>
+<li><a class="nav-link" href="#view-data-2"><span class="header-section-number">3.3</span> View Data</a></li>
+<li><a class="nav-link" href="#descriptive-statistics-2"><span class="header-section-number">3.4</span> Descriptive Statistics</a></li>
+<li>
+<a class="nav-link" href="#create-a-suitable-plot-1"><span class="header-section-number">3.5</span> Create a Suitable Plot</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#wide-vs.-long-data">Wide vs. Long Data</a></li>
+<li><a class="nav-link" href="#violin-plot-1">Violin Plot</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#check-assumptions-1"><span class="header-section-number">3.6</span> Check Assumptions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#continuous-dependent-variable-1"><span class="header-section-number">3.6.1</span> Continuous Dependent Variable</a></li>
+<li><a class="nav-link" href="#independent-pairs-of-observations"><span class="header-section-number">3.6.2</span> Independent (Pairs of) Observations</a></li>
+<li><a class="nav-link" href="#roughly-normally-distributed-residuals-1"><span class="header-section-number">3.6.3</span> Roughly Normally Distributed Residuals</a></li>
+<li><a class="nav-link" href="#q-q-plot-1">Q-Q Plot</a></li>
+<li><a class="nav-link" href="#shapiro-wilk-test-1">Shapiro-Wilk Test</a></li>
+<li><a class="nav-link" href="#a-comment-on-normality"><span class="header-section-number">3.6.4</span> A Comment on Normality</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#run-the-t-test-and-effect-size-1"><span class="header-section-number">3.7</span> Run the t-Test and Effect Size</a></li>
+<li><a class="nav-link" href="#write-up-1"><span class="header-section-number">3.8</span> Write-Up</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS2010 Workshop Code Book</strong>" was written by Luke Kendrick. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

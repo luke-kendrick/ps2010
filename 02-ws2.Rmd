@@ -1,0 +1,325 @@
+# Two-Sample *t*-Test
+
+## **Learning Outcomes** {.unnumbered}
+
+By the end of this chapter you should be able to:
+
+-   produce descriptive statistics and plots appropriate for a two-sample *t*-test   
+-   check the relevant assumptions for a Welch's *t*-test
+-   run and interpret a two-sample *t*-test using `t.test()`
+-   run and interpret the effect size using `cohens_d`
+-   write-up the results suitable for a lab report
+
+------------------------------------------------------------------------
+
+## **Before You Begin**
+
+You should use the same data set as the previous descriptive statistics and plots chapter taken from:
+
+> Gamble, T., & Walker, I. (2016). [Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults](https://journals.sagepub.com/doi/full/10.1177/0956797615620784). Psychological Science, 27(2), 289--294, doi: 10.1177/09567976156207
+
+As a reminder, this study used an independent measure design to compare risk taking in **two** groups: a helmet group and a baseball cap group.
+
+------------------------------------------------------------------------
+
+### **Hypotheses**
+
+In last week's workshop you were asked to propose a suitable research question for the Gamble and Walker (2006) study. Now decide:
+
+**Q1(a)** What would be a suitable null hypothesis for this study?
+
+**Q1(b)** What would be a suitable alternative hypothesis for this study?
+
+------------------------------------------------------------------------
+
+## **Load Packages and Import Data**
+
+You'll need these packages:
+
+``` r
+library(tidyverse)
+library(qqplotr)
+library(rstatix)
+
+install.packages("qqplotr") # only use if qqplotr is not installed
+install.packages("rstatix") # only use if rstatix is not installed
+```
+
+You will also need to import the `risky.csv` data set from the last chapter. Import it and save it as an object called `data`.
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+First make sure you working directory is set up so the `risky.csv` file can be found. Then:
+
+``` r
+data <- read_csv("risky.csv")
+```
+
+</details>
+
+------------------------------------------------------------------------
+
+## **View Data**
+
+Once you have imported the data take a look at it using the `view()` function. This helps to check it has imported correctly.
+
+``` r
+view(data)
+```
+
+For this chapter we are only interested in these variables:
+
+-   `condition`: this tells us if participants were in the helmet or baseball cap condition.
+
+-   `BART`: this was the dependent variable and tells us how risky participants were. A higher score indicates greater risk taking.
+
+-   `id`: it is always helpful to use an identification variable for each participant, whilst strictly not an experimental variable, you should keep it.
+
+------------------------------------------------------------------------
+
+## **Descriptive Statistics**
+
+Usually you'd run descriptive statistics before conducting the t-test. If you remember last week, you already did this!
+
+This time you should use the code explanation below to learn more about what this code does.
+
+``` r
+stats <- data %>%
+  group_by(condition) %>%
+  summarise(meanBART = mean(BART),
+            sdBART = sd(BART))
+            
+view(stats)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `stats` is the name of an object that will hold the statistics.
+
+-   `<-` is the assignment operator which means anything on the right of the arrow gets passed into the object on the left.
+
+-   `data` is our existing data set with a pipe `%>%` this means "take `data` and then"...
+
+-   `group_by()` is a function that will split a categorical variable. In this data set `condition` is the argument needed, as condition contains the helmet vs. baseball cap groupings.
+
+-   `%>%` is another pipe meaning once we have groups...
+
+-   `summarise()` is a function which will summarise a data set.
+
+-   `meanBART = mean(BART)` calculates the mean BART value for each condition.
+
+-   `sdBART = sd(BART)` calculates the standard deviation of BART for each condition.
+
+-   `view(stats)` will open your newly create object `stats` so you can view.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Create a Suitable Plot**
+
+This example involves comparing **two** groups. The violin plot that you produced last week will be sufficient.
+
+When deciding on an appropriate plot you should think back to your research question and hypotheses. What exactly is it you want to show? In this case, we want to easily compare the **two** groups to see if and how they are different.
+
+Create the violin box plot...
+
+-   `NULL1` should be the variable you want on your x-axis.
+-   `NULL2` should be the variable you want on your y-axis.
+
+``` r
+ggplot(data, aes(x = condition, y = BART)) +
+  geom_violin(alpha = 0) +
+  geom_boxplot(width = 0.2) +
+  theme_classic()
+```
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+On a violin plot *usually* the dependent variable would be placed on the y-axis (vertical axis)
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Check Assumptions**
+
+Remember that there are usually **four** assumptions for a *t*-test.
+
+### **Continuous Dependent Variable**
+
+The dependent variable should be numerical and a continuous score.
+
+Looking at the BART task and the scores it produced, has this assumption been met?
+
+------------------------------------------------------------------------
+
+### **Independent Observations**
+
+Participant scores across conditions should not influence one another. This means that there are separate conditions or groups, and the scores or observations in one condition/group does not influence what happens in the other.
+
+Given participants were placed in independent groups, we assume this is the case for the data in this example.
+
+------------------------------------------------------------------------
+
+### **Roughly Normally Distributed Residuals**
+
+The residuals of the dependent variable for each group should be normally distributed.
+
+------------------------------------------------------------------------
+
+### Q-Q Plot {.unnumbered}
+
+You can use a Q-Q plot to check this. You will need to tweak the code:
+
+``` r
+ggplot(NULL1, aes(sample = NULL2)) +
+  stat_qq_band(fill = "#EEE8AA", alpha = 0.5) +
+  stat_qq_point() +
+  stat_qq_line() +
+  facet_wrap(~ NULL3)
+```
+
+-   `NULL1` should be the object containing your data (check the environment panel)
+-   `NULL2` should be the dependent variable
+-   `NULL3` should be your independent variable, so that the Q-Q plots are separated by condition/group using face_wrap()
+
+------------------------------------------------------------------------
+
+### Shapiro-Wilk Test {.unnumbered}
+
+You could also use a statistical test to check normality. It is important to remember though that this test can be a bit unreliable for large or small samples.
+
+The code for this is a little trickier as you will need to create separate objects for each group.
+
+``` r
+#first create an object with only cap data
+cap <- data %>%
+  filter(condition == "cap")
+#then run the test
+shapiro.test(cap$BART)
+```
+
+``` r
+#first create an object with only helmet data
+helmet <- data %>%
+  filter(condition == "helmet")
+#then run the test
+shapiro.test(helmet$BART)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+We use a dollar sign `$` to point R to a particular column. For example, when using `shapiro.test(helmet$BART)` you are saying to run the Shapiro Test on the helmet only data set and the specific column called `BART`
+
+For this test, you want a non-significant p-value. This means the data are roughly normally distributed. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large [80+] or small sample).
+
+When reporting the Shapiro-Wilk test, you just need to report the test statistics (w = XX) and the p-value. Here is an example what it could look like:
+
+*W* = 0.98, *p* = .875
+
+</details>
+
+------------------------------------------------------------------------
+
+### **Heteroscedasticity**
+
+As this chapter uses of a variation of a *t*-test called Welch's *t*-test, this assumption does not apply.
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+Welch's *t*-test provides the same results as a student's t-test when the variances are equal, but is the best option if you do have unequal variances.
+
+In practice, this means a Welch's *t*-test will do the job regardless of this assumption.
+
+See [Delacre, Lakens, and Leys (2019)](https://rips-irsp.com/articles/10.5334/irsp.82) for a full explanation.
+
+Why am I telling you this? You might come across this assumption elsewhere or in the future you might be asked to run a Student's *t*-test. My argument would be that there is no point and to just run Welch's instead.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Run the *t*-Test and Effect Size**
+
+``` r
+#t.test code
+t.test(BART ~ condition, data, var.equal = FALSE, alternative = "two.sided")
+#effect size
+cohens_d(data, BART ~ condition, var.equal = FALSE)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `t.test()` is the t-test function.
+-   `BART ~ condition` is a formula, essentially the **DV** \~ **IV**
+-   `var.equal = FALSE` means you get the Welch's version of the t-test. If you set it to `=TRUE` you'll get Student's t-test instead.
+-   `alternative = "two-sided"` relates to your alternative hypothesis. This is set for a non-directional hypothesis.
+
+</details>
+
+
+------------------------------------------------------------------------
+
+## **Write-Up**
+
+Interpret your t-test before you write it up. Use your lecture notes to help.
+
+-   Is the test significant?
+-   What is the effect size?
+-   If significant, how do the conditions differ? Use descriptive statistics and violin plot to interpret.
+
+
+**Q2(a)**: Were the assumptions for the *t*-test met? Use the output from your analysis to support your answer and try to write-up in a style suitable for a research paper or lab report.
+
+**Q2(b)**: Write-up the results of the *t*-test and effect size. Remember to use APA formatting and to interpret the *t*-test, not merely report the numbers/statistics.
+
+**Q2(c)**: Explain if your findings support your alternative hypothesis from Q1(b).
+
+---
+
+## **Optional Exercise**
+
+Check your results with the published paper by [Gamble and Walker (2026)](https://journals.sagepub.com/doi/full/10.1177/0956797615620784)
+
+Head down to the first line of the results section...
+
+> Wearing a helmet was associated with higher risk-taking scores (M = 40.40, SD = 18.18) than wearing a cap (M = 31.06, SD = 13.29), t(78) = 2.63, p = .01, d = 0.59 (Fig. 2a).
+
+Hold on! The *t*-test result is different even though we have used the same data?!
+
+This is because it looks as though the researchers used Student's *t*-test. I am not sure why they did this because further on in the results section they do use Welch's *t*-test for another analysis, perhaps because normality or homogeneity of variance looked a little bit more dodgy for the other dependent variable.
+
+Importantly, the pattern of results in both versions is the same and the differences between the two are minimal. This is why it is perfectly fine to always use Welch's *t*-test.
+
+As an optional exercise, re-run your *t*-test but this time change it to a Student's version of a *t*-test.
+
+Hint: You only need to amend **one** word in your code...
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+Change `var.equal = FALSE` to `var.equal = TRUE` to run a Student's *t*-test.
+
+</details>
+
+Now you should see the *t*-test result perfectly matches the values reported in the published paper!
+
+------------------------------------------------------------------------
+
+**Well done. You have reached the end the this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.

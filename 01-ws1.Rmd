@@ -11,9 +11,9 @@ By the end of this chapter you should be able to:
 
 ------------------------------------------------------------------------
 
-## **Setup**
+## **Before You Begin**
 
-The data for this workshop come from:
+The data for this chapter come from:
 
 > Gamble, T., & Walker, I. (2016). [Wearing a Bicycle Helmet Can Increase Risk Taking and Sensation Seeking in Adults](https://journals.sagepub.com/doi/full/10.1177/0956797615620784). Psychological Science, 27(2), 289--294, doi: 10.1177/09567976156207
 
@@ -73,7 +73,7 @@ The assignment operator arrow `<-` means anything to the right side will be pass
 
 ------------------------------------------------------------------------
 
-## **View and Filter the Data**
+## **View Data**
 
 Once you have imported data take a look at it using the `view()` function.
 
@@ -106,6 +106,8 @@ stats <- data %>%
   group_by(condition) %>%
   summarise(meanBART = mean(BART),
             sdBART = sd(BART))
+            
+view(stats)
 ```
 
 **Q3a**: What was the mean and standard deviation for the cap condition?

@@ -12,7 +12,7 @@ main a:not(.anchor) {
   text-underline-offset: 0.15em;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
   .sidebar-book {
     max-width: 18rem;
   }
