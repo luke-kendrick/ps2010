@@ -68,7 +68,8 @@
 <li>check the relevant assumptions for a paired <em>t</em>-test</li>
 <li>run and interpret a paired <em>t</em>-test using <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code>
 </li>
-<li>run and interpret the effect size using <code>cohens_d</code>.</li>
+<li>run and interpret the effect size using <code>CohensD()</code>
+</li>
 <li>write-up the results suitable for a lab report.</li>
 </ul>
 <hr>
@@ -82,7 +83,7 @@
 <p>Palombo, D. J., Te, A. A., Checknita, K. J., &amp; Madan, C. R. (2021). <a href="https://journals.sagepub.com/doi/full/10.1177/0956797621991548">Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”</a>. Psychological Science, 32(7), 1104-1114, doi: 10.1177/095679762199154.</p>
 </blockquote>
 <p>In this study, researchers investigated how negative emotion could impact different aspects of episodic memory. Participants took part in an experiment which used a repeated measures design. First participants completed an encoding phase where they watched video clips of everyday situations. During these clips a two second image appeared either showing a neutral or a negative picture (e.g., negative = picture of a car crash, neutral = picture of a pigeon).</p>
-<p>Participants were then tested on the “what” (item recognition), when (timing), and which (associative recognition).</p>
+<p>Participants were then tested on their recall of these negative and neutral pictures, specifically “what” (item recognition), when (timing), and which (associative recognition).</p>
 <p>For this chapter we will focus on comparing the “what” (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d’prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d’prime scores indicate better recognition memory. This is the dependent variable for this chapter.</p>
 <hr>
 <div id="hypotheses-1" class="section level3" number="3.1.1">
@@ -129,7 +130,7 @@
 <li>
 <code>neu</code> contains the d’prime scores for the neurtral pictures.</li>
 </ul>
-<p><strong>Q2(a)</strong>: How many participants are in this data set?</p>
+<p><strong>Q2</strong>: How many participants are in this data set?</p>
 <hr>
 </div>
 <div id="descriptive-statistics-2" class="section level2" number="3.4">
@@ -303,7 +304,7 @@
 <code>paired = TRUE</code> tells the funciton to run a paired version of the <em>t</em>-test.</li>
 </ul>
 <p>For effect size you need to use a function called <code>CohensD()</code>. Note it has capital letters and the arguments match the <em>t</em>-test code above.</p>
-</details>
+</details><hr>
 </div>
 <div id="write-up-1" class="section level2" number="3.8">
 <h2>

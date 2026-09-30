@@ -7,7 +7,7 @@ By the end of this chapter you should be able to:
 -   produce descriptive statistics and plots appropriate for a paired *t*-test 
 -   check the relevant assumptions for a paired *t*-test
 -   run and interpret a paired *t*-test using `t.test()`
--   run and interpret the effect size using `cohens_d`.
+-   run and interpret the effect size using `CohensD()`
 -   write-up the results suitable for a lab report.
 
 ------------------------------------------------------------------------
@@ -20,7 +20,7 @@ The data for this chapter come from:
 
 In this study, researchers investigated how negative emotion could impact different aspects of episodic memory. Participants took part in an experiment which used a repeated measures design. First participants completed an encoding phase where they watched video clips of everyday situations. During these clips a two second image appeared either showing a neutral or a negative picture (e.g., negative = picture of a car crash, neutral = picture of a pigeon).
 
-Participants were then tested on the "what" (item recognition), when (timing), and which (associative recognition).
+Participants were then tested on their recall of these negative and neutral pictures, specifically "what" (item recognition), when (timing), and which (associative recognition).
 
 For this chapter we will focus on comparing the "what" (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d'prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d'prime scores indicate better recognition memory. This is the dependent variable for this chapter.
 
@@ -75,7 +75,7 @@ This data set is adapted from the open materials to include the relevant variabl
 -   `neg` contains the d'prime scores for negative pictures.
 -   `neu` contains the d'prime scores for the neurtral pictures.
 
-**Q2(a)**: How many participants are in this data set?
+**Q2**: How many participants are in this data set?
 
 ---
 
@@ -294,6 +294,8 @@ cohensD(data$neg, data$neu, method = "paired")
 For effect size you need to use a function called `CohensD()`. Note it has capital letters and the arguments match the *t*-test code above.
 
 </details>
+
+---
 
 ## **Write-Up**
 
