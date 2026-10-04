@@ -8,7 +8,7 @@ By the end of this chapter you should be able to:
 -   check the relevant assumptions for a paired *t*-test
 -   run and interpret a paired *t*-test using `t.test()`
 -   run and interpret the effect size using `CohensD()`
--   write-up the results suitable for a lab report.
+-   write up the results in a style suitable for a lab report.
 
 ------------------------------------------------------------------------
 
@@ -16,13 +16,13 @@ By the end of this chapter you should be able to:
 
 The data for this chapter come from:
 
-> Palombo, D. J., Te, A. A., Checknita, K. J., & Madan, C. R. (2021). [Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”](https://journals.sagepub.com/doi/full/10.1177/0956797621991548). Psychological Science, 32(7), 1104-1114, doi: 10.1177/095679762199154.
+> Palombo, D. J., Te, A. A., Checknita, K. J., & Madan, C. R. (2021). [Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”](https://journals.sagepub.com/doi/full/10.1177/0956797621991548). Psychological Science, 32(7), 1104-1114, doi: 10.1177/0956797621991548.
 
 In this study, researchers investigated how negative emotion could impact different aspects of episodic memory. Participants took part in an experiment which used a repeated measures design. First participants completed an encoding phase where they watched video clips of everyday situations. During these clips a two second image appeared either showing a neutral or a negative picture (e.g., negative = picture of a car crash, neutral = picture of a pigeon).
 
 Participants were then tested on their recall of these negative and neutral pictures, specifically "what" (item recognition), when (timing), and which (associative recognition).
 
-For this chapter we will focus on comparing the "what" (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d'prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d'prime scores indicate better recognition memory. This is the dependent variable for this chapter.
+For this chapter we will focus on comparing the "what" (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d-prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d-prime scores indicate better recognition memory. This is the dependent variable for this chapter.
 
 ---
 
@@ -51,7 +51,7 @@ Import the data from the file `emotion.csv` and save it as an object called `mem
 
 <summary>❓ Help</summary>
 
-First make sure you working directory is set up so the `emotion.csv` file can be found. Then:
+First make sure your working directory is set up so the `emotion.csv` file can be found. Then:
 
 ``` r
 memory <- read_csv("emotion.csv")
@@ -72,8 +72,8 @@ view(memory)
 This data set is adapted from the open materials to include the relevant variables for today.
 
 -   `id` is an ID number for each participant.
--   `neg` contains the d'prime scores for negative pictures.
--   `neu` contains the d'prime scores for the neurtral pictures.
+-   `neg` contains the d-prime scores for negative pictures.
+-   `neu` contains the d-prime scores for the neutral pictures.
 
 **Q2**: How many participants are in this data set?
 
@@ -149,7 +149,7 @@ ggplot(longd, aes(x = emotion, y = d)) +
          theme_classic()
 ```
 
-Note that the object `longd` was used, as well as the corresponding variable names `emotion` for the two conditions, and `d` for the dependent variable (d'prime).
+Note that the object `longd` was used, as well as the corresponding variable names `emotion` for the two conditions, and `d` for the dependent variable (d-prime).
 
 **Q3(a)**: Look at the descriptive statistics and your violin plot. How would you interpret these? Think about if there is a difference between the conditions, and if so, which has better item recognition scores?
 
@@ -165,7 +165,7 @@ There are **three** assumptions for a paired *t*-test.
 
 The dependent variable should be numerical and a continuous score.
 
-d'prime scores are continuous and so this assumption holds true.
+d-prime scores are continuous and so this assumption holds true.
 
 ---
 
@@ -181,7 +181,7 @@ Although each participant's pairs of scores are related (as each score comes fro
 
 ### **Q-Q Plot** {-}
 
-Unlike the previous chapter, we do not have Q-Q plots for separate groups. Instead we will need a Q-Q plot of participant's **difference** scores. Essentially, for each participant take their negative picture score and subtract the neutral picture score.
+Unlike the previous chapter, we do not have Q-Q plots for separate groups. Instead we will need a Q-Q plot of participants' **difference** scores. Essentially, for each participant take their negative picture score and subtract the neutral picture score.
 
 No need for a calculator here, you can use code to work out these scores:
 
@@ -196,9 +196,9 @@ memory <- memory %>%
 
 <summary>🔍 Code Explained</summary>
 
--   `memory` <- memory %>%` means to overwrite the `memory` object using the original `memory` object and then...
+-   `memory <- memory %>%` means to overwrite the `memory` object using the original `memory` object and then...
 -   `mutate()` is a function which allows you to create a new variable.
--   `diff = neu-neg` means to create a new cariable called `diff` and then populate it with the `neu` score minus (`-`) the neutral scores. This creates our difference score.
+-   `diff = neu-neg` means to create a new variable called `diff` and then populate it with the `neu` score minus (`-`) the neutral scores. This creates our difference score.
 
 </details>
 
@@ -237,11 +237,11 @@ shapiro.test(memory$diff)
 
 <summary>🔍 Learn More</summary>
 
-We use a dollar sign `$` to point R to a particular column. For example, when using `shapiro.test(memory$diff)` you are saying to run the Shapiro Test on the difference scores in the `memory` data set which are in the scolumn called `diff`
+We use a dollar sign `$` to point R to a particular column. For example, when using `shapiro.test(memory$diff)` you are saying to run the Shapiro Test on the difference scores in the `memory` data set which are in the column called `diff`
 
 For this test, you want a non-significant p-value. This means the data are roughly normally distributed. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large [80+] or small sample).
 
-When reporting the Shapiro-Wilk test, you just need to report the test statistics (w = XX) and the p-value. Here is an example what it could look like:
+When reporting the Shapiro-Wilk test, you just need to report the test statistics (*W* = XX) and the p-value. Here is an example of what it could look like:
 
 *W* = 0.98, *p* = .875
 
@@ -289,7 +289,7 @@ cohensD(data$neg, data$neu, method = "paired")
 -   `t.test()` is the t-test function.
 -   `memory$neg` is the first condition you want to use for the comparison (negative scores)
 -   `memory$neu` is the second condition you want to use for the comparison (neutral scores)
--   `paired = TRUE` tells the funciton to run a paired version of the *t*-test.
+-   `paired = TRUE` tells the function to run a paired version of the *t*-test.
 
 For effect size you need to use a function called `CohensD()`. Note it has capital letters and the arguments match the *t*-test code above.
 
@@ -305,14 +305,14 @@ Interpret your t-test before you write it up. Use your lecture notes to help.
 -   What is the effect size?
 -   If significant, how do the conditions differ? Use descriptive statistics and violin plot to interpret.
 
-**Q4(a)**: Were the assumptions for the *t*-test met? Use the output from your analysis to support your answer and try to write-up in a style suitable for a research paper or lab report.
+**Q4(a)**: Were the assumptions for the *t*-test met? Use the output from your analysis to support your answer and try to write up in a style suitable for a research paper or lab report.
 
-**Q4(b)**: Write-up the results of the *t*-test and effect size. Remember to use APA formatting and to interpret the *t*-test, not merely report the numbers/statistics.
+**Q4(b)**: Write up the results of the *t*-test and effect size. Remember to use APA formatting and to interpret the *t*-test, not merely report the numbers/statistics.
 
 **Q4(c)**: Explain if your findings support your alternative hypothesis from Q1(b).
 
 ---
 
-**Well done. You have reached the end the this chapter.**
+**Well done. You have reached the end of this chapter.**
 
 Remember to keep the answers to your questions as you'll need these for the Moodle quiz.

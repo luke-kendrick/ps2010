@@ -7,7 +7,7 @@
 <title>3 Paired t-Test | PS2010 Workshop Code Book</title>
 <meta name="author" content="Luke Kendrick">
 <meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="3 Paired t-Test | PS2010 Workshop Code Book">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -70,7 +70,7 @@
 </li>
 <li>run and interpret the effect size using <code>CohensD()</code>
 </li>
-<li>write-up the results suitable for a lab report.</li>
+<li>write up the results in a style suitable for a lab report.</li>
 </ul>
 <hr>
 </div>
@@ -80,11 +80,11 @@
 </h2>
 <p>The data for this chapter come from:</p>
 <blockquote>
-<p>Palombo, D. J., Te, A. A., Checknita, K. J., &amp; Madan, C. R. (2021). <a href="https://journals.sagepub.com/doi/full/10.1177/0956797621991548">Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”</a>. Psychological Science, 32(7), 1104-1114, doi: 10.1177/095679762199154.</p>
+<p>Palombo, D. J., Te, A. A., Checknita, K. J., &amp; Madan, C. R. (2021). <a href="https://journals.sagepub.com/doi/full/10.1177/0956797621991548">Exploring the facets of emotional episodic memory: Remembering “what,”“when,” and “which”</a>. Psychological Science, 32(7), 1104-1114, doi: 10.1177/0956797621991548.</p>
 </blockquote>
 <p>In this study, researchers investigated how negative emotion could impact different aspects of episodic memory. Participants took part in an experiment which used a repeated measures design. First participants completed an encoding phase where they watched video clips of everyday situations. During these clips a two second image appeared either showing a neutral or a negative picture (e.g., negative = picture of a car crash, neutral = picture of a pigeon).</p>
 <p>Participants were then tested on their recall of these negative and neutral pictures, specifically “what” (item recognition), when (timing), and which (associative recognition).</p>
-<p>For this chapter we will focus on comparing the “what” (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d’prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d’prime scores indicate better recognition memory. This is the dependent variable for this chapter.</p>
+<p>For this chapter we will focus on comparing the “what” (item recognition) performance for negative vs. neutral pictures. The analysis in the published paper uses a measure called d-prime, which is a measure of accuracy which takes into account correct recognition and mistakes (e.g., false alarms). Higher d-prime scores indicate better recognition memory. This is the dependent variable for this chapter.</p>
 <hr>
 <div id="hypotheses-1" class="section level3" number="3.1.1">
 <h3>
@@ -109,7 +109,7 @@
 <p>Import the data from the file <code>emotion.csv</code> and save it as an object called <code>memory</code>.</p>
 <details class="dropdown"><summary>
 ❓ Help
-</summary><p>First make sure you working directory is set up so the <code>emotion.csv</code> file can be found. Then:</p>
+</summary><p>First make sure your working directory is set up so the <code>emotion.csv</code> file can be found. Then:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">memory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"emotion.csv"</span><span class="op">)</span></span></code></pre></div>
 </details><hr>
@@ -126,9 +126,9 @@
 <li>
 <code>id</code> is an ID number for each participant.</li>
 <li>
-<code>neg</code> contains the d’prime scores for negative pictures.</li>
+<code>neg</code> contains the d-prime scores for negative pictures.</li>
 <li>
-<code>neu</code> contains the d’prime scores for the neurtral pictures.</li>
+<code>neu</code> contains the d-prime scores for the neutral pictures.</li>
 </ul>
 <p><strong>Q2</strong>: How many participants are in this data set?</p>
 <hr>
@@ -186,7 +186,7 @@
 <span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Note that the object <code>longd</code> was used, as well as the corresponding variable names <code>emotion</code> for the two conditions, and <code>d</code> for the dependent variable (d’prime).</p>
+<p>Note that the object <code>longd</code> was used, as well as the corresponding variable names <code>emotion</code> for the two conditions, and <code>d</code> for the dependent variable (d-prime).</p>
 <p><strong>Q3(a)</strong>: Look at the descriptive statistics and your violin plot. How would you interpret these? Think about if there is a difference between the conditions, and if so, which has better item recognition scores?</p>
 <hr>
 </div>
@@ -202,7 +202,7 @@
 <span class="header-section-number">3.6.1</span> <strong>Continuous Dependent Variable</strong><a class="anchor" aria-label="anchor" href="#continuous-dependent-variable-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>The dependent variable should be numerical and a continuous score.</p>
-<p>d’prime scores are continuous and so this assumption holds true.</p>
+<p>d-prime scores are continuous and so this assumption holds true.</p>
 <hr>
 </div>
 <div id="independent-pairs-of-observations" class="section level3" number="3.6.2">
@@ -222,7 +222,7 @@
 <h3>
 <strong>Q-Q Plot</strong><a class="anchor" aria-label="anchor" href="#q-q-plot-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Unlike the previous chapter, we do not have Q-Q plots for separate groups. Instead we will need a Q-Q plot of participant’s <strong>difference</strong> scores. Essentially, for each participant take their negative picture score and subtract the neutral picture score.</p>
+<p>Unlike the previous chapter, we do not have Q-Q plots for separate groups. Instead we will need a Q-Q plot of participants’ <strong>difference</strong> scores. Essentially, for each participant take their negative picture score and subtract the neutral picture score.</p>
 <p>No need for a calculator here, you can use code to work out these scores:</p>
 <p>Here it is fine to use the wide dataset called <code>memory</code>.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
@@ -232,18 +232,18 @@
 🔍 Code Explained
 </summary><ul>
 <li>
-<code>memory</code> &lt;- memory %&gt;%<code>means to overwrite the</code>memory<code>object using the original</code>memory` object and then…</li>
+<code>memory &lt;- memory %&gt;%</code> means to overwrite the <code>memory</code> object using the original <code>memory</code> object and then…</li>
 <li>
 <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> is a function which allows you to create a new variable.</li>
 <li>
-<code>diff = neu-neg</code> means to create a new cariable called <code>diff</code> and then populate it with the <code>neu</code> score minus (<code>-</code>) the neutral scores. This creates our difference score.</li>
+<code>diff = neu-neg</code> means to create a new variable called <code>diff</code> and then populate it with the <code>neu</code> score minus (<code>-</code>) the neutral scores. This creates our difference score.</li>
 </ul></details><hr>
 <p>Create the Q-Q plot:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">memo</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">diff</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_band.html">stat_qq_band</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_point.html">stat_qq_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">stat_qq_line</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">stat_qq_band</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html">stat_qq_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><strong>WAIT!</strong> That did not work?! Use your problem solving skills to fix this broken code.</p>
 <p>Read the error message carefully.</p>
 <p>Once you have fixed the code you might look at the plot and find that you are a little bit concerned that many of the residuals fall outside of the shaded band on the left tail.</p>
@@ -260,9 +260,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">memory</span><span class="op">$</span><span class="va">diff</span><span class="op">)</span></span></code></pre></div>
 <details class="dropdown"><summary>
 🔍 Learn More
-</summary><p>We use a dollar sign <code>$</code> to point R to a particular column. For example, when using <code>shapiro.test(memory$diff)</code> you are saying to run the Shapiro Test on the difference scores in the <code>memory</code> data set which are in the scolumn called <code>diff</code></p>
+</summary><p>We use a dollar sign <code>$</code> to point R to a particular column. For example, when using <code>shapiro.test(memory$diff)</code> you are saying to run the Shapiro Test on the difference scores in the <code>memory</code> data set which are in the column called <code>diff</code></p>
 <p>For this test, you want a non-significant p-value. This means the data are roughly normally distributed. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large [80+] or small sample).</p>
-<p>When reporting the Shapiro-Wilk test, you just need to report the test statistics (w = XX) and the p-value. Here is an example what it could look like:</p>
+<p>When reporting the Shapiro-Wilk test, you just need to report the test statistics (<em>W</em> = XX) and the p-value. Here is an example of what it could look like:</p>
 <p><em>W</em> = 0.98, <em>p</em> = .875</p>
 </details><hr>
 </div>
@@ -290,7 +290,7 @@
 <code class="sourceCode R"><span><span class="co">#t.test code</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#effect size</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/lsr/man/cohensD.html">cohensD</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, method <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">cohensD</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, method <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></span></code></pre></div>
 <details class="dropdown"><summary>
 🔍 Code Explained
 </summary><ul>
@@ -301,7 +301,7 @@
 <li>
 <code>memory$neu</code> is the second condition you want to use for the comparison (neutral scores)</li>
 <li>
-<code>paired = TRUE</code> tells the funciton to run a paired version of the <em>t</em>-test.</li>
+<code>paired = TRUE</code> tells the function to run a paired version of the <em>t</em>-test.</li>
 </ul>
 <p>For effect size you need to use a function called <code>CohensD()</code>. Note it has capital letters and the arguments match the <em>t</em>-test code above.</p>
 </details><hr>
@@ -316,11 +316,11 @@
 <li>What is the effect size?</li>
 <li>If significant, how do the conditions differ? Use descriptive statistics and violin plot to interpret.</li>
 </ul>
-<p><strong>Q4(a)</strong>: Were the assumptions for the <em>t</em>-test met? Use the output from your analysis to support your answer and try to write-up in a style suitable for a research paper or lab report.</p>
-<p><strong>Q4(b)</strong>: Write-up the results of the <em>t</em>-test and effect size. Remember to use APA formatting and to interpret the <em>t</em>-test, not merely report the numbers/statistics.</p>
+<p><strong>Q4(a)</strong>: Were the assumptions for the <em>t</em>-test met? Use the output from your analysis to support your answer and try to write up in a style suitable for a research paper or lab report.</p>
+<p><strong>Q4(b)</strong>: Write up the results of the <em>t</em>-test and effect size. Remember to use APA formatting and to interpret the <em>t</em>-test, not merely report the numbers/statistics.</p>
 <p><strong>Q4(c)</strong>: Explain if your findings support your alternative hypothesis from Q1(b).</p>
 <hr>
-<p><strong>Well done. You have reached the end the this chapter.</strong></p>
+<p><strong>Well done. You have reached the end of this chapter.</strong></p>
 <p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
 
 </div>
