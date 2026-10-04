@@ -7,7 +7,7 @@ By the end of this chapter you should be able to:
 -   produce descriptive statistics and plots appropriate for a two-sample *t*-test   
 -   check the relevant assumptions for a Welch's *t*-test
 -   run and interpret a two-sample *t*-test using `t.test()`
--   run and interpret the effect size using `cohens_d`
+-   run and interpret the effect size using `cohens_d()`
 -   write up the results in a style suitable for a lab report.
 
 ------------------------------------------------------------------------
