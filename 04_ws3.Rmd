@@ -1,0 +1,390 @@
+# One-Way ANOVA (Independent Design)
+
+## **Learning Outcomes** {.unnumbered}
+
+By the end of this chapter you should be able to:
+
+-   produce descriptive statistics and plots appropriate for a one-way ANOVA
+-   check the relevant assumptions for a one-way ANOVA (independent design)
+-   run and interpret the ANOVA using `aov_ez()` including any appropriate post-hoc tests using `emmeans()`, `games_howell_test()`, and `cohens_d()`.
+-   write up the results in a style suitable for a lab report.
+
+## **Before You Begin**
+
+The data for this chapter come from:
+
+> Mera, Y., Dianova, N., & Marin-Garcia, E. (2026). [Testing before learning: Exploring the robustness of the pretesting effect](https://link.springer.com/article/10.3758/s13421-025-01813-x). Memory & Cognition, 54(4), 1334-1356. doi: 10.3758/s13421-025-01813-x
+
+In this study, the researchers investigated how retrieval practice (testing **after** learning takes place) and pre-testing (testing **before** learning takes place) might affect learning. During the learning phase, participants were required to learn word pair combinations (e.g., seal - ball) by reading and typing them out. Participants were randomly assigned to one of three conditions: 
+
+- pre-testing, participants were given a test before learning where they guessed answers 
+- post-testing, participants were given a test after the learning phase to practice retrieval.
+- read/copy only, participants only read and typed out the words.
+
+After a distraction task, all participants completed a final test to  check their knowledge of the learned word pairs. The researchers' aim was to compare the three conditions to investigate whether the pre, post, or no test exercises had an effect on recall for learned material.
+
+You should read the full paper so that you have an understanding of the study aim(s) and methodology.
+
+---
+
+### **Hypotheses**
+
+**Q1(a)** What was the independent variable in this study? How many levels and what were they?
+
+**Q1(b)** What was the dependent variable in this study?
+
+**Q1(c)** What would be a suitable null hypothesis for this study?
+
+**Q1(d)** What would be a suitable two-tailed alternative hypothesis for this study?
+
+---
+
+## **Load Packages and Import Data**
+
+You'll need a fair few packages today.
+
+```r
+library(tidyverse)
+library(qqplotr)
+library(car)
+library(afex)
+library(emmeans)
+library(rstatix)
+```
+
+**You may need to install packages if these are missing** 
+
+Remember to use `install.packages()` if you need to.
+
+Import the data from the file `learning.csv` and save it as an object called `data`.
+
+## **View Data**
+
+Once you have imported the data take a look at it using the `view()` function. This helps to check it has imported correctly.
+
+``` r
+view(data)
+```
+
+This data set is adapted from the open materials to include the relevant variables for today.
+
+-   `id` is an ID number for each participant.
+-   `participant` is an original ID used by the researchers, this can be ignored.
+-   `condition` tells us which of the three conditions a participant was in.
+-   `recall` is the percentage of correct words recalled on the final test.
+
+---
+
+## **Descriptive Statistics**
+
+As always, begin by calculating descriptive statistics to compare recall scores for the three groups.
+
+Try and change the NULL values yourself first and use the help drop down option for the solution.
+
+```r
+desc <- NULL1 %>%
+  group_by(NULL2)
+  summarise(mean_recall = mean(NULL3),
+            sd_recall = sd(NULL3))
+
+view(desc)
+```
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+```r
+desc <- data %>%
+  group_by(condition) %>%
+  summarise(mean_recall = mean(recall), 
+            sd_recall = sd(recall))
+```
+
+</details>
+
+---
+
+## **Create a Suitable Plot**
+
+I think you might be able to guess what type of plot you'll need to create here...
+
+A violin plot will do the job for this design!
+
+```r
+ggplot(data, aes(x = condition, y = recalll))+
+  geom_violin(alpha = 0.2)+
+  geom_boxplot(width = 0.2) +
+  labs(y = "% Correctly Recalled")
+```
+
+Oops! There's a typo in the code above. Make sure you correct it otherwise your code won't work.
+
+If you can't spot it right away, try running the code first and look at the error message for a clue!
+
+---
+
+## **Check Assumptions**
+
+There are **four** assumptions for a one-way ANOVA.
+
+### **Continuous Dependent Variable**
+
+The dependent variable should be numerical and a continuous score.
+
+The `recall` score is continuous
+
+---
+
+### **Independent Observations**
+
+Given participants were placed in independent groups, we assume this is the case for the data in this study.
+
+---
+
+### **Roughly Normally Distributed Residuals**
+
+The residuals of the dependent variable for each group should be normally distributed.
+
+You can use the same approach as for a two-sample *t*-test: Q-Q plot and the Shapiro-Wilk test.
+
+---
+
+### Q-Q Plot {.unnumbered}
+
+You can use a Q-Q plot to check this. You will need to tweak the code:
+
+``` r
+ggplot(NULL1, aes(sample = NULL2)) +
+  stat_qq_band(fill = "#EEE8AA", alpha = 0.5) +
+  stat_qq_point() +
+  stat_qq_line() +
+  facet_wrap(~ NULL3)
+```
+
+-   `NULL1` should be the object containing your data (check the environment panel)
+-   `NULL2` should be the dependent variable
+-   `NULL3` should be your independent variable, so that the Q-Q plots are separated by condition/group using facet_wrap()
+
+---
+
+### Shapiro-Wilk Test {.unnumbered}
+
+The code for this is a little trickier as you will need to create separate objects for each condition.
+
+There are three separate conditions and so you will need a Shapiro-Wilk test for each one.
+
+Copy Condition:
+```r
+#first create an object with only copy data
+copy <- data %>%
+  filter(condition == "copy")
+#then run the test
+shapiro.test(copy$recall)
+```
+
+Pre-test Condition:
+```r
+#first create an object with only pre-test data
+pret <- data %>%
+  filter(condition == "pretest")
+#then run the test
+shapiro.test(pret$recall)
+```
+
+Post-test Condition:
+```r
+#first create an object with only post-test data
+postt <- data %>%
+  filter(condition == "posttest")
+#then run the test
+shapiro.test(postt$recall)
+```
+
+---
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+For this test, you want a non-significant p-value. This means the test found insufficient evidence against normality; interpret it alongside the Q–Q plot. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large or small sample).
+
+When reporting the Shapiro-Wilk test, you just need to report the test statistics (*w* = XX) and the p-value. Here is an example of what it could look like:
+
+*W* = 0.98, *p* = .875
+
+</details>
+
+---
+
+**Homogeneity of Variance**
+
+You will need to check whether the variances/spread of data points look fairly similar (or homogeneous) across the three conditions. 
+
+Levene's test will check this assumption. Note: it uses a formulaic argument, see below for DV ~ IV
+
+```r
+leveneTest(DV ~ IV, object)
+```
+
+For the current study this would be:
+
+```r
+leveneTest(recall ~ condition, data)
+```
+
+Interpret the test. To understand what it means use the drop down below.
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+For this test, you want a non-significant p-value. This means the test found insufficient evidence that variances differ. If the p-value is significant, this could be an issue as it indicates the variances are unequal.
+
+When reporting Levene's test, you should use the standard reporting format for an F test. Here is an example of what it could look like:
+
+*F*(2, 90) = 4.37, *p* = .0154.
+
+---
+
+As the *p*-value is significant this means the assumption has been violated. Does this mean we abandon the analysis? *Not necessarily*.
+
+If you head back to your descriptive statistics you will notice that the copy group has a larger standard deviation than the other two. Similarly, you can see the spread of data is greater for this condition by looking at the violin plot.
+
+Checking assumptions is an important part of data analysis but what you might notice is they're rarely reported or acknowledged in published research. Even though this assumption has been violated, the researchers do not mention it at all in their study!
+
+However, the good news here is ANOVAs are generally quite robust against minor violations of both normality and homogeneity of variance, **providing the group sizes are equal**.
+
+Thankfully in this study the sample size for all three groups is the same at n = 31.
+
+Another option could be to run a non-parametric version of the ANOVA to compare the findings. More on this later in term...
+
+---
+
+</details>
+
+---
+
+## **Run and Interpret the ANOVA**
+
+There are different ways to run ANOVAs in R. During PS2010 you will use `aov_ez()` but others do exist! Different functions have various pros and cons, `aov_ez()` is fairly straightforward for basic ANOVA models.
+
+```r
+mod <- aov_ez(id = "id",
+              data = data,
+              dv = "recall",
+              between = "condition",
+              type = 3,
+              anova_table = list(es = "pes"))
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+- `mod <-` creates an object (shorthand for model) where you will save the model output.
+
+- `aov_ez()` is the function for the ANOVA statistical test. It contains several arguments...
+
+- `id =` add the name of your id variable here, use double quote marks: `"id"`.
+
+- `data =` add the name of your object which contains the data, no quote marks: `data`.
+
+- `dv =` add the name of your dependent variable, use double quote marks: `"recall"`.
+
+- `between =` add the name of your independent variable (between measures/independent measures), use double quote marks: `"condition"`
+
+- `type = 3` is the type of ANOVA sums of squares. For this case we need `3` so do not amend this.
+
+- `anova_table = list(es = "pes")` includes an effect size. Use `pes` or partial eta squared for this type of ANOVA.
+
+</details>
+
+---
+
+Is the ANOVA model significant? 
+
+No = fail to reject the null hypothesis.
+
+Yes = reject the null hypothesis and look to where differences could be.
+
+## **Post-Hoc Comparisons**
+
+As this ANOVA is significant, this means there is **at least** one group mean which significantly differs. The next step is to see exactly where these differences lie.
+
+**Note:** if your ANOVA model is not significant, you do not need to run these extra tests and you can skip straight to the write-up.
+
+To ask for post-hoc pairwise comparisons, use the code below including asking for effect sizes for each comparison:
+
+```r
+emmeans(mod, 
+        pairwise ~ condition, 
+        adjust = "bonferroni")
+
+#effect size
+cohens_d(data, recall ~ condition)
+```
+
+The output will provide the relevant statistics for each pairwise comparison.
+
+To use other `adjust =` options, simply change `"bonferroni"` to:
+
+- `holm` is my preferred "standard" option. But as the original paper used `"bonferroni"` I have used that in the code above. 
+
+- `tukey` is another option which compares each pair of means, you might come across this in published research.
+
+---
+
+## **Games-Howell Post-Hoc**
+
+I'm still a little concerned about the homogeneity of variance assumption being violated.
+
+There is a post-hoc approach called Games-Howell which is appropriate for pairwise comparisons when this assumption has been violated.
+
+It works slightly differently to the `emmeans()` approach above. Run the code and interpret the output in the same way as the earlier pairwise comparisons. You will notice the output looks almost the same!
+
+```r
+games_howell_test(data, recall ~ condition)
+```
+
+How does this compare to the Bonferroni pairwise comparisons above?
+
+Should you use the Bonferroni comparisons or the Games-Howell? Learn more below.
+
+<summary>🔍 Learn More</summary>
+
+You might notice that the Games-Howell pairwise comparisons show a **very** similar result to the original Bonferroni adjusted pairwise comparisons. This is reassuring because it means that both approaches show the same result.
+
+In practice you'd have a couple of choices here:
+
+1. Write up using the Bonferroni adjustment as the Games-Howell version shows the same pattern of results and so the violated assumption does not really make a difference. You might acknowledge in your write-up that both approaches showed the same result. I think this would be fine given the group sizes were equal, and is what the researchers did in the published paper.
+
+2. Write up using the Games-Howell adjustment because, after all, the assumption was violated. I would **definitely** have used this approach if the study had unequal group sizes.
+
+In this case, either approach would be perfectly acceptable. You would just need to justify **why** you took either approach.
+
+</details>
+
+---
+
+## **Write-Up**
+
+Now it is time to bring all of this together. Use your lecture notes to help. For this write-up you should use the Bonferroni adjusted pairwise comparisons. You will need:
+
+-   Descriptive statistics.
+-   Details about normality and homogeneity of variance assumptions.
+-   The initial ANOVA output.
+-   The pairwise comparisons output, with effect sizes.
+
+
+**Q2(a)**: Were the assumptions for the ANOVA met? Use the output from your analysis to support your answer and try to write up in a style suitable for a research paper or lab report.
+
+**Q2(b)**: Write up the results of the ANOVA, including any necessary post-hoc analyses and effect sizes. Remember to use APA formatting and to interpret the *t*-test, not merely report the numbers/statistics.
+
+**Q2(c)**: Explain if your findings support your alternative hypothesis from Q1(d).
+
+------------------------------------------------------------------------
+
+**Well done. You have reached the end of this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.

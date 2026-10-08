@@ -164,7 +164,7 @@ Looking at the BART task and the scores it produced, has this assumption been me
 
 Participant scores across conditions should not influence one another. This means that there are separate conditions or groups, and the scores or observations in one condition/group does not influence what happens in the other.
 
-Given participants were placed in independent groups, we assume this is the case for the data in this example.
+Given participants were placed in independent groups, we assume this is the case for the data in this study.
 
 ------------------------------------------------------------------------
 

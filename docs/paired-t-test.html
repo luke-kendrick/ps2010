@@ -7,7 +7,7 @@
 <title>3 Paired t-Test | PS2010 Workshop Code Book</title>
 <meta name="author" content="Luke Kendrick">
 <meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
-<meta name="generator" content="bookdown 0.46 with bs4_book()">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
 <meta property="og:title" content="3 Paired t-Test | PS2010 Workshop Code Book">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a paired t-test check the relevant assumptions for a paired t-test run...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -47,6 +47,7 @@
 <li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
 <li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
 <li><a class="active" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="" href="one-way-anova-independent-design.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent Design)</a></li>
 </ul>
 
         <div class="book-extra">
@@ -241,9 +242,9 @@
 <p>Create the Q-Q plot:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">memo</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">diff</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">stat_qq_band</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">stat_qq_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html">stat_qq_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_band.html">stat_qq_band</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_point.html">stat_qq_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_line</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><strong>WAIT!</strong> That did not work?! Use your problem solving skills to fix this broken code.</p>
 <p>Read the error message carefully.</p>
 <p>Once you have fixed the code you might look at the plot and find that you are a little bit concerned that many of the residuals fall outside of the shaded band on the left tail.</p>
@@ -290,7 +291,7 @@
 <code class="sourceCode R"><span><span class="co">#t.test code</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#effect size</span></span>
-<span><span class="fu">cohensD</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, method <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/lsr/man/cohensD.html">cohensD</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">neg</span>, <span class="va">data</span><span class="op">$</span><span class="va">neu</span>, method <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></span></code></pre></div>
 <details class="dropdown"><summary>
 🔍 Code Explained
 </summary><ul>
@@ -327,7 +328,7 @@
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></div>
-<div class="empty"></div>
+<div class="next"><a href="one-way-anova-independent-design.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent Design)</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>4 One-Way ANOVA (Independent Design) | PS2010 Workshop Code Book</title>
+<meta name="author" content="Luke Kendrick">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="4 One-Way ANOVA (Independent Design) | PS2010 Workshop Code Book">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4 One-Way ANOVA (Independent Design) | PS2010 Workshop Code Book">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS2010 Workshop Code Book</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="active" href="one-way-anova-independent-design.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent Design)</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="one-way-anova-independent-design" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> One-Way ANOVA (Independent Design)<a class="anchor" aria-label="anchor" href="#one-way-anova-independent-design"><i class="fas fa-link"></i></a>
+</h1>
+<div id="learning-outcomes-3" class="section level2 unnumbered">
+<h2>
+<strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-3"><i class="fas fa-link"></i></a>
+</h2>
+<p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>produce descriptive statistics and plots appropriate for a one-way ANOVA</li>
+<li>check the relevant assumptions for a one-way ANOVA (independent design)</li>
+<li>run and interpret the ANOVA using <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez()</a></code> including any appropriate post-hoc tests using <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans()</a></code>, <code><a href="https://rpkgs.datanovia.com/rstatix/reference/games_howell_test.html">games_howell_test()</a></code>, and <code><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d()</a></code>.</li>
+<li>write up the results in a style suitable for a lab report.</li>
+</ul>
+</div>
+<div id="before-you-begin-3" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> <strong>Before You Begin</strong><a class="anchor" aria-label="anchor" href="#before-you-begin-3"><i class="fas fa-link"></i></a>
+</h2>
+<p>The data for this chapter come from:</p>
+<blockquote>
+<p>Mera, Y., Dianova, N., &amp; Marin-Garcia, E. (2026). <a href="https://link.springer.com/article/10.3758/s13421-025-01813-x">Testing before learning: Exploring the robustness of the pretesting effect</a>. Memory &amp; Cognition, 54(4), 1334-1356. doi: 10.3758/s13421-025-01813-x</p>
+</blockquote>
+<p>In this study, the researchers investigated how retrieval practice (testing <strong>after</strong> learning takes place) and pre-testing (testing <strong>before</strong> learning takes place) might affect learning. During the learning phase, participants were required to learn word pair combinations (e.g., seal - ball) by reading and typing them out. Participants were randomly assigned to one of three conditions:</p>
+<ul>
+<li>pre-testing, participants were given a test before learning where they guessed answers</li>
+<li>post-testing, participants were given a test after the learning phase to practice retrieval.</li>
+<li>read/copy only, participants only read and typed out the words.</li>
+</ul>
+<p>After a distraction task, all participants completed a final test to check their knowledge of the learned word pairs. The researchers’ aim was to compare the three conditions to investigate whether the pre, post, or no test exercises had an effect on recall for learned material.</p>
+<p>You should read the full paper so that you have an understanding of the study aim(s) and methodology.</p>
+<hr>
+<div id="hypotheses-2" class="section level3" number="4.1.1">
+<h3>
+<span class="header-section-number">4.1.1</span> <strong>Hypotheses</strong><a class="anchor" aria-label="anchor" href="#hypotheses-2"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Q1(a)</strong> What was the independent variable in this study? How many levels and what were they?</p>
+<p><strong>Q1(b)</strong> What was the dependent variable in this study?</p>
+<p><strong>Q1(c)</strong> What would be a suitable null hypothesis for this study?</p>
+<p><strong>Q1(d)</strong> What would be a suitable two-tailed alternative hypothesis for this study?</p>
+<hr>
+</div>
+</div>
+<div id="load-packages-and-import-data-3" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data-3"><i class="fas fa-link"></i></a>
+</h2>
+<p>You’ll need a fair few packages today.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aloy/qqplotr">qqplotr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/car/">car</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://afex.singmann.science/">afex</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/rstatix/">rstatix</a></span><span class="op">)</span></span></code></pre></div>
+<p><strong>You may need to install packages if these are missing</strong></p>
+<p>Remember to use <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> if you need to.</p>
+<p>Import the data from the file <code>learning.csv</code> and save it as an object called <code>data</code>.</p>
+</div>
+<div id="view-data-3" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> <strong>View Data</strong><a class="anchor" aria-label="anchor" href="#view-data-3"><i class="fas fa-link"></i></a>
+</h2>
+<p>Once you have imported the data take a look at it using the <code><a href="https://tibble.tidyverse.org/reference/view.html">view()</a></code> function. This helps to check it has imported correctly.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>This data set is adapted from the open materials to include the relevant variables for today.</p>
+<ul>
+<li>
+<code>id</code> is an ID number for each participant.</li>
+<li>
+<code>participant</code> is an original ID used by the researchers, this can be ignored.</li>
+<li>
+<code>condition</code> tells us which of the three conditions a participant was in.</li>
+<li>
+<code>recall</code> is the percentage of correct words recalled on the final test.</li>
+</ul>
+<hr>
+</div>
+<div id="descriptive-statistics-3" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics-3"><i class="fas fa-link"></i></a>
+</h2>
+<p>As always, begin by calculating descriptive statistics to compare recall scores for the three groups.</p>
+<p>Try and change the NULL values yourself first and use the help drop down option for the solution.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">desc</span> <span class="op">&lt;-</span> <span class="va">NULL1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">NULL2</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">NULL3</span><span class="op">)</span>,</span>
+<span>            sd_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">NULL3</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">desc</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+❓ Help
+</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">desc</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">recall</span><span class="op">)</span>, </span>
+<span>            sd_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">recall</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</details><hr>
+</div>
+<div id="create-a-suitable-plot-2" class="section level2" number="4.5">
+<h2>
+<span class="header-section-number">4.5</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>I think you might be able to guess what type of plot you’ll need to create here…</p>
+<p>A violin plot will do the job for this design!</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">condition</span>, y <span class="op">=</span> <span class="va">recalll</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"% Correctly Recalled"</span><span class="op">)</span></span></code></pre></div>
+<p>Oops! There’s a typo in the code above. Make sure you correct it otherwise your code won’t work.</p>
+<p>If you can’t spot it right away, try running the code first and look at the error message for a clue!</p>
+<hr>
+</div>
+<div id="check-assumptions-2" class="section level2" number="4.6">
+<h2>
+<span class="header-section-number">4.6</span> <strong>Check Assumptions</strong><a class="anchor" aria-label="anchor" href="#check-assumptions-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are <strong>four</strong> assumptions for a one-way ANOVA.</p>
+<div id="continuous-dependent-variable-2" class="section level3" number="4.6.1">
+<h3>
+<span class="header-section-number">4.6.1</span> <strong>Continuous Dependent Variable</strong><a class="anchor" aria-label="anchor" href="#continuous-dependent-variable-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>The dependent variable should be numerical and a continuous score.</p>
+<p>The <code>recall</code> score is continuous</p>
+<hr>
+</div>
+<div id="independent-observations-1" class="section level3" number="4.6.2">
+<h3>
+<span class="header-section-number">4.6.2</span> <strong>Independent Observations</strong><a class="anchor" aria-label="anchor" href="#independent-observations-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Given participants were placed in independent groups, we assume this is the case for the data in this study.</p>
+<hr>
+</div>
+<div id="roughly-normally-distributed-residuals-2" class="section level3" number="4.6.3">
+<h3>
+<span class="header-section-number">4.6.3</span> <strong>Roughly Normally Distributed Residuals</strong><a class="anchor" aria-label="anchor" href="#roughly-normally-distributed-residuals-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>The residuals of the dependent variable for each group should be normally distributed.</p>
+<p>You can use the same approach as for a two-sample <em>t</em>-test: Q-Q plot and the Shapiro-Wilk test.</p>
+<hr>
+</div>
+<div id="q-q-plot-2" class="section level3 unnumbered">
+<h3>Q-Q Plot<a class="anchor" aria-label="anchor" href="#q-q-plot-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>You can use a Q-Q plot to check this. You will need to tweak the code:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">NULL1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">NULL2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_band.html">stat_qq_band</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EEE8AA"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qqplotr/man/stat_qq_point.html">stat_qq_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">NULL3</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>
+<code>NULL1</code> should be the object containing your data (check the environment panel)</li>
+<li>
+<code>NULL2</code> should be the dependent variable</li>
+<li>
+<code>NULL3</code> should be your independent variable, so that the Q-Q plots are separated by condition/group using facet_wrap()</li>
+</ul>
+<hr>
+</div>
+<div id="shapiro-wilk-test-2" class="section level3 unnumbered">
+<h3>Shapiro-Wilk Test<a class="anchor" aria-label="anchor" href="#shapiro-wilk-test-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>The code for this is a little trickier as you will need to create separate objects for each condition.</p>
+<p>There are three separate conditions and so you will need a Shapiro-Wilk test for each one.</p>
+<p>Copy Condition:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#first create an object with only copy data</span></span>
+<span><span class="va">copy</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"copy"</span><span class="op">)</span></span>
+<span><span class="co">#then run the test</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">copy</span><span class="op">$</span><span class="va">recall</span><span class="op">)</span></span></code></pre></div>
+<p>Pre-test Condition:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#first create an object with only pre-test data</span></span>
+<span><span class="va">pret</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"pretest"</span><span class="op">)</span></span>
+<span><span class="co">#then run the test</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">pret</span><span class="op">$</span><span class="va">recall</span><span class="op">)</span></span></code></pre></div>
+<p>Post-test Condition:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#first create an object with only post-test data</span></span>
+<span><span class="va">postt</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"posttest"</span><span class="op">)</span></span>
+<span><span class="co">#then run the test</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">postt</span><span class="op">$</span><span class="va">recall</span><span class="op">)</span></span></code></pre></div>
+<hr>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>For this test, you want a non-significant p-value. This means the test found insufficient evidence against normality; interpret it alongside the Q–Q plot. If the p-value is significant, this could be an issue as it indicates the data might not be normally distributed (but be cautious if you have a particularly large or small sample).</p>
+<p>When reporting the Shapiro-Wilk test, you just need to report the test statistics (<em>w</em> = XX) and the p-value. Here is an example of what it could look like:</p>
+<p><em>W</em> = 0.98, <em>p</em> = .875</p>
+</details><hr>
+<p><strong>Homogeneity of Variance</strong></p>
+<p>You will need to check whether the variances/spread of data points look fairly similar (or homogeneous) across the three conditions.</p>
+<p>Levene’s test will check this assumption. Note: it uses a formulaic argument, see below for DV ~ IV</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/car/man/leveneTest.html">leveneTest</a></span><span class="op">(</span><span class="va">DV</span> <span class="op">~</span> <span class="va">IV</span>, <span class="va">object</span><span class="op">)</span></span></code></pre></div>
+<p>For the current study this would be:</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/car/man/leveneTest.html">leveneTest</a></span><span class="op">(</span><span class="va">recall</span> <span class="op">~</span> <span class="va">condition</span>, <span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>Interpret the test. To understand what it means use the drop down below.</p>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>For this test, you want a non-significant p-value. This means the test found insufficient evidence that variances differ. If the p-value is significant, this could be an issue as it indicates the variances are unequal.</p>
+<p>When reporting Levene’s test, you should use the standard reporting format for an F test. Here is an example of what it could look like:</p>
+<p><em>F</em>(2, 90) = 4.37, <em>p</em> = .0154.</p>
+<hr>
+<p>As the <em>p</em>-value is significant this means the assumption has been violated. Does this mean we abandon the analysis? <em>Not necessarily</em>.</p>
+<p>If you head back to your descriptive statistics you will notice that the copy group has a larger standard deviation than the other two. Similarly, you can see the spread of data is greater for this condition by looking at the violin plot.</p>
+<p>Checking assumptions is an important part of data analysis but what you might notice is they’re rarely reported or acknowledged in published research. Even though this assumption has been violated, the researchers do not mention it at all in their study!</p>
+<p>However, the good news here is ANOVAs are generally quite robust against minor violations of both normality and homogeneity of variance, <strong>providing the group sizes are equal</strong>.</p>
+<p>Thankfully in this study the sample size for all three groups is the same at n = 31.</p>
+<p>Another option could be to run a non-parametric version of the ANOVA to compare the findings. More on this later in term…</p>
+<hr></details><hr>
+</div>
+</div>
+<div id="run-and-interpret-the-anova" class="section level2" number="4.7">
+<h2>
+<span class="header-section-number">4.7</span> <strong>Run and Interpret the ANOVA</strong><a class="anchor" aria-label="anchor" href="#run-and-interpret-the-anova"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are different ways to run ANOVAs in R. During PS2010 you will use <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez()</a></code> but others do exist! Different functions have various pros and cons, <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez()</a></code> is fairly straightforward for basic ANOVA models.</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"id"</span>,</span>
+<span>              data <span class="op">=</span> <span class="va">data</span>,</span>
+<span>              dv <span class="op">=</span> <span class="st">"recall"</span>,</span>
+<span>              between <span class="op">=</span> <span class="st">"condition"</span>,</span>
+<span>              type <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>              anova_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>es <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li><p><code>mod &lt;-</code> creates an object (shorthand for model) where you will save the model output.</p></li>
+<li><p><code><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez()</a></code> is the function for the ANOVA statistical test. It contains several arguments…</p></li>
+<li><p><code>id =</code> add the name of your id variable here, use double quote marks: <code>"id"</code>.</p></li>
+<li><p><code>data =</code> add the name of your object which contains the data, no quote marks: <code>data</code>.</p></li>
+<li><p><code>dv =</code> add the name of your dependent variable, use double quote marks: <code>"recall"</code>.</p></li>
+<li><p><code>between =</code> add the name of your independent variable (between measures/independent measures), use double quote marks: <code>"condition"</code></p></li>
+<li><p><code>type = 3</code> is the type of ANOVA sums of squares. For this case we need <code>3</code> so do not amend this.</p></li>
+<li><p><code>anova_table = list(es = "pes")</code> includes an effect size. Use <code>pes</code> or partial eta squared for this type of ANOVA.</p></li>
+</ul></details><hr>
+<p>Is the ANOVA model significant?</p>
+<p>No = fail to reject the null hypothesis.</p>
+<p>Yes = reject the null hypothesis and look to where differences could be.</p>
+</div>
+<div id="post-hoc-comparisons" class="section level2" number="4.8">
+<h2>
+<span class="header-section-number">4.8</span> <strong>Post-Hoc Comparisons</strong><a class="anchor" aria-label="anchor" href="#post-hoc-comparisons"><i class="fas fa-link"></i></a>
+</h2>
+<p>As this ANOVA is significant, this means there is <strong>at least</strong> one group mean which significantly differs. The next step is to see exactly where these differences lie.</p>
+<p><strong>Note:</strong> if your ANOVA model is not significant, you do not need to run these extra tests and you can skip straight to the write-up.</p>
+<p>To ask for post-hoc pairwise comparisons, use the code below including asking for effect sizes for each comparison:</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod</span>, </span>
+<span>        <span class="va">pairwise</span> <span class="op">~</span> <span class="va">condition</span>, </span>
+<span>        adjust <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#effect size</span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">recall</span> <span class="op">~</span> <span class="va">condition</span><span class="op">)</span></span></code></pre></div>
+<p>The output will provide the relevant statistics for each pairwise comparison.</p>
+<p>To use other <code>adjust =</code> options, simply change <code>"bonferroni"</code> to:</p>
+<ul>
+<li><p><code>holm</code> is my preferred “standard” option. But as the original paper used <code>"bonferroni"</code> I have used that in the code above.</p></li>
+<li><p><code>tukey</code> is another option which compares each pair of means, you might come across this in published research.</p></li>
+</ul>
+<hr>
+</div>
+<div id="games-howell-post-hoc" class="section level2" number="4.9">
+<h2>
+<span class="header-section-number">4.9</span> <strong>Games-Howell Post-Hoc</strong><a class="anchor" aria-label="anchor" href="#games-howell-post-hoc"><i class="fas fa-link"></i></a>
+</h2>
+<p>I’m still a little concerned about the homogeneity of variance assumption being violated.</p>
+<p>There is a post-hoc approach called Games-Howell which is appropriate for pairwise comparisons when this assumption has been violated.</p>
+<p>It works slightly differently to the <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans()</a></code> approach above. Run the code and interpret the output in the same way as the earlier pairwise comparisons. You will notice the output looks almost the same!</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/games_howell_test.html">games_howell_test</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">recall</span> <span class="op">~</span> <span class="va">condition</span><span class="op">)</span></span></code></pre></div>
+<p>How does this compare to the Bonferroni pairwise comparisons above?</p>
+<p>Should you use the Bonferroni comparisons or the Games-Howell? Learn more below.</p>
+<summary>
+🔍 Learn More
+</summary><p>You might notice that the Games-Howell pairwise comparisons show a <strong>very</strong> similar result to the original Bonferroni adjusted pairwise comparisons. This is reassuring because it means that both approaches show the same result.</p>
+<p>In practice you’d have a couple of choices here:</p>
+<ol style="list-style-type: decimal">
+<li><p>Write up using the Bonferroni adjustment as the Games-Howell version shows the same pattern of results and so the violated assumption does not really make a difference. You might acknowledge in your write-up that both approaches showed the same result. I think this would be fine given the group sizes were equal, and is what the researchers did in the published paper.</p></li>
+<li><p>Write up using the Games-Howell adjustment because, after all, the assumption was violated. I would <strong>definitely</strong> have used this approach if the study had unequal group sizes.</p></li>
+</ol>
+<p>In this case, either approach would be perfectly acceptable. You would just need to justify <strong>why</strong> you took either approach.</p>
+
+<hr>
+</div>
+<div id="write-up-2" class="section level2" number="4.10">
+<h2>
+<span class="header-section-number">4.10</span> <strong>Write-Up</strong><a class="anchor" aria-label="anchor" href="#write-up-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now it is time to bring all of this together. Use your lecture notes to help. For this write-up you should use the Bonferroni adjusted pairwise comparisons. You will need:</p>
+<ul>
+<li>Descriptive statistics.</li>
+<li>Details about normality and homogeneity of variance assumptions.</li>
+<li>The initial ANOVA output.</li>
+<li>The pairwise comparisons output, with effect sizes.</li>
+</ul>
+<p><strong>Q2(a)</strong>: Were the assumptions for the ANOVA met? Use the output from your analysis to support your answer and try to write up in a style suitable for a research paper or lab report.</p>
+<p><strong>Q2(b)</strong>: Write up the results of the ANOVA, including any necessary post-hoc analyses and effect sizes. Remember to use APA formatting and to interpret the <em>t</em>-test, not merely report the numbers/statistics.</p>
+<p><strong>Q2(c)</strong>: Explain if your findings support your alternative hypothesis from Q1(d).</p>
+<hr>
+<p><strong>Well done. You have reached the end of this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#one-way-anova-independent-design"><span class="header-section-number">4</span> One-Way ANOVA (Independent Design)</a></li>
+<li><a class="nav-link" href="#learning-outcomes-3">Learning Outcomes</a></li>
+<li>
+<a class="nav-link" href="#before-you-begin-3"><span class="header-section-number">4.1</span> Before You Begin</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#hypotheses-2"><span class="header-section-number">4.1.1</span> Hypotheses</a></li></ul>
+</li>
+<li><a class="nav-link" href="#load-packages-and-import-data-3"><span class="header-section-number">4.2</span> Load Packages and Import Data</a></li>
+<li><a class="nav-link" href="#view-data-3"><span class="header-section-number">4.3</span> View Data</a></li>
+<li><a class="nav-link" href="#descriptive-statistics-3"><span class="header-section-number">4.4</span> Descriptive Statistics</a></li>
+<li><a class="nav-link" href="#create-a-suitable-plot-2"><span class="header-section-number">4.5</span> Create a Suitable Plot</a></li>
+<li>
+<a class="nav-link" href="#check-assumptions-2"><span class="header-section-number">4.6</span> Check Assumptions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#continuous-dependent-variable-2"><span class="header-section-number">4.6.1</span> Continuous Dependent Variable</a></li>
+<li><a class="nav-link" href="#independent-observations-1"><span class="header-section-number">4.6.2</span> Independent Observations</a></li>
+<li><a class="nav-link" href="#roughly-normally-distributed-residuals-2"><span class="header-section-number">4.6.3</span> Roughly Normally Distributed Residuals</a></li>
+<li><a class="nav-link" href="#q-q-plot-2">Q-Q Plot</a></li>
+<li><a class="nav-link" href="#shapiro-wilk-test-2">Shapiro-Wilk Test</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#run-and-interpret-the-anova"><span class="header-section-number">4.7</span> Run and Interpret the ANOVA</a></li>
+<li><a class="nav-link" href="#post-hoc-comparisons"><span class="header-section-number">4.8</span> Post-Hoc Comparisons</a></li>
+<li><a class="nav-link" href="#games-howell-post-hoc"><span class="header-section-number">4.9</span> Games-Howell Post-Hoc</a></li>
+<li><a class="nav-link" href="#write-up-2"><span class="header-section-number">4.10</span> Write-Up</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS2010 Workshop Code Book</strong>" was written by Luke Kendrick. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
