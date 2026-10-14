@@ -125,8 +125,9 @@
 <span class="header-section-number">5.3</span> <strong>View Data</strong><a class="anchor" aria-label="anchor" href="#view-data-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>View each of the objects. Pay particular attention to the format of the data (long vs. wide format)</p>
-<pre><code>view(screentime)
-view(affect)</code></pre>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">screentime</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span></span></code></pre></div>
 <p>You might notice that <code>affect</code> only has 35 participants. This is because participants who did not complete at least 50% of the measures were exlcuded from this analysis.</p>
 <hr>
 </div>
@@ -281,14 +282,14 @@ view(affect)</code></pre>
 <span class="header-section-number">5.8</span> <strong>Interpret the ANOVA</strong><a class="anchor" aria-label="anchor" href="#interpret-the-anova"><i class="fas fa-link"></i></a>
 </h2>
 <p>You already did the hard work earlier setting up the code for the ANOVA model. Now you will just need to call it back.</p>
-<p>If the sphericity assumption was not met, use this to check the corrected model output:</p>
+<p>If the sphericity assumption was not met, use this to check the corrected model output.
+You’ll know the correction has been applied as the degrees of freedom are <strong>not</strong> whole number (they have decimal places).</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod</span><span class="op">$</span><span class="va">anova_table</span></span></code></pre></div>
-<p>You’ll know the correction has been applied as the degrees of freedom are <strong>not</strong> whole numbers.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"GG"</span><span class="op">)</span></span></code></pre></div>
 <p>If the sphericity assumption has been met, then use this to check the uncorrected model output:</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
-<p>The two options above will allow you to use either the uncorrected model (if Sphericity was met) or the corrected model (if the assumption of Sphericity was not met)</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<p>The two options above will allow you to use either the uncorrected model (if Sphericity was met) or the corrected model (if the assumption of Sphericity was not met).</p>
 <p><strong>Q3(b)</strong>: Interpret the model, and report the relevant statistics suitable for a lab report using APA format.</p>
 <hr>
 </div>
