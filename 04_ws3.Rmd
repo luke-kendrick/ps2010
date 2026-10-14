@@ -1,4 +1,4 @@
-# One-Way ANOVA (Independent Design)
+# One-Way ANOVA (Independent)
 
 ## **Learning Outcomes** {.unnumbered}
 
@@ -17,7 +17,7 @@ The data for this chapter come from:
 
 In this study, the researchers investigated how retrieval practice (testing **after** learning takes place) and pre-testing (testing **before** learning takes place) might affect learning. During the learning phase, participants were required to learn word pair combinations (e.g., seal - ball) by reading and typing them out. Participants were randomly assigned to one of three conditions: 
 
-- pre-testing, participants were given a test before learning where they guessed answers 
+- pre-testing, participants were given a test before learning where they guessed the answer. 
 - post-testing, participants were given a test after the learning phase to practice retrieval.
 - read/copy only, participants only read and typed out the words.
 
@@ -27,7 +27,7 @@ You should read the full paper so that you have an understanding of the study ai
 
 ---
 
-### **Hypotheses**
+### **Variables and Hypotheses**
 
 **Q1(a)** What was the independent variable in this study? How many levels and what were they?
 
@@ -126,7 +126,7 @@ If you can't spot it right away, try running the code first and look at the erro
 
 ## **Check Assumptions**
 
-There are **four** assumptions for a one-way ANOVA.
+There are **four** main assumptions for a one-way ANOVA (independent design).
 
 ### **Continuous Dependent Variable**
 
@@ -350,6 +350,8 @@ games_howell_test(data, recall ~ condition)
 How does this compare to the Bonferroni pairwise comparisons above?
 
 Should you use the Bonferroni comparisons or the Games-Howell? Learn more below.
+
+<details class="dropdown">
 
 <summary>🔍 Learn More</summary>
 
