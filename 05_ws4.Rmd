@@ -6,7 +6,7 @@ By the end of this chapter you should be able to:
 
 -   produce descriptive statistics and plots appropriate for a one-way ANOVA
 -   check the relevant assumptions for a one-way ANOVA (repeated design), including Sphericity
--   run and interpret the ANOVA using `aov_ez()`, using [ADD LO here for planned contrast]
+-   run and interpret the ANOVA using `aov_ez()`, using `emmeans()` and polynomial contrasts. 
 -   write up the results in a style suitable for a lab report.
 
 ## **Before You Begin**

@@ -22,8 +22,18 @@ If you spot an error or something that doesn’t look quite right, please get in
 
 ## **License**
 
-This work is licensed under Creative Commons Attribution-ShareAlike 4.0 International License [(CC-BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/). You are free to share and adapt the material for non-commercial purposes, with appropriate credit and under the same license. If you adapt the material, you must distribute your contributions under the same license.
+## License
+
+This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+You are free to share and adapt this material for non-commercial purposes, provided you give appropriate credit, provide a link to the licence, and indicate if any changes were made. If you adapt the material, you must distribute your contributions under the same licence.
 
 ## **Citation**
 
-Kendrick, L. T. (2025). PS2010 Workshop Code Book (Version 2.0). <https://luke-kendrick.github.io/ps2010>
+Kendrick, L. T. (2026). PS2010 Workshop Code Book (Version 2.0). <https://luke-kendrick.github.io/ps2010>
+
+## **AI Declaration**
+
+ChatGPT-6 was used to assist with proofreading, identifying typos, searching for open access data sets, and checking R code.
+
+Any information provided by ChatGPT was reviewed and verified by the author to ensure accuracy.

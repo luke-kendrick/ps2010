@@ -45,15 +45,3 @@ div.sourceCode {
   padding: 0 !important;
   margin-bottom: 1.25rem;
 }
-/* Move the contents sidebar further left */
-#quarto-sidebar {
-  padding-left: 0;
-}
-
-.sidebar-menu-container {
-  padding-left: 0;
-}
-
-.sidebar-navigation {
-  padding-left: 0;
-}

@@ -1,6 +1,8 @@
 about-this-site
 license
+license-1
 citation
+ai-declaration
 descriptive-statistics-and-plots
 before-you-begin
 load-packages-and-import-data
