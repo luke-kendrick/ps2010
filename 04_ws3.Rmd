@@ -83,7 +83,7 @@ Try and change the NULL values yourself first and use the help drop down option 
 
 ```r
 desc <- NULL1 %>%
-  group_by(NULL2)
+  group_by(NULL2) %>%
   summarise(mean_recall = mean(NULL3),
             sd_recall = sd(NULL3))
 
@@ -276,6 +276,8 @@ mod <- aov_ez(id = "id",
               between = "condition",
               type = 3,
               anova_table = list(es = "pes"))
+              
+mod # this will print a copy of the model output to the console              
 ```
 
 <details class="dropdown">

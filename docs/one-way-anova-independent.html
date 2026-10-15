@@ -144,7 +144,7 @@
 <p>Try and change the NULL values yourself first and use the help drop down option for the solution.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">desc</span> <span class="op">&lt;-</span> <span class="va">NULL1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">NULL2</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">NULL2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">NULL3</span><span class="op">)</span>,</span>
 <span>            sd_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">NULL3</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -289,7 +289,9 @@
 <span>              dv <span class="op">=</span> <span class="st">"recall"</span>,</span>
 <span>              between <span class="op">=</span> <span class="st">"condition"</span>,</span>
 <span>              type <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>              anova_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>es <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>              anova_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>es <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span><span class="op">)</span></span>
+<span>              </span>
+<span><span class="va">mod</span> <span class="co"># this will print a copy of the model output to the console              </span></span></code></pre></div>
 <details class="dropdown"><summary>
 🔍 Code Explained
 </summary><ul>

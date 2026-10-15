@@ -89,4 +89,3 @@ shapiro-wilk-test-4
 sphericity-1
 interpret-the-anova-1
 run-and-interpret-the-planned-contrast-1
-summarising-the-findings

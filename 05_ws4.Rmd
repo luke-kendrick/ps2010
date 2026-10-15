@@ -6,7 +6,7 @@ By the end of this chapter you should be able to:
 
 -   produce descriptive statistics and plots appropriate for a one-way ANOVA
 -   check the relevant assumptions for a one-way ANOVA (repeated design), including Sphericity
--   run and interpret the ANOVA using `aov_ez()`, using `emmeans()` and polynomial contrasts. 
+-   run and interpret the ANOVA using `aov_ez()`, using `emmeans()` and polynomial contrasts 
 -   write up the results in a style suitable for a lab report.
 
 ## **Before You Begin**
@@ -20,7 +20,7 @@ You'll only be using a couple of the variables from this study. However, you sho
 In this study the researchers were interested in exploring the effects of restricting social networking site (e.g., Facebook, Instagram) use for one week. They included a range of different psychological measures and today you'll be looking at two of the dependent variables:
 
 1. **Social network site (SNS) screen time**. Time spent (in minutes) on social network sites. This is to check that participants did indeed reduce their social network site use during the intervention.
-2. **Positive affect**. Previous research suggests that positive affect (mood) can decrease when people stop using social media (e.g., a type of withdrawal effect). This was measured using a Likert scale.
+2. **Positive affect**. Previous research suggests that positive affect (mood) can decrease when people stop using social media (e.g., a type of withdrawal effect). This was measured using a 0-100 scale (high score indicating greater positive mood).
 
 Participants completed these measures at three time points (making this a repeated measures design): baseline, intervention, post-intervention. During the intervention stage, participants were instructed to abstain from using all SNSs (e.g., no using Instagram, Facebook, Twitter; but they could use instant messaging or voice/video calling apps e.g., WhatsApp or Messenger) for the next 7 days
 
@@ -494,11 +494,6 @@ ggplot(affect, aes(x = time, y = pos, group = 1)) +
 ---
 
 **Q4(c)**: Interpret the planned contrast, and report the relevant statistics using APA format.
-
-## **Summarising the Findings**
-
-**Q5(a)**: Provide a summary of the findings from the two analyses conducted today. This should read a little bit like the first part of a discussion section. Remember to link the results to the alternative hypotheses from **Q1**.
-
 
 ------------------------------------------------------------------------
 
