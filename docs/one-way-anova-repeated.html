@@ -7,7 +7,7 @@
 <title>5 One-Way ANOVA (Repeated) | PS2010 Workshop Code Book</title>
 <meta name="author" content="Luke Kendrick">
 <meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="5 One-Way ANOVA (Repeated) | PS2010 Workshop Code Book">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -112,7 +112,7 @@
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://afex.singmann.science/">afex</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/car/">car</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bprice2652/car_repo">car</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span></code></pre></div>
 <p>There are <strong>two</strong> data files to import. <code>screentime.csv</code> includes the SNS screen time usage in wide format, and <code>affect.csv</code> contains the positive affect measures in long format.</p>
 <p>Import the data as objects called <code>screentime</code> and <code>affect</code> (see below).</p>
@@ -128,7 +128,7 @@
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">screentime</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/view.html">view</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span></span></code></pre></div>
-<p>You might notice that <code>affect</code> only has 35 participants. This is because participants who did not complete at least 50% of the measures were exlcuded from this analysis.</p>
+<p>You might notice that <code>affect</code> only has 35 participants. This is because participants who did not complete at least 50% of the measures were excluded from this analysis.</p>
 <hr>
 </div>
 <div id="research-question-1-screen-time" class="section level2" number="5.4">
@@ -154,13 +154,18 @@
 <li><p><code>names_to = "time"</code> will create a new column where we will place our original columns (t1, t2, t3) and gives it a name <code>time</code> (shorthand for time point).</p></li>
 <li><p><code>values_to = "mins"</code> places our actual data (the screen time in minutes) into a column and give it a name <code>mins</code> (shorthand for minutes)</p></li>
 </ul></details><hr>
+<p>You should also check the levels and re-order if necessary</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#use this to change the levels</span></span>
+<span><span class="va">longd</span><span class="op">$</span><span class="va">time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">longd</span><span class="op">$</span><span class="va">time</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NULL"</span>, <span class="st">"NULL"</span>, <span class="st">"NULL"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<hr>
 </div>
 <div id="descriptive-statistics-4" class="section level2" number="5.5">
 <h2>
 <span class="header-section-number">5.5</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>As always, begin by calculating descriptive statistics to compare screen time across the three time points.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">desc</span> <span class="op">&lt;-</span> <span class="va">longd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_screentime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mins</span><span class="op">)</span>,</span>
@@ -174,14 +179,14 @@
 <span class="header-section-number">5.6</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>We will just produce a quick box plot. Change <code>NULL1</code> to the variable you want on your x-axis (horizontal axis), <code>NULL2</code> to the variable you want on your y-axis (vertical axis), and use <code>NULL3</code> to give your y-axis an appropriate label. Use the help drop down option for the solution.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">longd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">NULL1</span>, y <span class="op">=</span> <span class="va">NULL2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"NULL3"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <details class="dropdown"><summary>
 ❓ Help
-</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">longd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">mins</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"SNS Screen Time (Minutes)"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -221,7 +226,7 @@
 <strong>Obtaining the Model Residuals</strong><a class="anchor" aria-label="anchor" href="#obtaining-the-model-residuals"><i class="fas fa-link"></i></a>
 </h4>
 <p>In order to do this though, we need to actually run the ANOVA model first and store it as an object (called <code>mod</code>). The code is very similar to last week, and check your lecture notes if you need help understanding it.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"id"</span>,</span>
 <span>              data <span class="op">=</span> <span class="va">long</span>,</span>
 <span>              dv <span class="op">=</span> <span class="st">"min"</span>,</span>
@@ -231,7 +236,7 @@
 <p>Oh! By the way, there are a few typos in the code above which you will need to fix before saving this model. Sorry, I’m not going to make it that easy for you!</p>
 <p>Once you have fixed my errors, you should see <code>mod</code> appear in the environment (top right) panel.</p>
 <p>We need to pull out the residuals information from the model and save them to an object called <code>res</code>.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">lm</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -241,7 +246,7 @@
 <span class="header-section-number">5.7.4</span> <strong>Q-Q Plot</strong><a class="anchor" aria-label="anchor" href="#q-q-plot-3"><i class="fas fa-link"></i></a>
 </h3>
 <p>You can use a Q-Q plot to check the model residuals saved as <code>res</code>. This week we will use the <code>qqPlot</code> function from the <code>car</code> package.</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/car/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <p>Hmmm! That Q-Q plot looks somewhat “snakey” 🐍. Let’s try the Shapiro-Wilk test to see if this tells us the same thing.</p>
 <hr>
@@ -249,7 +254,7 @@
 <h4>
 <span class="header-section-number">5.7.4.1</span> <strong>Shapiro-Wilk Test</strong><a class="anchor" aria-label="anchor" href="#shapiro-wilk-test-3"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <p>Now we have both the Q-Q plot <strong>and</strong> the Shapiro-Wilk test telling us we may have an issue with this assumption.</p>
 <details class="dropdown"><summary>
@@ -268,7 +273,7 @@
 <span class="header-section-number">5.7.5</span> <strong>Sphericity</strong><a class="anchor" aria-label="anchor" href="#sphericity"><i class="fas fa-link"></i></a>
 </h3>
 <p>To check for sphericity, we again need to use the model <code>mod</code> from earlier. This time use:</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
 <p>Check the output for “Mauchly Tests for Sphericity” and interpret the test(s).</p>
 <p>Reporting this is the same as the Shapiro-Wilk test, you just need to report the test statistics (<em>w</em> = XX) and the p-value. Here is an example of what it could look like:</p>
@@ -284,10 +289,10 @@
 <p>You already did the hard work earlier setting up the code for the ANOVA model. Now you will just need to call it back.</p>
 <p>If the sphericity assumption was not met, use this to check the corrected model output.
 You’ll know the correction has been applied as the degrees of freedom are <strong>not</strong> whole number (they have decimal places).</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"GG"</span><span class="op">)</span></span></code></pre></div>
 <p>If the sphericity assumption has been met, then use this to check the uncorrected model output:</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p>The two options above will allow you to use either the uncorrected model (if Sphericity was met) or the corrected model (if the assumption of Sphericity was not met).</p>
 <p><strong>Q3(b)</strong>: Interpret the model, and report the relevant statistics suitable for a lab report using APA format.</p>
@@ -299,14 +304,14 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 </h2>
 <p>The researchers in the published paper used post-hoc comparisons, although they do not actually specify if an alpha level correction (e.g., Holm, Bonferroni, Tukey) was used.</p>
 <p>As the focus this week is to look at planned contrasts, it would be reasonable to expect a quadratic relationship between time point and screen time minutes. In other words, we’d expect a decrease from <code>t1</code> to <code>t2</code> but then an increase from <code>t2</code> to <code>t3</code>. This would essentially form a “U-shaped” pattern.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#as with post-hocs (last week), pull out the emmeans</span></span>
 <span><span class="va">emms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">time</span><span class="op">)</span></span>
 <span><span class="va">poly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span><span class="va">emms</span>, method <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">poly</span><span class="op">)</span> <span class="co"># print the results to the console</span></span></code></pre></div>
 <p>You can also use the code below to visualise the quadratic using a simple line graph.</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">longd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">mins</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">mean</span>, geom <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -318,13 +323,17 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span class="header-section-number">5.10</span> <strong>Research Question 2: Positive Affect</strong><a class="anchor" aria-label="anchor" href="#research-question-2-positive-affect"><i class="fas fa-link"></i></a>
 </h2>
 <p>You’ll need to use the <code>affect</code> data. This is already in long format and so it does not need transforming.</p>
+<p>However, do check the levels first. Ensure they are in a meaningful order for the polynomial contrast.</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#use this to change the levels</span></span>
+<span><span class="va">affect</span><span class="op">$</span><span class="va">pos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">affect</span><span class="op">$</span><span class="va">pos</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NULL"</span>, <span class="st">"NULL"</span>, <span class="st">"NULL"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div id="descriptive-statistics-5" class="section level2" number="5.11">
 <h2>
 <span class="header-section-number">5.11</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics-5"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">desc_pos</span> <span class="op">&lt;-</span> <span class="va">affect</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">pos</span><span class="op">)</span>,</span>
@@ -337,7 +346,7 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span class="header-section-number">5.12</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>Same code as before, just tweak the labels to match the <code>affect</code> data set by changing <code>NULL</code>.</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">NULL1</span>, y <span class="op">=</span> <span class="va">NULL2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"NULL3"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -377,7 +386,7 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <strong>Obtaining the Model Residuals</strong><a class="anchor" aria-label="anchor" href="#obtaining-the-model-residuals-1"><i class="fas fa-link"></i></a>
 </h4>
 <p>Run the ANOVA model first and store it as an object (called <code>mod_pos</code>).</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_pos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"NULL"</span>,</span>
 <span>              data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>              dv <span class="op">=</span> <span class="st">"NULL"</span>,</span>
@@ -386,7 +395,7 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span>              anova_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>es <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>If successful, you should see <code>mod_pos</code> appear in the environment (top right) panel.</p>
 <p>We need to pull out the residuals information from the model and save them to an object called <code>res</code>.</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">mod_pos</span><span class="op">$</span><span class="va">lm</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -396,14 +405,14 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span class="header-section-number">5.13.4</span> <strong>Q-Q Plot</strong><a class="anchor" aria-label="anchor" href="#q-q-plot-4"><i class="fas fa-link"></i></a>
 </h3>
 <p>You can use a Q-Q plot to check the model residuals saved as <code>res</code>.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/car/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <hr>
 <div id="shapiro-wilk-test-4" class="section level4" number="5.13.4.1">
 <h4>
 <span class="header-section-number">5.13.4.1</span> <strong>Shapiro-Wilk Test</strong><a class="anchor" aria-label="anchor" href="#shapiro-wilk-test-4"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -413,7 +422,7 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span class="header-section-number">5.13.5</span> <strong>Sphericity</strong><a class="anchor" aria-label="anchor" href="#sphericity-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>To check for sphericity, we again need to use the model <code>mod</code> from earlier. This time use:</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
 <p>Check the output for “Mauchly Tests for Sphericity” and interpret the test(s).</p>
 <p>Reporting this is the same as the Shapiro-Wilk test, you just need to report the test statistics (<em>w</em> = XX) and the p-value. Here is an example of what it could look like:</p>
@@ -429,11 +438,11 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span class="header-section-number">5.14</span> <strong>Interpret the ANOVA</strong><a class="anchor" aria-label="anchor" href="#interpret-the-anova-1"><i class="fas fa-link"></i></a>
 </h2>
 <p>If the sphericity assumption was not met, use this to check the corrected model output:</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_pos</span><span class="op">$</span><span class="va">anova_table</span></span></code></pre></div>
 <p>You’ll know the correction has been applied as the degrees of freedom are <strong>not</strong> whole numbers.</p>
 <p>If the sphericity assumption has been met, then use this to check the uncorrected model output:</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_pos</span><span class="op">)</span></span></code></pre></div>
 <p>The two options above will allow you to use either the uncorrected model (if Sphericity was met) or the corrected model (if the assumption of Sphericity was not met)</p>
 <p><strong>Q4(b)</strong>: Interpret the model, and report the relevant statistics suitable for a lab report using APA format.</p>
@@ -444,21 +453,21 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <span class="header-section-number">5.15</span> <strong>Run and Interpret the Planned Contrast</strong><a class="anchor" aria-label="anchor" href="#run-and-interpret-the-planned-contrast-1"><i class="fas fa-link"></i></a>
 </h2>
 <p>Same as earlier, we will use a polynomial contrast. The difference here is the model is called <code>mod_pos</code></p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#as with post-hocs (last week), pull out the emmeans</span></span>
 <span><span class="va">emms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod_pos</span>, <span class="op">~</span> <span class="va">time</span><span class="op">)</span></span>
 <span><span class="va">poly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span><span class="va">emms</span>, method <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">poly</span><span class="op">)</span> <span class="co"># print the results to the console</span></span></code></pre></div>
 <p>You can also use the code below to visualise the trend using a simple line graph.</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">effect</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time_point</span>, y <span class="op">=</span> <span class="va">score</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">mean</span>, geom <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Arghh! There are some errors in this code again, fix them to run the plot so you can check out the linear trend.</p>
 <details class="dropdown"><summary>
 ❓ Help
-</summary><div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">affect</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">pos</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">mean</span>, geom <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>

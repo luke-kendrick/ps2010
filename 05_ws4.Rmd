@@ -70,7 +70,7 @@ view(screentime)
 view(affect)
 ```
 
-You might notice that `affect` only has 35 participants. This is because participants who did not complete at least 50% of the measures were exlcuded from this analysis.
+You might notice that `affect` only has 35 participants. This is because participants who did not complete at least 50% of the measures were excluded from this analysis.
 
 ---
 
@@ -105,6 +105,15 @@ view(longd)
 - `values_to = "mins"` places our actual data (the screen time in minutes) into a column and give it a name `mins` (shorthand for minutes)
 
 </details>
+
+---
+
+You should also check the levels and re-order if necessary
+
+```r
+#use this to change the levels
+longd$time <- factor(longd$time, levels = c("NULL", "NULL", "NULL"))
+```
 
 ---
 
@@ -313,6 +322,13 @@ ggplot(longd, aes(x = time, y = mins, group = 1)) +
 ## **Research Question 2: Positive Affect**
 
 You'll need to use the `affect` data. This is already in long format and so it does not need transforming.
+
+However, do check the levels first. Ensure they are in a meaningful order for the polynomial contrast.
+
+```r
+#use this to change the levels
+affect$pos <- factor(affect$pos, levels = c("NULL", "NULL", "NULL"))
+```
 
 ---
 
