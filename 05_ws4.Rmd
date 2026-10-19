@@ -327,7 +327,7 @@ However, do check the levels first. Ensure they are in a meaningful order for th
 
 ```r
 #use this to change the levels
-affect$pos <- factor(affect$pos, levels = c("NULL", "NULL", "NULL"))
+affect$time <- factor(affect$time, levels = c("NULL", "NULL", "NULL"))
 ```
 
 ---
