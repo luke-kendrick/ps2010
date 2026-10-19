@@ -424,6 +424,8 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 <p>To check for sphericity, we again need to use the model <code>mod</code> from earlier. This time use:</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
+<p>Carefully check the code above…is it correct?</p>
+<p>Think about the model you want to check. Is this the right one?</p>
 <p>Check the output for “Mauchly Tests for Sphericity” and interpret the test(s).</p>
 <p>Reporting this is the same as the Shapiro-Wilk test, you just need to report the test statistics (<em>w</em> = XX) and the p-value. Here is an example of what it could look like:</p>
 <p><em>W</em> = 0.75, <em>p</em> = .009</p>

@@ -437,6 +437,10 @@ To check for sphericity, we again need to use the model `mod` from earlier. This
 summary(mod)
 ```
 
+Carefully check the code above...is it correct?
+
+Think about the model you want to check. Is this the right one?
+
 Check the output for "Mauchly Tests for Sphericity" and interpret the test(s).
 
 Reporting this is the same as the Shapiro-Wilk test, you just need to report the test statistics (*w* = XX) and the p-value. Here is an example of what it could look like:
