@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>6 Data Cleaning and Wrangling (Experimental Research) | PS2010 Workshop Code Book</title>
+<meta name="author" content="Luke Kendrick">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: identify and handle missing data, outliers, and incorrect responses apply appropriate exclusion criteria to clean a raw dataset...">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
+<meta property="og:title" content="6 Data Cleaning and Wrangling (Experimental Research) | PS2010 Workshop Code Book">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: identify and handle missing data, outliers, and incorrect responses apply appropriate exclusion criteria to clean a raw dataset...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6 Data Cleaning and Wrangling (Experimental Research) | PS2010 Workshop Code Book">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: identify and handle missing data, outliers, and incorrect responses apply appropriate exclusion criteria to clean a raw dataset...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS2010 Workshop Code Book</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="" href="one-way-anova-independent.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent)</a></li>
+<li><a class="" href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></li>
+<li><a class="active" href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="data-cleaning-and-wrangling-experimental-research" class="section level1" number="6">
+<h1>
+<span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)<a class="anchor" aria-label="anchor" href="#data-cleaning-and-wrangling-experimental-research"><i class="fas fa-link"></i></a>
+</h1>
+<div id="learning-outcomes-5" class="section level2 unnumbered">
+<h2>
+<strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-5"><i class="fas fa-link"></i></a>
+</h2>
+<p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>identify and handle missing data, outliers, and incorrect responses</li>
+<li>apply appropriate exclusion criteria to clean a raw dataset</li>
+<li>aggregate trial-level data to calculate participant-level condition means</li>
+<li>reshape data using <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code> and create new variables using <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>
+</li>
+<li>prepare an analysis-ready dataset and conduct a two-samples <em>t</em>-test.</li>
+</ul>
+</div>
+<div id="before-you-begin-5" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> <strong>Before You Begin</strong><a class="anchor" aria-label="anchor" href="#before-you-begin-5"><i class="fas fa-link"></i></a>
+</h2>
+<p>In this chapter, you will work with a raw dataset, cleaning and wrangling the data to prepare them for analysis using an independent-samples t-test.</p>
+<p>The dataset contains simulated data from 40 participants who completed a Stroop task. Participants were randomly assigned to one of two conditions: a quiet condition or a distracting background noise condition. All participants completed both congruent and incongruent Stroop trials.</p>
+<p>The primary research question is “does distracting background noise affect Stroop interference?”</p>
+<p>To investigate this, you will calculate a Stroop interference score for each participant by subtracting their mean reaction time on congruent trials from their mean reaction time on incongruent trials.</p>
+<p>Stroop interference is the additional time taken to respond to incongruent compared with congruent trials. We can calculate one interference score for each participant:</p>
+<p><strong>Stroop interference (ms) = Mean incongruent RT − Mean congruent RT</strong></p>
+</div>
+<div id="load-packages-and-import-data-5" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data-5"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/rstatix/">rstatix</a></span><span class="op">)</span></span></code></pre></div>
+<p>Import the <code>raw_stroop.csv</code> file and save it as an object.</p>
+</div>
+<div id="view-data-5" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> <strong>View Data</strong><a class="anchor" aria-label="anchor" href="#view-data-5"><i class="fas fa-link"></i></a>
+</h2>
+<p>Start by looking at the data.</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<p>The most important variables for today’s workshop are:</p>
+<ul>
+<li>
+<code>id</code>: a unique identifier for each participant</li>
+<li>
+<code>GROUP</code>: the independent-measures group (<code>quiet</code> or <code>distractor</code>)</li>
+<li>
+<code>COND</code>: whether a Stroop trial was <code>congruent</code> or <code>incongruent</code>
+</li>
+<li>
+<code>ACC</code>: accuracy on a trial (<code>1</code> = correct; <code>0</code> = incorrect)</li>
+<li>
+<code>RT</code>: reaction time in milliseconds.</li>
+</ul>
+<p>You’ll also see other variables, such as the trial number, colour word and ink colour. We won’t need these for the final <em>t</em>-test, but they are useful information about how the experiment was conducted.</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">raw</span><span class="op">)</span> <span class="co"># number of rows in the entire data set</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html">n_distinct</a></span><span class="op">(</span><span class="va">raw</span><span class="op">$</span><span class="va">id</span><span class="op">)</span> <span class="co"># number of unique entries in the ID column</span></span></code></pre></div>
+<p><strong>Q1(a)</strong> How many rows are in the dataset, and how many <em>participants</em> are there?</p>
+<p><strong>Q1(b)</strong> Why are there many more rows than participants? What does one row represent?</p>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>These are trial-level data. Each row represents one response on one trial. They are not yet suitable for a two-sample <em>t</em>-test of group differences in Stroop interference. The same participant appears repeatedly, so treating each trial as an independent observation would be incorrect.</p>
+<p>You will need to clean the trials, calculate a mean RT for each participant in each congruency condition, and then calculate one Stroop interference score per participant.</p>
+</details><hr>
+</div>
+<div id="investigate-missing-data" class="section level2" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> <strong>Investigate Missing Data</strong><a class="anchor" aria-label="anchor" href="#investigate-missing-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Real experimental datasets can contain missing values. For example, a participant might not respond before the trial times out, leaving their reaction time recorded as <code>NA</code>.</p>
+<p>First, calculate the <strong>percentage of missing reaction times</strong> in the entire dataset:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">raw</span><span class="op">$</span><span class="va">RT</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code>raw$RT</code> selects the reaction-time column from the <code>raw</code> dataset.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> checks whether each value is missing (<code>NA</code>).</li>
+<li>
+<code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> calculates the proportion of values that are missing because R treats <code>TRUE</code> as 1 and <code>FALSE</code> as 0.</li>
+<li>
+<code>* 100</code> turns that proportion into a percentage.</li>
+</ul></details><p>A single percentage for the entire dataset might hide a problem. What if one participant has missed lots of trials while everyone else has completed every trial. You will want to identify potentially problematic participants.</p>
+<p>Let’s calculate missing reaction times <strong>for each participant</strong>:</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">missing</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">RT</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            percent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">RT</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">missing</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Q2(a)</strong> What percentage of reaction times are missing overall?</p>
+<p><strong>Q2(b)</strong> Which participant has the largest percentage of missing reaction times? Is it particularly high?</p>
+<hr>
+<div id="remove-participants-with-excessive-missing-data" class="section level3" number="6.4.1">
+<h3>
+<span class="header-section-number">6.4.1</span> <strong>Remove Participants With Excessive Missing Data</strong><a class="anchor" aria-label="anchor" href="#remove-participants-with-excessive-missing-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>We might decide to exclude a participant if they are missing too much of the task. For today’s exercise, we’ll use a threshold of <strong>more than 10% missing RTs</strong>.</p>
+<p>This is an <em>illustrative</em> rule for the workshop, not a universal rule for psychological research. Ideally, researchers should justify and specify their exclusion criteria before analysing the data.</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">RT</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">0.10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code>group_by(id)</code> considers each participant separately.</li>
+<li>
+<code>mean(is.na(RT))</code> calculates the proportion of missing RTs <em>within that participant</em>.</li>
+<li>
+<code>filter(... &lt;= 0.10)</code> keeps participants with 10% or fewer missing RTs.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup()</a></code> removes the grouping so the next stages work with the whole dataset again.</li>
+</ul>
+<p>All trials from a participant exceeding the threshold are excluded, not just their missing trials. Participants who remain can still have some missing trial-level values.</p>
+</details><p><strong>Q2(c)</strong> How many participants were excluded? How many participants remain?</p>
+</div>
+</div>
+<div id="remove-possible-outliers" class="section level2" number="6.5">
+<h2>
+<span class="header-section-number">6.5</span> <strong>Remove Possible Outliers</strong><a class="anchor" aria-label="anchor" href="#remove-possible-outliers"><i class="fas fa-link"></i></a>
+</h2>
+<p>Some reaction times might be so fast that they are unlikely to represent a genuine response, or so slow that they might reflect inattention or a technical problem.</p>
+<p>For this workshop, you should use a valid RT range of <strong>200–1500 milliseconds</strong>. We should investigate these values and justify the thresholds in a real study; an unusual observation is not automatically an error.</p>
+<p>Before removing anything, let’s find out how many trials fall outside this range:</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>below_200 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">RT</span> <span class="op">&lt;</span> <span class="fl">200</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            above_1500 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">RT</span> <span class="op">&gt;</span> <span class="fl">1500</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">RT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Q3(a)</strong> How many reaction times are below 200 ms? How many are above 1500 ms?</p>
+<p><strong>Q4(a)</strong> How many reaction times are below 200 ms? How many are above 1500 ms? How many are missing?</p>
+<p>We can now remove these trials:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_before_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">clean_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">RT</span> <span class="op">&gt;=</span> <span class="fl">200</span>, <span class="va">RT</span> <span class="op">&lt;=</span> <span class="fl">1500</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">n_before_rt</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">clean_data</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Learn More
+</summary><p>The last line counts how many <strong>rows (trials)</strong> were excluded at this stage.</p>
+<p>Notice that <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> also removes rows where <code>RT</code> is <code>NA</code>, because those trials cannot satisfy the two comparisons. This is why the total removed includes missing RTs as well as unusually fast and slow responses.</p>
+<p>We’re excluding trials at this stage, <em>not</em> automatically excluding the whole participant.</p>
+</details><p><strong>Q3(b)</strong> How many trials did this step remove in total?</p>
+<hr>
+</div>
+<div id="remove-incorrect-responses" class="section level2" number="6.6">
+<h2>
+<span class="header-section-number">6.6</span> <strong>Remove Incorrect Responses</strong><a class="anchor" aria-label="anchor" href="#remove-incorrect-responses"><i class="fas fa-link"></i></a>
+</h2>
+<p>In a Stroop task, participants sometimes respond with the wrong ink colour. When analysing <strong>reaction times</strong>, we will usually focus on trials where the response was correct. Incorrect trials can be analysed separately when investigating <strong>accuracy</strong>.</p>
+<p>Count how many incorrect responses remain:</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">clean_data</span><span class="op">$</span><span class="va">ACC</span> <span class="op">==</span> <span class="fl">0</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Now create a new object containing only correct-response trials:</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rt_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ACC</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Q4(a)</strong> How many incorrect-response trials were excluded?</p>
+<p><strong>Q4(b)</strong> Why wouldn’t we remove incorrect responses if our dependent variable was <em>accuracy</em>, rather than reaction time?</p>
+<hr>
+</div>
+<div id="calculate-participant-level-condition-means" class="section level2" number="6.7">
+<h2>
+<span class="header-section-number">6.7</span> <strong>Calculate Participant-Level Condition Means</strong><a class="anchor" aria-label="anchor" href="#calculate-participant-level-condition-means"><i class="fas fa-link"></i></a>
+</h2>
+<p>So far, you have been working with <strong>trial-level data</strong>. you now need to aggregate the trials to calculate each participant’s average reaction time separately for congruent and incongruent trials.</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rt</span> <span class="op">&lt;-</span> <span class="va">rt_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">GROUP</span>, <span class="va">COND</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_RT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">RT</span><span class="op">)</span>,</span>
+<span>            .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code>group_by(id, GROUP, COND)</code> groups rows by <strong>participant</strong>, their quiet/distractor group, and trial congruency.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> combines several trials into one summary value.</li>
+<li>
+<code>mean_RT = mean(RT)</code> calculates the mean RT for the group of trials. We no longer need <code>na.rm = TRUE</code> because missing RTs were removed earlier.</li>
+<li>
+<code>.groups = "drop"</code> removes the grouping from the new dataset.</li>
+</ul>
+<p>This produces <strong>participant-level condition means</strong>. Each participant should have one row for congruent trials and one row for incongruent trials, provided they have at least one valid trial in each condition.</p>
+</details><hr>
+</div>
+<div id="change-from-long-to-wide-format" class="section level2" number="6.8">
+<h2>
+<span class="header-section-number">6.8</span> <strong>Change From Long to Wide Format</strong><a class="anchor" aria-label="anchor" href="#change-from-long-to-wide-format"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <code>rt</code> dataset is in <strong>long format</strong>: each participant has a separate row for each congruency condition. To calculate a difference between the two means, it will be easier to have congruent and incongruent RTs in separate columns. This is an example of a case where having <strong>wide format</strong> data is easier.
+Although, in a strange twist, once you calculate the interference scores these will then appear in <strong>long format</strong>…you’ll see this soon.</p>
+<p>Use <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code>:</p>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_data</span> <span class="op">&lt;-</span> <span class="va">rt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">COND</span>,</span>
+<span>              values_from <span class="op">=</span> <span class="va">mean_RT</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">wide_data</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code> converts the dataset from long to wide format.</li>
+<li>
+<code>names_from = COND</code> makes the congruency values (<code>congruent</code> and <code>incongruent</code>) into column names.</li>
+<li>
+<code>values_from = mean_RT</code> fills those columns with the participant’s mean RTs.</li>
+</ul>
+<p>Each participant should now have <strong>one row</strong>, with a mean for each congruency condition.</p>
+</details><hr>
+</div>
+<div id="create-the-stroop-interference-score" class="section level2" number="6.9">
+<h2>
+<span class="header-section-number">6.9</span> <strong>Create the Stroop Interference Score</strong><a class="anchor" aria-label="anchor" href="#create-the-stroop-interference-score"><i class="fas fa-link"></i></a>
+</h2>
+<p>Remember our research question: <strong>Does distracting background noise affect Stroop interference?</strong></p>
+<p>We need to calculate the interference score for every participant by subtracting their congruent mean RT from their incongruent mean RT.</p>
+<p>This is a good opportunity to use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>, which creates new variables:</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_data</span> <span class="op">&lt;-</span> <span class="va">wide_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>stroop_effect <span class="op">=</span> <span class="va">incongruent</span> <span class="op">-</span> <span class="va">congruent</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">wide_data</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><p><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> adds a new variable called <code>stroop_effect</code>. For example, if someone has a mean congruent RT of 550 ms and a mean incongruent RT of 700 ms, their interference score would be <strong>150 ms</strong>.</p>
+<p>A larger positive score means more interference. A score near zero means there is little difference between the two conditions. A negative score means the participant was faster on incongruent trials.</p>
+</details><hr>
+</div>
+<div id="create-the-final-dataset" class="section level2" number="6.10">
+<h2>
+<span class="header-section-number">6.10</span> <strong>Create the Final Dataset</strong><a class="anchor" aria-label="anchor" href="#create-the-final-dataset"><i class="fas fa-link"></i></a>
+</h2>
+<p>We only need three variables for the final two-sample <em>t</em>-test: participant ID, experimental group, and interference score.</p>
+<p>Use <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>,<code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code>, and <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> to make your dataset a little tidier:</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">int</span> <span class="op">&lt;-</span> <span class="va">wide_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">GROUP</span>, <span class="va">stroop_effect</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>int <span class="op">=</span> <span class="va">stroop_effect</span>, group <span class="op">=</span> <span class="va">GROUP</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>GROUP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">GROUP</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"quiet"</span>, <span class="st">"distractor"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">int</span><span class="op">)</span></span></code></pre></div>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> keeps only the three variables needed.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code> changes <code>stroop_effect</code> to the shorter name <code>int</code> (interference). Change <code>GROUP</code> to <code>group</code> as I prefer lowercase variable names.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> sets the order of the two groups, this can be helpful if you conditions need to be in a particular order rather than just alphabetically.</li>
+</ul>
+<p>We no longer need a <code>COND</code> column: the two congruency means have already been combined into one interference score for each participant.</p>
+</details><hr>
+</div>
+<div id="run-and-interpret-a-two-sample-t-test" class="section level2" number="6.11">
+<h2>
+<span class="header-section-number">6.11</span> <strong>Run and Interpret a Two-Sample <em>t</em>-Test</strong><a class="anchor" aria-label="anchor" href="#run-and-interpret-a-two-sample-t-test"><i class="fas fa-link"></i></a>
+</h2>
+<p>You are a quarter of the way through your PS2010 workshops. In the first five weeks you’ve learnt how to conduct some simple analyses.</p>
+<p>Now it is time for a real test…</p>
+<p>Use the code from the two-sample <em>t</em>-test chapter to run and interpret a t-test to address this week’s research question.</p>
+<p>This will help you practice using code and <strong>applying</strong> it to a different data set. You should use the newly rangled and cleaned data set <code>int</code>.</p>
+<p>You will need to <em>t</em>-test results for your weekly quiz.</p>
+<p>Good luck!</p>
+<hr>
+<p><strong>Well done. You have reached the end of this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#data-cleaning-and-wrangling-experimental-research"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
+<li><a class="nav-link" href="#learning-outcomes-5">Learning Outcomes</a></li>
+<li><a class="nav-link" href="#before-you-begin-5"><span class="header-section-number">6.1</span> Before You Begin</a></li>
+<li><a class="nav-link" href="#load-packages-and-import-data-5"><span class="header-section-number">6.2</span> Load Packages and Import Data</a></li>
+<li><a class="nav-link" href="#view-data-5"><span class="header-section-number">6.3</span> View Data</a></li>
+<li>
+<a class="nav-link" href="#investigate-missing-data"><span class="header-section-number">6.4</span> Investigate Missing Data</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#remove-participants-with-excessive-missing-data"><span class="header-section-number">6.4.1</span> Remove Participants With Excessive Missing Data</a></li></ul>
+</li>
+<li><a class="nav-link" href="#remove-possible-outliers"><span class="header-section-number">6.5</span> Remove Possible Outliers</a></li>
+<li><a class="nav-link" href="#remove-incorrect-responses"><span class="header-section-number">6.6</span> Remove Incorrect Responses</a></li>
+<li><a class="nav-link" href="#calculate-participant-level-condition-means"><span class="header-section-number">6.7</span> Calculate Participant-Level Condition Means</a></li>
+<li><a class="nav-link" href="#change-from-long-to-wide-format"><span class="header-section-number">6.8</span> Change From Long to Wide Format</a></li>
+<li><a class="nav-link" href="#create-the-stroop-interference-score"><span class="header-section-number">6.9</span> Create the Stroop Interference Score</a></li>
+<li><a class="nav-link" href="#create-the-final-dataset"><span class="header-section-number">6.10</span> Create the Final Dataset</a></li>
+<li><a class="nav-link" href="#run-and-interpret-a-two-sample-t-test"><span class="header-section-number">6.11</span> Run and Interpret a Two-Sample t-Test</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS2010 Workshop Code Book</strong>" was written by Luke Kendrick. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

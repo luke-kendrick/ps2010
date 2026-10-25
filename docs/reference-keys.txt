@@ -1,6 +1,5 @@
 about-this-site
 license
-license-1
 citation
 ai-declaration
 descriptive-statistics-and-plots
@@ -89,3 +88,16 @@ shapiro-wilk-test-4
 sphericity-1
 interpret-the-anova-1
 run-and-interpret-the-planned-contrast-1
+data-cleaning-and-wrangling-experimental-research
+before-you-begin-5
+load-packages-and-import-data-5
+view-data-5
+investigate-missing-data
+remove-participants-with-excessive-missing-data
+remove-possible-outliers
+remove-incorrect-responses
+calculate-participant-level-condition-means
+change-from-long-to-wide-format
+create-the-stroop-interference-score
+create-the-final-dataset
+run-and-interpret-a-two-sample-t-test

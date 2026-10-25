@@ -1,0 +1,345 @@
+# Data Cleaning and Wrangling (Experimental Research)
+
+## **Learning Outcomes** {.unnumbered}
+
+By the end of this chapter you should be able to:
+
+- identify and handle missing data, outliers, and incorrect responses
+- apply appropriate exclusion criteria to clean a raw dataset
+- aggregate trial-level data to calculate participant-level condition means
+- reshape data using `pivot_wider()` and create new variables using `mutate()`
+- prepare an analysis-ready dataset and conduct a two-samples *t*-test.
+
+## **Before You Begin**
+
+In this chapter, you will work with a raw dataset, cleaning and wrangling the data to prepare them for analysis using an independent-samples t-test.
+
+The dataset contains simulated data from 40 participants who completed a Stroop task. Participants were randomly assigned to one of two conditions: a quiet condition or a distracting background noise condition. All participants completed both congruent and incongruent Stroop trials.
+
+The primary research question is "does distracting background noise affect Stroop interference?"
+
+To investigate this, you will calculate a Stroop interference score for each participant by subtracting their mean reaction time on congruent trials from their mean reaction time on incongruent trials.
+
+Stroop interference is the additional time taken to respond to incongruent compared with congruent trials. We can calculate one interference score for each participant:
+
+**Stroop interference (ms) = Mean incongruent RT − Mean congruent RT**
+
+## **Load Packages and Import Data**
+
+```r
+library(tidyverse)
+library(rstatix)
+```
+
+Import the `raw_stroop.csv` file and save it as an object.
+
+## **View Data**
+
+Start by looking at the data.
+
+```r
+View(NULL)
+```
+
+The most important variables for today's workshop are:
+
+-   `id`: a unique identifier for each participant
+-   `GROUP`: the independent-measures group (`quiet` or `distractor`)
+-   `COND`: whether a Stroop trial was `congruent` or `incongruent`
+-   `ACC`: accuracy on a trial (`1` = correct; `0` = incorrect)
+-   `RT`: reaction time in milliseconds.
+
+You'll also see other variables, such as the trial number, colour word and ink colour. We won't need these for the final *t*-test, but they are useful information about how the experiment was conducted.
+
+```r
+nrow(raw) # number of rows in the entire data set
+n_distinct(raw$id) # number of unique entries in the ID column
+```
+
+**Q1(a)** How many rows are in the dataset, and how many *participants* are there?
+
+**Q1(b)** Why are there many more rows than participants? What does one row represent?
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+These are trial-level data. Each row represents one response on one trial. They are not yet suitable for a two-sample *t*-test of group differences in Stroop interference. The same participant appears repeatedly, so treating each trial as an independent observation would be incorrect.
+
+You will need to clean the trials, calculate a mean RT for each participant in each congruency condition, and then calculate one Stroop interference score per participant.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Investigate Missing Data**
+
+Real experimental datasets can contain missing values. For example, a participant might not respond before the trial times out, leaving their reaction time recorded as `NA`.
+
+First, calculate the **percentage of missing reaction times** in the entire dataset:
+
+```r
+mean(is.na(raw$RT)) * 100
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `raw$RT` selects the reaction-time column from the `raw` dataset.
+-   `is.na()` checks whether each value is missing (`NA`).
+-   `mean()` calculates the proportion of values that are missing because R treats `TRUE` as 1 and `FALSE` as 0.
+-   `* 100` turns that proportion into a percentage.
+
+</details>
+
+A single percentage for the entire dataset might hide a problem. What if one participant has missed lots of trials while everyone else has completed every trial. You will want to identify potentially problematic participants.
+
+Let's calculate missing reaction times **for each participant**:
+
+```r
+missing <- NULL %>%
+  group_by(id) %>%
+  summarise(missing = sum(is.na(RT)),
+            percent = mean(is.na(RT)) * 100)
+
+View(missing)
+```
+
+**Q2(a)** What percentage of reaction times are missing overall?
+
+**Q2(b)** Which participant has the largest percentage of missing reaction times? Is it particularly high?
+
+------------------------------------------------------------------------
+
+### **Remove Participants With Excessive Missing Data**
+
+We might decide to exclude a participant if they are missing too much of the task. For today's exercise, we'll use a threshold of **more than 10% missing RTs**.
+
+This is an *illustrative* rule for the workshop, not a universal rule for psychological research. Ideally, researchers should justify and specify their exclusion criteria before analysing the data.
+
+```r
+clean_data <- raw %>%
+  group_by(id) %>%
+  filter(mean(is.na(RT)) <= 0.10) %>%
+  ungroup()
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `group_by(id)` considers each participant separately.
+-   `mean(is.na(RT))` calculates the proportion of missing RTs *within that participant*.
+-   `filter(... <= 0.10)` keeps participants with 10% or fewer missing RTs.
+-   `ungroup()` removes the grouping so the next stages work with the whole dataset again.
+
+All trials from a participant exceeding the threshold are excluded, not just their missing trials. Participants who remain can still have some missing trial-level values.
+
+</details>
+
+**Q2(c)** How many participants were excluded? How many participants remain?
+
+## **Remove Possible Outliers**
+
+Some reaction times might be so fast that they are unlikely to represent a genuine response, or so slow that they might reflect inattention or a technical problem.
+
+For this workshop, you should use a valid RT range of **200–1500 milliseconds**. We should investigate these values and justify the thresholds in a real study; an unusual observation is not automatically an error.
+
+Before removing anything, let's find out how many trials fall outside this range:
+
+```r
+clean_data %>%
+  summarise(below_200 = sum(RT < 200, na.rm = TRUE),
+            above_1500 = sum(RT > 1500, na.rm = TRUE),
+            missing = sum(is.na(RT)))
+```
+
+
+**Q3(a)** How many reaction times are below 200 ms? How many are above 1500 ms?
+
+**Q4(a)** How many reaction times are below 200 ms? How many are above 1500 ms? How many are missing?
+
+We can now remove these trials:
+
+```r
+n_before_rt <- nrow(clean_data)
+
+clean_data <- clean_data %>%
+  filter(RT >= 200, RT <= 1500)
+
+n_before_rt - nrow(clean_data)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Learn More</summary>
+
+The last line counts how many **rows (trials)** were excluded at this stage.
+
+Notice that `filter()` also removes rows where `RT` is `NA`, because those trials cannot satisfy the two comparisons. This is why the total removed includes missing RTs as well as unusually fast and slow responses.
+
+We're excluding trials at this stage, *not* automatically excluding the whole participant.
+
+</details>
+
+**Q3(b)** How many trials did this step remove in total?
+
+------------------------------------------------------------------------
+
+## **Remove Incorrect Responses**
+
+In a Stroop task, participants sometimes respond with the wrong ink colour. When analysing **reaction times**, we will usually focus on trials where the response was correct. Incorrect trials can be analysed separately when investigating **accuracy**.
+
+Count how many incorrect responses remain:
+
+```r
+sum(clean_data$ACC == 0, na.rm = TRUE)
+```
+
+Now create a new object containing only correct-response trials:
+
+```r
+rt_data <- clean_data %>%
+  filter(ACC == 1)
+```
+
+**Q4(a)** How many incorrect-response trials were excluded?
+
+**Q4(b)** Why wouldn't we remove incorrect responses if our dependent variable was *accuracy*, rather than reaction time?
+
+------------------------------------------------------------------------
+
+## **Calculate Participant-Level Condition Means**
+
+So far, you have been working with **trial-level data**. you now need to aggregate the trials to calculate each participant's average reaction time separately for congruent and incongruent trials.
+
+```r
+rt <- rt_data %>%
+  group_by(id, GROUP, COND) %>%
+  summarise(mean_RT = mean(RT),
+            .groups = "drop")
+
+View(rt)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `group_by(id, GROUP, COND)` groups rows by **participant**, their quiet/distractor group, and trial congruency.
+-   `summarise()` combines several trials into one summary value.
+-   `mean_RT = mean(RT)` calculates the mean RT for the group of trials. We no longer need `na.rm = TRUE` because missing RTs were removed earlier.
+-   `.groups = "drop"` removes the grouping from the new dataset.
+
+This produces **participant-level condition means**. Each participant should have one row for congruent trials and one row for incongruent trials, provided they have at least one valid trial in each condition.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Change From Long to Wide Format**
+
+The `rt` dataset is in **long format**: each participant has a separate row for each congruency condition. To calculate a difference between the two means, it will be easier to have congruent and incongruent RTs in separate columns. This is an example of a case where having **wide format** data is easier. 
+Although, in a strange twist, once you calculate the interference scores these will then appear in **long format**...you'll see this soon.
+
+Use `pivot_wider()`:
+
+```r
+wide_data <- rt %>%
+  pivot_wider(names_from = COND,
+              values_from = mean_RT)
+
+View(wide_data)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `pivot_wider()` converts the dataset from long to wide format.
+-   `names_from = COND` makes the congruency values (`congruent` and `incongruent`) into column names.
+-   `values_from = mean_RT` fills those columns with the participant's mean RTs.
+
+Each participant should now have **one row**, with a mean for each congruency condition.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Create the Stroop Interference Score**
+
+Remember our research question: **Does distracting background noise affect Stroop interference?**
+
+We need to calculate the interference score for every participant by subtracting their congruent mean RT from their incongruent mean RT.
+
+This is a good opportunity to use `mutate()`, which creates new variables:
+
+```r
+wide_data <- wide_data %>%
+  mutate(stroop_effect = incongruent - congruent)
+
+View(wide_data)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+`mutate()` adds a new variable called `stroop_effect`. For example, if someone has a mean congruent RT of 550 ms and a mean incongruent RT of 700 ms, their interference score would be **150 ms**.
+
+A larger positive score means more interference. A score near zero means there is little difference between the two conditions. A negative score means the participant was faster on incongruent trials.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Create the Final Dataset**
+
+We only need three variables for the final two-sample *t*-test: participant ID, experimental group, and interference score.
+
+Use `select()`,`rename()`, and `mutate()` to make your dataset a little tidier:
+
+```r
+int <- wide_data %>%
+  select(id, GROUP, stroop_effect) %>%
+  rename(int = stroop_effect, group = GROUP) %>%
+  mutate(GROUP = factor(GROUP, levels = c("quiet", "distractor")))
+
+View(int)
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+-   `select()` keeps only the three variables needed.
+-   `rename()` changes `stroop_effect` to the shorter name `int` (interference). Change `GROUP` to `group` as I prefer lowercase variable names.
+-   `factor()` sets the order of the two groups, this can be helpful if you conditions need to be in a particular order rather than just alphabetically.
+
+We no longer need a `COND` column: the two congruency means have already been combined into one interference score for each participant.
+
+</details>
+
+------------------------------------------------------------------------
+
+## **Run and Interpret a Two-Sample *t*-Test**
+
+You are a quarter of the way through your PS2010 workshops. In the first five weeks you've learnt how to conduct some simple analyses.
+
+Now it is time for a real test...
+
+Use the code from the two-sample *t*-test chapter to run and interpret a t-test to address this week's research question.
+
+This will help you practice using code and **applying** it to a different data set. You should use the newly rangled and cleaned data set `int`.
+
+You will need to *t*-test results for your weekly quiz.
+
+Good luck!
+
+------------------------------------------------------------------------
+
+**Well done. You have reached the end of this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.
+

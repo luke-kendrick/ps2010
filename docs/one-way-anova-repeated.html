@@ -7,7 +7,7 @@
 <title>5 One-Way ANOVA (Repeated) | PS2010 Workshop Code Book</title>
 <meta name="author" content="Luke Kendrick">
 <meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="5 One-Way ANOVA (Repeated) | PS2010 Workshop Code Book">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: produce descriptive statistics and plots appropriate for a one-way ANOVA check the relevant assumptions for a one-way ANOVA...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -49,6 +49,7 @@
 <li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
 <li><a class="" href="one-way-anova-independent.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent)</a></li>
 <li><a class="active" href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></li>
+<li><a class="" href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
 </ul>
 
         <div class="book-extra">
@@ -112,7 +113,7 @@
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://afex.singmann.science/">afex</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/car/">car</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bprice2652/car_repo">car</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span></code></pre></div>
 <p>There are <strong>two</strong> data files to import. <code>screentime.csv</code> includes the SNS screen time usage in wide format, and <code>affect.csv</code> contains the positive affect measures in long format.</p>
 <p>Import the data as objects called <code>screentime</code> and <code>affect</code> (see below).</p>
@@ -483,7 +484,7 @@ You’ll know the correction has been applied as the degrees of freedom are <str
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="one-way-anova-independent.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent)</a></div>
-<div class="empty"></div>
+<div class="next"><a href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
