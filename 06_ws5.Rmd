@@ -8,11 +8,11 @@ By the end of this chapter you should be able to:
 - apply appropriate exclusion criteria to clean a raw dataset
 - aggregate trial-level data to calculate participant-level condition means
 - reshape data using `pivot_wider()` and create new variables using `mutate()`
-- prepare an analysis-ready dataset and conduct a two-samples *t*-test.
+- prepare an analysis-ready dataset and conduct a two-sample *t*-test.
 
 ## **Before You Begin**
 
-In this chapter, you will work with a raw dataset, cleaning and wrangling the data to prepare them for analysis using an independent-samples t-test.
+In this chapter, you will work with a raw dataset, cleaning and wrangling the data to prepare them for analysis using an two-sample t-test.
 
 The dataset contains simulated data from 40 participants who completed a Stroop task. Participants were randomly assigned to one of two conditions: a quiet condition or a distracting background noise condition. All participants completed both congruent and incongruent Stroop trials.
 
@@ -28,10 +28,9 @@ Stroop interference is the additional time taken to respond to incongruent compa
 
 ```r
 library(tidyverse)
-library(rstatix)
 ```
 
-Import the `raw_stroop.csv` file and save it as an object.
+Import the `raw_stroop.csv` file and save it as an object called raw.
 
 ## **View Data**
 
@@ -93,12 +92,12 @@ mean(is.na(raw$RT)) * 100
 
 </details>
 
-A single percentage for the entire dataset might hide a problem. What if one participant has missed lots of trials while everyone else has completed every trial. You will want to identify potentially problematic participants.
+A single percentage for the entire dataset might hide a problem. What if one participant has missed lots of trials while everyone else has completed every trial? You will want to identify potentially problematic participants.
 
 Let's calculate missing reaction times **for each participant**:
 
 ```r
-missing <- NULL %>%
+missing <- raw %>%
   group_by(id) %>%
   summarise(missing = sum(is.na(RT)),
             percent = mean(is.na(RT)) * 100)
@@ -156,9 +155,9 @@ clean_data %>%
 ```
 
 
-**Q3(a)** How many reaction times are below 200 ms? How many are above 1500 ms?
+**Q3(a)** Why might extremely short or extremely long reaction times be problematic?
 
-**Q4(a)** How many reaction times are below 200 ms? How many are above 1500 ms? How many are missing?
+**Q3(b)** How many reaction times are below 200 ms? How many are above 1500 ms? How many are missing?
 
 We can now remove these trials:
 
@@ -183,7 +182,7 @@ We're excluding trials at this stage, *not* automatically excluding the whole pa
 
 </details>
 
-**Q3(b)** How many trials did this step remove in total?
+**Q3(c)** How many trials did this step remove in total?
 
 ------------------------------------------------------------------------
 
@@ -212,7 +211,7 @@ rt_data <- clean_data %>%
 
 ## **Calculate Participant-Level Condition Means**
 
-So far, you have been working with **trial-level data**. you now need to aggregate the trials to calculate each participant's average reaction time separately for congruent and incongruent trials.
+So far, you have been working with **trial-level data**. You now need to aggregate the trials to calculate each participant's average reaction time separately for congruent and incongruent trials.
 
 ```r
 rt <- rt_data %>%
@@ -241,7 +240,6 @@ This produces **participant-level condition means**. Each participant should hav
 ## **Change From Long to Wide Format**
 
 The `rt` dataset is in **long format**: each participant has a separate row for each congruency condition. To calculate a difference between the two means, it will be easier to have congruent and incongruent RTs in separate columns. This is an example of a case where having **wide format** data is easier. 
-Although, in a strange twist, once you calculate the interference scores these will then appear in **long format**...you'll see this soon.
 
 Use `pivot_wider()`:
 
@@ -298,13 +296,13 @@ A larger positive score means more interference. A score near zero means there i
 
 We only need three variables for the final two-sample *t*-test: participant ID, experimental group, and interference score.
 
-Use `select()`,`rename()`, and `mutate()` to make your dataset a little tidier:
+Use `select()`, `rename()`, and `mutate()` to make your dataset a little tidier:
 
 ```r
 int <- wide_data %>%
   select(id, GROUP, stroop_effect) %>%
   rename(int = stroop_effect, group = GROUP) %>%
-  mutate(GROUP = factor(GROUP, levels = c("quiet", "distractor")))
+  mutate(group = factor(group, levels = c("quiet", "distractor")))
 
 View(int)
 ```
@@ -315,7 +313,7 @@ View(int)
 
 -   `select()` keeps only the three variables needed.
 -   `rename()` changes `stroop_effect` to the shorter name `int` (interference). Change `GROUP` to `group` as I prefer lowercase variable names.
--   `factor()` sets the order of the two groups, this can be helpful if you conditions need to be in a particular order rather than just alphabetically.
+-   `factor()` sets the order of the two groups. This can be helpful if your conditions need to be in a particular order rather than just alphabetically.
 
 We no longer need a `COND` column: the two congruency means have already been combined into one interference score for each participant.
 
@@ -331,11 +329,13 @@ Now it is time for a real test...
 
 Use the code from the two-sample *t*-test chapter to run and interpret a t-test to address this week's research question.
 
-This will help you practice using code and **applying** it to a different data set. You should use the newly rangled and cleaned data set `int`.
+This will help you practise using code and **applying** it to a different data set. You should use the newly wrangled and cleaned data set `int`.
 
-You will need to *t*-test results for your weekly quiz.
+You will need the *t*-test results for your weekly quiz. Remember to load any additional packages that you might need.
 
 Good luck!
+
+**Q5** Report the two-sample *t*-test result.
 
 ------------------------------------------------------------------------
 
