@@ -197,7 +197,7 @@ Levene's test will check this assumption. Note: it uses a formulaic argument, se
 leveneTest(negative.affect ~ veracity*feedback, data)
 ```
 
-The `*` specifies both independent variables and their interaction, allowing Levene's test to assess variance homogeneity across the four conditions.
+The `*` allows Levene's test to compare variances across all four combinations (e.g., in a factorial design) of veracity and feedback conditions.
 
 **Q3**: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.
 
@@ -230,11 +230,9 @@ Next, pull out the emmeans and run contrasts using a "holm" correction. Your res
 Also, because you're applying Holm corrections, the adjusted p values may differ for that reason too.
 
 ```r
-emmeans(mod, ~ veracity | feedback) %>% 
-  contrast(interaction = "pairwise", 
-           simple = "each", 
-           combine = FALSE, 
-           adjust = "holm")
+emmeans(mod, ~ feedback | veracity) %>%
+  pairs(adjust = "none") %>%
+  test(by = NULL, adjust = "holm")
 ```
 
 Don't forget the effect size:
@@ -242,7 +240,8 @@ Don't forget the effect size:
 ```r
 data %>%
   group_by(veracity) %>%
-  cohens_d(negative.affect ~ feedback, paired = FALSE)
+  rstatix::cohens_d(negative.affect ~ feedback,
+                   paired = FALSE)
 ```
 
 **Q4**: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.

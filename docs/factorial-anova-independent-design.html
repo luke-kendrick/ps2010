@@ -235,7 +235,7 @@
 <p>Levene’s test will check this assumption. Note: it uses a formulaic argument, see below for DV ~ IV.</p>
 <div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/car/man/leveneTest.html">leveneTest</a></span><span class="op">(</span><span class="va">negative.affect</span> <span class="op">~</span> <span class="va">veracity</span><span class="op">*</span><span class="va">feedback</span>, <span class="va">data</span><span class="op">)</span></span></code></pre></div>
-<p>The <code>*</code> specifies both independent variables and their interaction, allowing Levene’s test to assess variance homogeneity across the four conditions.</p>
+<p>The <code>*</code> allows Levene’s test to compare variances across all four combinations (e.g., in a factorial design) of veracity and feedback conditions.</p>
 <p><strong>Q3</strong>: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.</p>
 </div>
 </div>
@@ -264,16 +264,15 @@
 <p>Next, pull out the emmeans and run contrasts using a “holm” correction. Your results may differ slightly from those reported in the paper because we are using emmeans() to conduct simple-effects comparisons, whereas the researchers used separate independent-samples t-tests. Both approaches examine the same group differences but use different estimates of variability.</p>
 <p>Also, because you’re applying Holm corrections, the adjusted p values may differ for that reason too.</p>
 <div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">veracity</span> <span class="op">|</span> <span class="va">feedback</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span>interaction <span class="op">=</span> <span class="st">"pairwise"</span>, </span>
-<span>           simple <span class="op">=</span> <span class="st">"each"</span>, </span>
-<span>           combine <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span>           adjust <span class="op">=</span> <span class="st">"holm"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">feedback</span> <span class="op">|</span> <span class="va">veracity</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span>adjust <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html">test</a></span><span class="op">(</span>by <span class="op">=</span> <span class="cn">NULL</span>, adjust <span class="op">=</span> <span class="st">"holm"</span><span class="op">)</span></span></code></pre></div>
 <p>Don’t forget the effect size:</p>
 <div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">veracity</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://easystats.github.io/effectsize/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span><span class="va">negative.affect</span> <span class="op">~</span> <span class="va">feedback</span>, paired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">rstatix</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span><span class="va">negative.affect</span> <span class="op">~</span> <span class="va">feedback</span>,</span>
+<span>                   paired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Q4</strong>: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.</p>
 <div id="positive-affect-analysis" class="section level3" number="7.8.1">
 <h3>
