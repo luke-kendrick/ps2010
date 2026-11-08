@@ -1,0 +1,257 @@
+# Factorial ANOVA (Independent Design)
+
+## **Learning Outcomes** {.unnumbered}
+
+By the end of this chapter you should be able to:
+
+- Prepare and organise data for a 2 × 2 independent measures factorial ANOVA.
+- Produce descriptive statistics and visualisations for a factorial design.
+- Check the assumptions of a factorial ANOVA.
+- Conduct and interpret a 2 × 2 independent measures factorial ANOVA in R.
+- Interpret main effects and interactions between two independent variables.
+- Conduct and interpret simple-effects analyses following a significant interaction.
+- Report the results of a factorial ANOVA and simple-effects analyses in APA style.
+
+## **Before You Begin**
+
+The data for this chapter come from:
+
+> Gunderson, C. A., Vo, T. V. A., Harriot, B., Kam, C., & ten Brinke, L. (2022). [In search of duping delight](https://doi.org/10.1007/s42761-022-00126-5). *Affective Science, 3*(3), 519–527, <doi:10.1007/s42761-022-00126-5>.
+
+In this study, the researchers investigated whether lying and receiving feedback that you are believed leads to "duper's delight", a positive emotional response to successfully deceiving someone.
+
+Participants (N = 167) were asked to imagine that items had been stolen from their office. They were randomly assigned to either tell the truth about which items were stolen or lie by claiming additional items had been taken. They then completed a video-recorded interview about the theft and received feedback from a supposed computer algorithm indicating whether their account was believable or not believable. In reality, this feedback was randomly assigned. Afterwards, participants completed a questionnaire measuring their positive and negative emotions.
+
+The researchers aimed to investigate whether the effect of receiving believable or not believable feedback on emotions depended on whether participants had lied or told the truth.
+
+### **Variables and Hypotheses**
+
+**Q1(a)** What were the independent variables in this study? How many levels for each and what were they?
+
+**Q1(b)** What are the dependent variables used in this study?
+
+**Q1(c)** What would be a suitable null hypothesis for this study? (one for each dependent variable)
+
+**Q1(d)** What would be a suitable alternative hypothesis for the interaction between factors in this study? (provide one for each dependent variable).
+
+------------------------------------------------------------------------
+
+## **Load Packages and Import Data**
+
+``` r
+library(tidyverse)
+library(afex)
+library(car)
+library(emmeans)
+library(effectsize)
+```
+
+This week you will use the original file that the researchers uploaded. This file format is a `.sav` file, a format associated with software called SPSS.
+
+As SPSS is a bit rubbish, you will need to import the data into R using a slightly different approach this week. Follow these steps:
+
+1.  In the top-right panel (Environment) select `Import Dataset`.
+2.  Choose `From SPSS`. Note that there are other options you could choose to use in future.
+3.  In the `File/URL` section, click `Browse` to find the file (note: you should download it from Moodle!)
+4.  In the `Import Options` section, decide what the new object will be called. Call it `dat`. Short for `data`.
+5.  Check the `Code Preview`. This is essentially the code that RStudio will run for you.
+6.  Click `Import`.
+
+## **Prepare Data**
+
+You will notice there are quite a few variables in this original data set. Use the code below to prepare it for analysis:
+
+``` r
+data <- dat %>%
+  select(Veracity, Feedback, Positive.Affect, Negative.Affect) %>%
+  mutate(id = row_number(), .before = 1)
+```
+
+You have used the code above before, so you should be able to make sense of what it is doing. The `mutate()` bit of code will ensure an `id` column is added, as you'll need that for the analysis later.
+
+You might notice the variable names use a mix of upper and lower case letters. I hate this. The code below will change them all to lowercase
+
+``` r
+names(data) <- tolower(names(data))
+```
+
+If you view the data file, you will notice the veracity and feedback conditions are coded as `0` or `1`. Let's change these to more informative values.
+
+For the feedback condition: \> `0` = Notbelievable, `1` Believable.
+
+For Veracity (whether someone lied or not): \> `0` = Lie, `1` = Truth.
+
+Change them with the code below:
+
+``` r
+data <- data %>%
+  mutate(feedback = factor(feedback,
+                           levels = c(0, 1),
+                           labels = c("notbelievable", "believable")),
+         veracity = factor(veracity,
+                           levels = c(0, 1),
+                           labels = c("lie", "truth")))
+```
+
+Now if you check the data file you should see that the zeros and ones have been replaced with the labels.
+
+The final step here is to export and save the current data set as a `.csv` file format that you are more familiar with.
+
+``` r
+write.csv(data, "lies.csv", row.names = FALSE)
+```
+
+This code will take the object called `data` and save it as a file called `lies.csv` and automatically save it in your working directory.
+
+After this, you should re-load the new `.csv` file and work with it for the rest of this chapter.
+
+``` r
+data <- read_csv("lies.csv")
+```
+
+For those of you who read the paper before today (hopefully all of you!), you may have noticed that the researchers found a significant interaction for negative affect, but not positive affect. For the next section, we will therefore focus on negative.affect as our dependent variable.
+
+## **Descriptive Statistics**
+
+Use the code below to produce descriptive statistics. There might be some typos or errors in the code...you'll need to identify and correct FOUR errors.
+
+``` r
+desc <- dat %>%
+  groupby(veracity, feedback) %>%
+  summmarise(mean_neg = mean(negative.affect),
+            sd_neg = sd(negative.affec),
+            n = n())
+```
+
+Remember to view your descriptives.
+
+**Q2**: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean negative affect score for the four combinations of conditions in the 2x2 design.
+
+## **Create a Suitable Plot**
+
+```r
+ggplot(data, aes(x = veracity, y = negative.affect, fill = feedback)) +
+  geom_violin(alpha = 0.4,
+              position = position_dodge(width = 0.9)) +
+  geom_boxplot(width = 0.2, alpha = 0.8,
+               position = position_dodge(width = 0.9)) +
+  theme_classic()
+```
+
+Check the plot. Can you identify the interaction?
+
+---
+
+## **Check Assumptions**
+
+### **Continuous Dependent Variable**
+
+The dependent variable should be numerical and a continuous score.
+
+This assumption holds for this study.
+
+---
+
+### **Independent Observations**
+
+Each participant was assigned to one of the four conditions and provided one set of observations. Therefore, we assume that observations are independent.
+
+---
+
+### **Roughly Normally Distributed Residuals**
+
+The residuals from the ANOVA model should be approximately normally distributed.
+
+You can use the same approach as previously.
+
+#### **Obtaining the Model Residuals** {.unnumbered}
+
+```r
+mod <- aov_ez(id = "NULL",
+       data = NULL, 
+       between = c("NULL", "NULL"), 
+       dv = "NULL", 
+       type = 3,
+       anova_table = list(es = "pes")) 
+```
+
+The following information will need adding: `veracity`, `feedback`, `id`, `data`, `negative.affect`.
+
+### Q-Q Plot and Shapiro-Wilk {.unnumbered}
+
+This is not new to you by now. Use the code below and interpret the output.
+
+```r
+res <- residuals(mod$lm)
+qqPlot(res)
+shapiro.test(res)
+```
+
+**Homogeneity of Variance**
+
+You will need to check whether the variances/spread of data points look fairly similar (or homogeneous) across the combination of conditions.
+
+Levene's test will check this assumption. Note: it uses a formulaic argument, see below for DV ~ IV.
+
+```r
+leveneTest(negative.affect ~ veracity*feedback, data)
+```
+
+The `*` specifies both independent variables and their interaction, allowing Levene's test to assess variance homogeneity across the four conditions.
+
+**Q3**: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.
+
+## **Interpret the ANOVA**
+
+You have saved the model already. Now time to interpret it.
+
+```r
+mod
+```
+
+Check the console for the output.
+
+## **Simple Effects Analysis**
+
+As there **is** a significant interaction, you should plot it.
+
+```r
+afex_plot(object = mod, 
+          x = "veracity", 
+          trace = "feedback",
+          legend_title = "Feedback",
+          error = "between",
+          factor_levels = list(veracity = c("lie", "truth"))) + 
+  theme_classic()
+```
+
+Next, pull out the emmeans and run contrasts using a "holm" correction. Your results may differ slightly from those reported in the paper because we are using emmeans() to conduct simple-effects comparisons, whereas the researchers used separate independent-samples t-tests. Both approaches examine the same group differences but use different estimates of variability.
+
+Also, because you're applying Holm corrections, the adjusted p values may differ for that reason too.
+
+```r
+emmeans(mod, ~ veracity | feedback) %>% 
+  contrast(interaction = "pairwise", 
+           simple = "each", 
+           combine = FALSE, 
+           adjust = "holm")
+```
+
+Don't forget the effect size:
+
+```r
+data %>%
+  group_by(veracity) %>%
+  cohens_d(negative.affect ~ feedback, paired = FALSE)
+```
+
+**Q4**: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.
+
+
+### **Positive Affect Analysis**
+
+Now it is time to try and re-run the analysis yourself. Repeat these steps again but this time, use the positive affect measure as the dependent variable. You'll need the output for this analysis for the weekly quiz.
+
+**Well done. You have reached the end of this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.

@@ -101,3 +101,17 @@ change-from-long-to-wide-format
 create-the-stroop-interference-score
 create-the-final-dataset
 run-and-interpret-a-two-sample-t-test
+factorial-anova-independent-design
+before-you-begin-6
+variables-and-hypotheses-2
+load-packages-and-import-data-6
+prepare-data
+descriptive-statistics-6
+create-a-suitable-plot-5
+check-assumptions-5
+continuous-dependent-variable-5
+independent-observations-4
+roughly-normally-distributed-residuals-3
+interpret-the-anova-2
+simple-effects-analysis
+positive-affect-analysis
