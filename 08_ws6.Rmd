@@ -1,0 +1,317 @@
+# Factorial ANOVA (Mixed Design & Covariate)
+
+## **Learning Outcomes** {.unnumbered}
+
+By the end of this chapter you should be able to:
+
+The data for this chapter come from:
+
+> Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., & Clabough, E.B.D (2026). [Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children](https://doi.org/10.1007/s42761-022-00126-5). *Affective Science, 3*(3), 519–527, <doi:10.1007/s42761-022-00126-5>.
+
+In this study, the researchers investigated if a short daily bedtime reading routine could influence children's empathy and creativity. This chapter will focus on the measure of creativity.
+
+Children took part in one of two reading conditions (called `Treatment` in the data file): a pause condition where the reading routine included pauses in which children were asked two reflective questions, or a read-through condition which did not include pauses or reflective questions. Children completed measures of empathy and creativity before and after the intervention (see `occasion` in the data file). In this chapter you will analyse the measure of creativity, specifically fluency in divergent thinking (measured using Wallach-Kogan Alternative Uses Test).
+
+The primary research question is whether the change in fluency from the initial assessment to follow-up differs between the two reading conditions.
+
+------------------------------------------------------------------------
+
+### **Variables and Hypotheses**
+
+**Q1(a)** What were the independent variables in this study? How many levels for each and what were they?
+
+**Q1(b)** What was the dependent variables used in this study (hint: choose the variable used for the analysis in this chapter?
+
+**Q1(c)** What would be a suitable alternative hypothesis for the interaction between factors in this study?.
+
+**Q1(d)** What is the design of this study and what would be a suitable method of analysis?
+
+------------------------------------------------------------------------
+
+## **Load Packages and Import Data**
+
+``` r
+library(tidyverse)
+library(afex)
+library(emmeans)
+library(car)
+```
+
+Download the COF_DataAnalyses.csv from the workshop materials and save it in your R project folder. Then import it:
+
+dat \<- read_csv("fluency.csv")
+
+------------------------------------------------------------------------
+
+## **Data Wrangling**
+
+### Select Variables
+
+You will not need to include all variables in the data set. Use the `select()` function to include: `Participant_ID`, `Treatment`, `Initial.Fluency`, `Follow.Fluency`.
+
+Save these as a new object called `data`.
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+``` r
+data <- dat %>%
+  select(NULL, NULL, NULL, NULL)
+```
+
+</details>
+
+------------------------------------------------------------------------
+
+### Pivot Data
+
+As one of the variables are repeated measures, you will need to check if the data in its current form is in long format.
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+*Spoiler alert* It is not in long format. This is because there is not a **single** column that contains the dependent variable. This is because InitialFluency and FollowFluency are in separate columns, meaning these data are in wide format.
+
+</details>
+
+---
+
+``` r
+data <- pivot_longer(cols =c(InitialFluency, FollowFluency),
+    names_to = "occasion",
+    values_to = "fluency")
+```
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+`pivot_longer()` changes the data from **wide format** to **long format**. It takes the two fluency columns and places their names in a new `occasion` column and their scores in a new `fluency` column.
+
+- `data <-` saves the result in an object called `data`.
+- `dat %>%` supplies the existing dataset to `pivot_longer()`.
+- `cols = c(...)` the columns you should reshape.
+- `names_to = "occasion"` creates a column for the independent variable.
+- `values_to = "fluency"` creates a column containing the scores (dependent variable).
+
+</details>
+
+------------------------------------------------------------------------
+
+### Factorise and Rename Variables
+
+The `Treatment` and `occasion` variables are both factors, and so they need to be changed as "Factor".
+
+``` r
+data <- data %>% 
+  mutate(Treatment = factor(Treatment, labels = c("readthrough", "pause")),
+        occasion = factor(occasion, levels = c("InitialFluency", "FollowFluency")))
+```
+
+The mixing of uppercase and lowercase for the factor names is annoying. Stick with best practice and keep everything lowercase.
+
+``` r
+names(data) <- tolower(names(data))
+```
+
+------------------------------------------------------------------------
+
+## **Descriptive Statistics**
+
+Calculate descriptive statistics.
+
+**Q2**: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean fluency score across the four combinations of conditions in the 2x2 design.
+
+## **Create a Suitable Plot**
+
+You will want to create something fairly similar to Figure 2 B in the original paper. Although you should also include violins on top of the box plots, as you know by now I like a violin.
+
+``` r
+ggplot(NULL, aes(x = NULL, y = NULL, fill = NULL)) +
+  geom_violin(alpha = 0.4,
+              position = position_dodge(width = 0.9)) +
+  geom_boxplot(width = 0.2, alpha = 0.8,
+               position = position_dodge(width = 0.9)) +
+  theme_classic()
+```
+
+You will need to check the figure in the published paper to amend the code above.
+
+Remember:
+
+- `x =` what should go on the x-axis?
+- `y =` what should go on the y-axis? = `fill =` what should go in the figure legend?
+
+## **Check Assumptions**
+
+### **Continuous Dependent Variable**
+
+The dependent variable should be numerical and a continuous score.
+
+This assumption holds for this study.
+
+------------------------------------------------------------------------
+
+### **Independent Observations**
+
+Each child should only be in only **one** treatment condition.
+
+Although each child's score is related (repeated measures), each child's set of observations are independent from one another. In other words, each child's scores should not influence another child's scores.
+
+------------------------------------------------------------------------
+
+### **Roughly Normally Distributed Residuals**
+
+The residuals from the ANOVA model should be approximately normally distributed.
+
+You can use the same approach as previously.
+
+#### **Obtaining the Model Residuals** {.unnumbered}
+
+``` r
+mod <- aov_ez(id = "NULL",
+       data = NULL, 
+       between = "NULL",
+       within = "NULL",
+       dv = "NULL", 
+       type = 3,
+       anova_table = list(es = "pes")) 
+```
+
+### Q-Q Plot and Shapiro-Wilk {.unnumbered}
+
+This is not new to you by now. Use the code below and interpret the output.
+
+``` r
+res <- residuals(mod$lm)
+qqPlot(res)
+shapiro.test(res)
+```
+
+### Homogeneity of Variance {.unnumbered}
+
+For more complex designs you might consider using `check_homogeneity()` from the performance package. This will use Levene's Test check homogeneity of variance across all groups.
+
+``` r
+install.packages("performance")
+library(performance)
+
+check_homogeneity(mod, method = "levene")
+```
+
+You can also visualise the variances:
+
+``` r
+plot(check_homogeneity(mod, method = "levene"))
+```
+
+<details class="dropdown">
+
+<summary>❓ Help</summary>
+
+For some unknown reason, the performance package has been a bit temperamental on Campus PCs in the past.
+
+If the above does not work, use the old fashioned approach (note: you need to run a Levene's Test at each level of the within subjects variable, so one for `InitialFluency` and then one for `FollowFluency`)
+
+``` r
+#First for initialfluency
+leveneTest(fluency ~ treatment,
+           data = filter(data, occasion == "InitialFluency"))
+
+#Then for followfluency
+leveneTest(fluency ~ treatment,
+           data = filter(data, occasion == "FollowFluency"))
+```
+
+</details>
+
+---
+
+**Q3**: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.
+
+------------------------------------------------------------------------
+
+## **Interpret the ANOVA**
+
+You have saved the model already. Now time to interpret it.
+
+```r
+mod
+```
+
+Check the console for the output.
+
+The main effect of `occasion` is significant. What exactly does this mean?
+
+You could visualise this effect below by plotting **only** the `occasion` and fluency scores (disregarding the `treatment`).
+
+```r
+ggplot(data, aes(x = occasion, y = fluency)) +
+  geom_violin() +
+  geom_boxplot(width = 0.4)
+```
+
+This plot shows that there is an increase in fluency score from the `InitialFluency` occasion (pre-treatment) to the `FolloFluency` occasion (post-treatment).
+
+From this main effect, can you conclude that the treatment has worked? What does the increase of scores mean?
+
+Whilst the fluency scores do increase, we cannot be sure if this is the same for **both** `treatment` conditions or just **one** of them. There are two possibilities:
+
+1. A non-significant interaction would indicate that the increase is likely to occur for both treatment conditions.
+2. A significant interaction would indicate that the increase **depends** on the treatment condition.
+
+As there is a significant interaction, it seems option 2 looks likely and so you will need to dig a little deeper with simple effects analyses.
+
+## **Simple Effects Analysis**
+
+The approach here is simple, do we see the same level of increase for both the `pause` and `readhtrough` conditions. The interaction suggests not.
+
+You will need to compare the `InitialFluency` vs. `FollowFluency` scores at each level of the other factor, `treatment`.
+
+First, plot it.
+
+```r
+afex_plot(object = mod, 
+          x = "treatment", 
+          trace = "occasion", 
+          error = "within") +
+  theme_classic()
+```
+
+You used this code last week but see below for more of an explanation.
+
+<details class="dropdown">
+
+<summary>🔍 Code Explained</summary>
+
+- `x = ` should be the x-axis variable. Here this should be the factor that you are going to compare across the levels.
+- `trace = ` should be the legent variable. Here this should be the variable with the comparisons (e.g., InitialFluency vs. FollowFluency belongs to the `occasion` variable)
+- `error = within` is the `trace` variable is a within subject variable, keep this as within. If it is a between subjects variable, change it to `between`.
+
+</details>
+
+---
+
+Now you will need the statistics from the pairwise comparisons so you can interpret them alongside the `afex_plot()`.
+
+```r
+emmeans(mod, ~ occasion*treatment) %>% 
+  contrast(interaction = "pairwise", 
+           simple = "each", 
+           combine = FALSE, 
+           adjust = "holm")
+```
+
+Look through the output and select the relevant comparisons. You **only** need to report the *t*-tests for InitialFluency vs. FollowFluency at each level of treatment.
+
+In total you will need two *t*-tests for this simple effects analysis.
+
+**Q4**: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.
+
+---
+
+**Well done. You have reached the end of this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.

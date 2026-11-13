@@ -125,7 +125,7 @@ desc <- dat %>%
 
 Remember to view your descriptives.
 
-**Q2**: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean negative affect score for the four combinations of conditions in the 2x2 design.
+**Q2**: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean negative affect score across the four combinations of conditions in the 2x2 design.
 
 ## **Create a Suitable Plot**
 
@@ -187,7 +187,7 @@ qqPlot(res)
 shapiro.test(res)
 ```
 
-**Homogeneity of Variance**
+### Homogeneity of Variance {.unnumbered}
 
 You will need to check whether the variances/spread of data points look fairly similar (or homogeneous) across the combination of conditions.
 

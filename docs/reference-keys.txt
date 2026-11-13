@@ -115,3 +115,17 @@ roughly-normally-distributed-residuals-3
 interpret-the-anova-2
 simple-effects-analysis
 positive-affect-analysis
+factorial-anova-mixed-design-covariate
+variables-and-hypotheses-3
+load-packages-and-import-data-7
+data-wrangling
+select-variables
+pivot-data
+factorise-and-rename-variables
+descriptive-statistics-7
+create-a-suitable-plot-6
+check-assumptions-6
+continuous-dependent-variable-6
+independent-observations-5
+roughly-normally-distributed-residuals-4
+interpret-the-anova-3
