@@ -51,6 +51,7 @@
 <li><a class="" href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></li>
 <li><a class="" href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
 <li><a class="active" href="factorial-anova-independent-design.html"><span class="header-section-number">7</span> Factorial ANOVA (Independent Design)</a></li>
+<li><a class="" href="factorial-anova-mixed-design-covariate.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design &amp; Covariate)</a></li>
 </ul>
 
         <div class="book-extra">
@@ -167,7 +168,7 @@
 <span>            sd_neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">negative.affec</span><span class="op">)</span>,</span>
 <span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Remember to view your descriptives.</p>
-<p><strong>Q2</strong>: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean negative affect score for the four combinations of conditions in the 2x2 design.</p>
+<p><strong>Q2</strong>: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean negative affect score across the four combinations of conditions in the 2x2 design.</p>
 </div>
 <div id="create-a-suitable-plot-5" class="section level2" number="7.5">
 <h2>
@@ -230,7 +231,10 @@
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">lm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/car/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Homogeneity of Variance</strong></p>
+</div>
+<div id="homogeneity-of-variance" class="section level3 unnumbered">
+<h3>Homogeneity of Variance<a class="anchor" aria-label="anchor" href="#homogeneity-of-variance"><i class="fas fa-link"></i></a>
+</h3>
 <p>You will need to check whether the variances/spread of data points look fairly similar (or homogeneous) across the combination of conditions.</p>
 <p>Levene’s test will check this assumption. Note: it uses a formulaic argument, see below for DV ~ IV.</p>
 <div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
@@ -287,7 +291,7 @@
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></div>
-<div class="empty"></div>
+<div class="next"><a href="factorial-anova-mixed-design-covariate.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design &amp; Covariate)</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -306,6 +310,7 @@
 <li><a class="nav-link" href="#independent-observations-4"><span class="header-section-number">7.6.2</span> Independent Observations</a></li>
 <li><a class="nav-link" href="#roughly-normally-distributed-residuals-3"><span class="header-section-number">7.6.3</span> Roughly Normally Distributed Residuals</a></li>
 <li><a class="nav-link" href="#q-q-plot-and-shapiro-wilk">Q-Q Plot and Shapiro-Wilk</a></li>
+<li><a class="nav-link" href="#homogeneity-of-variance">Homogeneity of Variance</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#interpret-the-anova-2"><span class="header-section-number">7.7</span> Interpret the ANOVA</a></li>

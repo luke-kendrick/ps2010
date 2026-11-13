@@ -4,6 +4,14 @@
 
 By the end of this chapter you should be able to:
 
+- Wrangle and pivot a data set in preparation for a 2 × 2 mixed factorial ANOVA.
+Produce descriptive statistics and visualisations for a factorial design.
+- Check the assumptions of a factorial ANOVA.
+- Conduct and interpret a 2 × 2 independent measures factorial ANOVA in R.
+- Interpret main effects and interactions between two independent variables.
+- Conduct and interpret simple-effects analyses following a significant interaction.
+- Report the results of a factorial ANOVA and simple-effects analyses in APA style.
+
 The data for this chapter come from:
 
 > Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., & Clabough, E.B.D (2026). [Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children](https://doi.org/10.1007/s42761-022-00126-5). *Affective Science, 3*(3), 519–527, <doi:10.1007/s42761-022-00126-5>.

@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>8 Factorial ANOVA (Mixed Design &amp; Covariate) | PS2010 Workshop Code Book</title>
 <meta name="author" content="Luke Kendrick">
-<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: The data for this chapter come from: Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., &amp; Clabough, E.B.D (2026). Keep the...">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: Wrangle and pivot a data set in preparation for a 2 × 2 mixed factorial ANOVA. Produce descriptive statistics and visualisations...">
 <meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="8 Factorial ANOVA (Mixed Design &amp; Covariate) | PS2010 Workshop Code Book">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: The data for this chapter come from: Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., &amp; Clabough, E.B.D (2026). Keep the...">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: Wrangle and pivot a data set in preparation for a 2 × 2 mixed factorial ANOVA. Produce descriptive statistics and visualisations...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="8 Factorial ANOVA (Mixed Design &amp; Covariate) | PS2010 Workshop Code Book">
-<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: The data for this chapter come from: Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., &amp; Clabough, E.B.D (2026). Keep the...">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: Wrangle and pivot a data set in preparation for a 2 × 2 mixed factorial ANOVA. Produce descriptive statistics and visualisations...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.10.0/transition.js"></script><script src="libs/bs3compat-0.10.0/tabs.js"></script><script src="libs/bs3compat-0.10.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -42,7 +42,17 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design &amp; Covariate)</a></li></ul>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="" href="one-way-anova-independent.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent)</a></li>
+<li><a class="" href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></li>
+<li><a class="" href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
+<li><a class="" href="factorial-anova-independent-design.html"><span class="header-section-number">7</span> Factorial ANOVA (Independent Design)</a></li>
+<li><a class="active" href="factorial-anova-mixed-design-covariate.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design &amp; Covariate)</a></li>
+</ul>
 
         <div class="book-extra">
           
@@ -58,6 +68,15 @@
 <strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-7"><i class="fas fa-link"></i></a>
 </h2>
 <p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>Wrangle and pivot a data set in preparation for a 2 × 2 mixed factorial ANOVA.
+Produce descriptive statistics and visualisations for a factorial design.</li>
+<li>Check the assumptions of a factorial ANOVA.</li>
+<li>Conduct and interpret a 2 × 2 independent measures factorial ANOVA in R.</li>
+<li>Interpret main effects and interactions between two independent variables.</li>
+<li>Conduct and interpret simple-effects analyses following a significant interaction.</li>
+<li>Report the results of a factorial ANOVA and simple-effects analyses in APA style.</li>
+</ul>
 <p>The data for this chapter come from:</p>
 <blockquote>
 <p>Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., &amp; Clabough, E.B.D (2026). <a href="https://doi.org/10.1007/s42761-022-00126-5">Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children</a>. <em>Affective Science, 3</em>(3), 519–527, <a href="doi:10.1007/s42761-022-00126-5" class="uri">doi:10.1007/s42761-022-00126-5</a>.</p>
@@ -81,7 +100,7 @@
 <h2>
 <span class="header-section-number">8.1</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data-7"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://afex.singmann.science/">afex</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span>
@@ -102,7 +121,7 @@
 <p>Save these as a new object called <code>data</code>.</p>
 <details class="dropdown"><summary>
 ❓ Help
-</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="cn">NULL</span>, <span class="cn">NULL</span>, <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 </details><hr>
@@ -115,7 +134,8 @@
 <details class="dropdown"><summary>
 ❓ Help
 </summary><p><em>Spoiler alert</em> It is not in long format. This is because there is not a <strong>single</strong> column that contains the dependent variable. This is because InitialFluency and FollowFluency are in separate columns, meaning these data are in wide format.</p>
-</details><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+</details><hr>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">InitialFluency</span>, <span class="va">FollowFluency</span><span class="op">)</span>,</span>
 <span>    names_to <span class="op">=</span> <span class="st">"occasion"</span>,</span>
 <span>    values_to <span class="op">=</span> <span class="st">"fluency"</span><span class="op">)</span></span></code></pre></div>
@@ -140,12 +160,12 @@
 <span class="header-section-number">8.2.3</span> Factorise and Rename Variables<a class="anchor" aria-label="anchor" href="#factorise-and-rename-variables"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <code>Treatment</code> and <code>occasion</code> variables are both factors, and so they need to be changed as “Factor”.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Treatment</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"readthrough"</span>, <span class="st">"pause"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>        occasion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">occasion</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"InitialFluency"</span>, <span class="st">"FollowFluency"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The mixing of uppercase and lowercase for the factor names is annoying. Stick with best practice and keep everything lowercase.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -162,7 +182,7 @@
 <span class="header-section-number">8.4</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot-6"><i class="fas fa-link"></i></a>
 </h2>
 <p>You will want to create something fairly similar to Figure 2 B in the original paper. Although you should also include violins on top of the box plots, as you know by now I like a violin.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span>, fill <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>              position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html">position_dodge</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -208,7 +228,7 @@
 <h4>
 <strong>Obtaining the Model Residuals</strong><a class="anchor" aria-label="anchor" href="#obtaining-the-model-residuals-3"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"NULL"</span>,</span>
 <span>       data <span class="op">=</span> <span class="cn">NULL</span>, </span>
 <span>       between <span class="op">=</span> <span class="st">"NULL"</span>,</span>
@@ -222,28 +242,28 @@
 <h3>Q-Q Plot and Shapiro-Wilk<a class="anchor" aria-label="anchor" href="#q-q-plot-and-shapiro-wilk-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>This is not new to you by now. Use the code below and interpret the output.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">lm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/car/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="homogeneity-of-variance" class="section level3 unnumbered">
-<h3>Homogeneity of Variance<a class="anchor" aria-label="anchor" href="#homogeneity-of-variance"><i class="fas fa-link"></i></a>
+<div id="homogeneity-of-variance-1" class="section level3 unnumbered">
+<h3>Homogeneity of Variance<a class="anchor" aria-label="anchor" href="#homogeneity-of-variance-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>For more complex designs you might consider using <code><a href="https://easystats.github.io/performance/reference/check_homogeneity.html">check_homogeneity()</a></code> from the performance package. This will use Levene’s Test check homogeneity of variance across all groups.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"performance"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/performance/">performance</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_homogeneity.html">check_homogeneity</a></span><span class="op">(</span><span class="va">mod</span>, method <span class="op">=</span> <span class="st">"levene"</span><span class="op">)</span></span></code></pre></div>
 <p>You can also visualise the variances:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_homogeneity.html">check_homogeneity</a></span><span class="op">(</span><span class="va">mod</span>, method <span class="op">=</span> <span class="st">"levene"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <details class="dropdown"><summary>
 ❓ Help
 </summary><p>For some unknown reason, the performance package has been a bit temperamental on Campus PCs in the past.</p>
 <p>If the above does not work, use the old fashioned approach (note: you need to run a Levene’s Test at each level of the within subjects variable, so one for <code>InitialFluency</code> and then one for <code>FollowFluency</code>)</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#First for initialfluency</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/car/man/leveneTest.html">leveneTest</a></span><span class="op">(</span><span class="va">fluency</span> <span class="op">~</span> <span class="va">treatment</span>,</span>
 <span>           data <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">occasion</span> <span class="op">==</span> <span class="st">"InitialFluency"</span><span class="op">)</span><span class="op">)</span></span>
@@ -251,7 +271,8 @@
 <span><span class="co">#Then for followfluency</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/car/man/leveneTest.html">leveneTest</a></span><span class="op">(</span><span class="va">fluency</span> <span class="op">~</span> <span class="va">treatment</span>,</span>
 <span>           data <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">occasion</span> <span class="op">==</span> <span class="st">"FollowFluency"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</details><p><strong>Q3</strong>: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.</p>
+</details><hr>
+<p><strong>Q3</strong>: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.</p>
 <hr>
 </div>
 </div>
@@ -260,16 +281,96 @@
 <span class="header-section-number">8.6</span> <strong>Interpret the ANOVA</strong><a class="anchor" aria-label="anchor" href="#interpret-the-anova-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>You have saved the model already. Now time to interpret it.</p>
-<p>```r mod</p>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod</span></span></code></pre></div>
+<p>Check the console for the output.</p>
+<p>The main effect of <code>occasion</code> is significant. What exactly does this mean?</p>
+<p>You could visualise this effect below by plotting <strong>only</strong> the <code>occasion</code> and fluency scores (disregarding the <code>treatment</code>).</p>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">occasion</span>, y <span class="op">=</span> <span class="va">fluency</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span></span></code></pre></div>
+<p>This plot shows that there is an increase in fluency score from the <code>InitialFluency</code> occasion (pre-treatment) to the <code>FolloFluency</code> occasion (post-treatment).</p>
+<p>From this main effect, can you conclude that the treatment has worked? What does the increase of scores mean?</p>
+<p>Whilst the fluency scores do increase, we cannot be sure if this is the same for <strong>both</strong> <code>treatment</code> conditions or just <strong>one</strong> of them. There are two possibilities:</p>
+<ol style="list-style-type: decimal">
+<li>A non-significant interaction would indicate that the increase is likely to occur for both treatment conditions.</li>
+<li>A significant interaction would indicate that the increase <strong>depends</strong> on the treatment condition.</li>
+</ol>
+<p>As there is a significant interaction, it seems option 2 looks likely and so you will need to dig a little deeper with simple effects analyses.</p>
+</div>
+<div id="simple-effects-analysis-1" class="section level2" number="8.7">
+<h2>
+<span class="header-section-number">8.7</span> <strong>Simple Effects Analysis</strong><a class="anchor" aria-label="anchor" href="#simple-effects-analysis-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>The approach here is simple, do we see the same level of increase for both the <code>pause</code> and <code>readhtrough</code> conditions. The interaction suggests not.</p>
+<p>You will need to compare the <code>InitialFluency</code> vs. <code>FollowFluency</code> scores at each level of the other factor, <code>treatment</code>.</p>
+<p>First, plot it.</p>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/afex_plot.html">afex_plot</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">mod</span>, </span>
+<span>          x <span class="op">=</span> <span class="st">"treatment"</span>, </span>
+<span>          trace <span class="op">=</span> <span class="st">"occasion"</span>, </span>
+<span>          error <span class="op">=</span> <span class="st">"within"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>You used this code last week but see below for more of an explanation.</p>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code>x =</code> should be the x-axis variable. Here this should be the factor that you are going to compare across the levels.</li>
+<li>
+<code>trace =</code> should be the legent variable. Here this should be the variable with the comparisons (e.g., InitialFluency vs. FollowFluency belongs to the <code>occasion</code> variable)</li>
+<li>
+<code>error = within</code> is the <code>trace</code> variable is a within subject variable, keep this as within. If it is a between subjects variable, change it to <code>between</code>.</li>
+</ul></details><hr>
+<p>Now you will need the statistics from the pairwise comparisons so you can interpret them alongside the <code><a href="https://rdrr.io/pkg/afex/man/afex_plot.html">afex_plot()</a></code>.</p>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">occasion</span><span class="op">*</span><span class="va">treatment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span>interaction <span class="op">=</span> <span class="st">"pairwise"</span>, </span>
+<span>           simple <span class="op">=</span> <span class="st">"each"</span>, </span>
+<span>           combine <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>           adjust <span class="op">=</span> <span class="st">"holm"</span><span class="op">)</span></span></code></pre></div>
+<p>Look through the output and select the relevant comparisons. You <strong>only</strong> need to report the <em>t</em>-tests for InitialFluency vs. FollowFluency at each level of treatment.</p>
+<p>In total you will need two <em>t</em>-tests for this simple effects analysis.</p>
+<p><strong>Q4</strong>: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.</p>
+<hr>
+<p><strong>Well done. You have reached the end of this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
+<div class="prev"><a href="factorial-anova-independent-design.html"><span class="header-section-number">7</span> Factorial ANOVA (Independent Design)</a></div>
 <div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#factorial-anova-mixed-design-covariate"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design &amp; Covariate)</a></li>
+<li>
+<a class="nav-link" href="#learning-outcomes-7">Learning Outcomes</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#variables-and-hypotheses-3"><span class="header-section-number">8.0.1</span> Variables and Hypotheses</a></li></ul>
+</li>
+<li><a class="nav-link" href="#load-packages-and-import-data-7"><span class="header-section-number">8.1</span> Load Packages and Import Data</a></li>
+<li>
+<a class="nav-link" href="#data-wrangling"><span class="header-section-number">8.2</span> Data Wrangling</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#select-variables"><span class="header-section-number">8.2.1</span> Select Variables</a></li>
+<li><a class="nav-link" href="#pivot-data"><span class="header-section-number">8.2.2</span> Pivot Data</a></li>
+<li><a class="nav-link" href="#factorise-and-rename-variables"><span class="header-section-number">8.2.3</span> Factorise and Rename Variables</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#descriptive-statistics-7"><span class="header-section-number">8.3</span> Descriptive Statistics</a></li>
+<li><a class="nav-link" href="#create-a-suitable-plot-6"><span class="header-section-number">8.4</span> Create a Suitable Plot</a></li>
+<li>
+<a class="nav-link" href="#check-assumptions-6"><span class="header-section-number">8.5</span> Check Assumptions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#continuous-dependent-variable-6"><span class="header-section-number">8.5.1</span> Continuous Dependent Variable</a></li>
+<li><a class="nav-link" href="#independent-observations-5"><span class="header-section-number">8.5.2</span> Independent Observations</a></li>
+<li><a class="nav-link" href="#roughly-normally-distributed-residuals-4"><span class="header-section-number">8.5.3</span> Roughly Normally Distributed Residuals</a></li>
+<li><a class="nav-link" href="#q-q-plot-and-shapiro-wilk-1">Q-Q Plot and Shapiro-Wilk</a></li>
+<li><a class="nav-link" href="#homogeneity-of-variance-1">Homogeneity of Variance</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#interpret-the-anova-3"><span class="header-section-number">8.6</span> Interpret the ANOVA</a></li>
+<li><a class="nav-link" href="#simple-effects-analysis-1"><span class="header-section-number">8.7</span> Simple Effects Analysis</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">

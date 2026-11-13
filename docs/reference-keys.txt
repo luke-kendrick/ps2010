@@ -129,3 +129,4 @@ continuous-dependent-variable-6
 independent-observations-5
 roughly-normally-distributed-residuals-4
 interpret-the-anova-3
+simple-effects-analysis-1
