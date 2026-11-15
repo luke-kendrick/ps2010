@@ -1,20 +1,20 @@
-# Factorial ANOVA (Mixed Design & Covariate)
+# Factorial ANOVA (Mixed Design)
 
 ## **Learning Outcomes** {.unnumbered}
 
 By the end of this chapter you should be able to:
 
 - Wrangle and pivot a data set in preparation for a 2 × 2 mixed factorial ANOVA.
-Produce descriptive statistics and visualisations for a factorial design.
+- Produce descriptive statistics and visualisations for a factorial design.
 - Check the assumptions of a factorial ANOVA.
-- Conduct and interpret a 2 × 2 independent measures factorial ANOVA in R.
+- Conduct and interpret a 2 × 2 mixed factorial ANOVA in R.
 - Interpret main effects and interactions between two independent variables.
 - Conduct and interpret simple-effects analyses following a significant interaction.
 - Report the results of a factorial ANOVA and simple-effects analyses in APA style.
 
 The data for this chapter come from:
 
-> Winter, M., Will, A.J., Ingersoll, J., Meyer, M.J., & Clabough, E.B.D (2026). [Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children](https://doi.org/10.1007/s42761-022-00126-5). *Affective Science, 3*(3), 519–527, <doi:10.1007/s42761-022-00126-5>.
+> Winter, M., Willy, A.J., Ingersoll, J., Meyer, M.J., & Clabough, E.B.D (2026). [Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children](https://doi.org/10.1007/s42761-022-00126-5). *PLOS ONE, 21(1),* e0340068, <doi:10.1371/journal.pone.0340068>.
 
 In this study, the researchers investigated if a short daily bedtime reading routine could influence children's empathy and creativity. This chapter will focus on the measure of creativity.
 
@@ -28,9 +28,9 @@ The primary research question is whether the change in fluency from the initial 
 
 **Q1(a)** What were the independent variables in this study? How many levels for each and what were they?
 
-**Q1(b)** What was the dependent variables used in this study (hint: choose the variable used for the analysis in this chapter?
+**Q1(b)** What was the dependent variables used in this study (hint: choose the variable used for the analysis in this chapter)?
 
-**Q1(c)** What would be a suitable alternative hypothesis for the interaction between factors in this study?.
+**Q1(c)** What would be a suitable alternative hypothesis for the interaction between factors in this study?
 
 **Q1(d)** What is the design of this study and what would be a suitable method of analysis?
 
@@ -45,9 +45,11 @@ library(emmeans)
 library(car)
 ```
 
-Download the COF_DataAnalyses.csv from the workshop materials and save it in your R project folder. Then import it:
+Download the fluency.csv from the workshop materials and save it in your R project folder. Then import it:
 
-dat \<- read_csv("fluency.csv")
+```r
+dat <- read_csv("fluency.csv")
+```
 
 ------------------------------------------------------------------------
 
@@ -87,7 +89,8 @@ As one of the variables are repeated measures, you will need to check if the dat
 ---
 
 ``` r
-data <- pivot_longer(cols =c(InitialFluency, FollowFluency),
+data <- dat %>%
+    pivot_longer(cols =c(InitialFluency, FollowFluency),
     names_to = "occasion",
     values_to = "fluency")
 ```
@@ -134,7 +137,7 @@ Calculate descriptive statistics.
 
 ## **Create a Suitable Plot**
 
-You will want to create something fairly similar to Figure 2 B in the original paper. Although you should also include violins on top of the box plots, as you know by now I like a violin.
+You will want to create something fairly similar to Figure 2 B in the original paper. Although you should also include violins behind the box plots.
 
 ``` r
 ggplot(NULL, aes(x = NULL, y = NULL, fill = NULL)) +
@@ -150,7 +153,8 @@ You will need to check the figure in the published paper to amend the code above
 Remember:
 
 - `x =` what should go on the x-axis?
-- `y =` what should go on the y-axis? = `fill =` what should go in the figure legend?
+- `y =` what should go on the y-axis?  
+- `fill =` what should go in the figure legend?
 
 ## **Check Assumptions**
 
@@ -177,6 +181,14 @@ The residuals from the ANOVA model should be approximately normally distributed.
 You can use the same approach as previously.
 
 #### **Obtaining the Model Residuals** {.unnumbered}
+
+If you need a reminder of the variable names use:
+
+```r
+names(data)
+```
+
+Then fit the model:
 
 ``` r
 mod <- aov_ez(id = "NULL",
@@ -205,6 +217,7 @@ For more complex designs you might consider using `check_homogeneity()` from the
 ``` r
 install.packages("performance")
 library(performance)
+library(see)
 
 check_homogeneity(mod, method = "levene")
 ```
@@ -315,6 +328,15 @@ emmeans(mod, ~ occasion*treatment) %>%
 Look through the output and select the relevant comparisons. You **only** need to report the *t*-tests for InitialFluency vs. FollowFluency at each level of treatment.
 
 In total you will need two *t*-tests for this simple effects analysis.
+
+Remember to include effect sizes...
+
+```r
+data %>%
+  group_by(treatment) %>%
+  rstatix::cohens_d(fluency ~ occasion,
+                    paired = TRUE)
+```
 
 **Q4**: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.
 
