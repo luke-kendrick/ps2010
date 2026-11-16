@@ -57,7 +57,7 @@ dat <- read_csv("fluency.csv")
 
 ### Select Variables
 
-You will not need to include all variables in the data set. Use the `select()` function to include: `Participant_ID`, `Treatment`, `Initial.Fluency`, `Follow.Fluency`.
+You will not need to include all variables in the data set. Use the `select()` function to include: `Participant_ID`, `Treatment`, `InitialFluency`, `FollowFluency`.
 
 Save these as a new object called `data`.
 
@@ -89,7 +89,7 @@ As one of the variables are repeated measures, you will need to check if the dat
 ---
 
 ``` r
-data <- dat %>%
+data <- data %>%
     pivot_longer(cols =c(InitialFluency, FollowFluency),
     names_to = "occasion",
     values_to = "fluency")

@@ -118,7 +118,7 @@
 <h3>
 <span class="header-section-number">8.2.1</span> Select Variables<a class="anchor" aria-label="anchor" href="#select-variables"><i class="fas fa-link"></i></a>
 </h3>
-<p>You will not need to include all variables in the data set. Use the <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> function to include: <code>Participant_ID</code>, <code>Treatment</code>, <code>Initial.Fluency</code>, <code>Follow.Fluency</code>.</p>
+<p>You will not need to include all variables in the data set. Use the <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> function to include: <code>Participant_ID</code>, <code>Treatment</code>, <code>InitialFluency</code>, <code>FollowFluency</code>.</p>
 <p>Save these as a new object called <code>data</code>.</p>
 <details class="dropdown"><summary>
 ❓ Help
@@ -137,7 +137,7 @@
 </summary><p><em>Spoiler alert</em> It is not in long format. This is because there is not a <strong>single</strong> column that contains the dependent variable. This is because InitialFluency and FollowFluency are in separate columns, meaning these data are in wide format.</p>
 </details><hr>
 <div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">InitialFluency</span>, <span class="va">FollowFluency</span><span class="op">)</span>,</span>
 <span>    names_to <span class="op">=</span> <span class="st">"occasion"</span>,</span>
 <span>    values_to <span class="op">=</span> <span class="st">"fluency"</span><span class="op">)</span></span></code></pre></div>
