@@ -14,7 +14,7 @@ By the end of this chapter you should be able to:
 
 The data for this chapter come from:
 
-> Winter, M., Willy, A.J., Ingersoll, J., Meyer, M.J., & Clabough, E.B.D (2026). [Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children](https://doi.org/10.1007/s42761-022-00126-5). *PLOS ONE, 21(1),* e0340068, <doi:10.1371/journal.pone.0340068>.
+> Winter, M., Willy, A.J., Ingersoll, J., Meyer, M.J., & Clabough, E.B.D (2026). [Keep the Bedtime Story: A Daily Reading Ritual Improves Empathy and Creativity in Children](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0340068). *PLOS ONE, 21(1),* e0340068. doi:10.1371/journal.pone.0340068.
 
 In this study, the researchers investigated if a short daily bedtime reading routine could influence children's empathy and creativity. This chapter will focus on the measure of creativity.
 
