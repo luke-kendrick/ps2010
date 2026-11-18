@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>9 Factorial ANOVA (Repeated Design) | PS2010 Workshop Code Book</title>
+<meta name="author" content="Luke Kendrick">
+<meta name="description" content="Learning Outcomes By the end of this chapter you should be able to: Wrangle and pivot a data set in preparation for a 2 × 2repeated factorial ANOVA. Produce descriptive statistics and...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="9 Factorial ANOVA (Repeated Design) | PS2010 Workshop Code Book">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Learning Outcomes By the end of this chapter you should be able to: Wrangle and pivot a data set in preparation for a 2 × 2repeated factorial ANOVA. Produce descriptive statistics and...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="9 Factorial ANOVA (Repeated Design) | PS2010 Workshop Code Book">
+<meta name="twitter:description" content="Learning Outcomes By the end of this chapter you should be able to: Wrangle and pivot a data set in preparation for a 2 × 2repeated factorial ANOVA. Produce descriptive statistics and...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS2010 Workshop Code Book</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="" href="one-way-anova-independent.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent)</a></li>
+<li><a class="" href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></li>
+<li><a class="" href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
+<li><a class="" href="factorial-anova-independent-design.html"><span class="header-section-number">7</span> Factorial ANOVA (Independent Design)</a></li>
+<li><a class="" href="factorial-anova-mixed-design.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design)</a></li>
+<li><a class="active" href="factorial-anova-repeated-design.html"><span class="header-section-number">9</span> Factorial ANOVA (Repeated Design)</a></li>
+<li><a class="" href="factorial-anova-interpreting-main-effects.html"><span class="header-section-number">10</span> Factorial ANOVA (Interpreting Main Effects)</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="factorial-anova-repeated-design" class="section level1" number="9">
+<h1>
+<span class="header-section-number">9</span> Factorial ANOVA (Repeated Design)<a class="anchor" aria-label="anchor" href="#factorial-anova-repeated-design"><i class="fas fa-link"></i></a>
+</h1>
+<div id="learning-outcomes-8" class="section level2 unnumbered">
+<h2>
+<strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-8"><i class="fas fa-link"></i></a>
+</h2>
+<p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>Wrangle and pivot a data set in preparation for a 2 × 2repeated factorial ANOVA.</li>
+<li>Produce descriptive statistics and visualisations for a factorial design.</li>
+<li>Check the assumptions of a factorial ANOVA.</li>
+<li>Understand how to check the assumption of Sphericity and select a suitable model correction if needed.</li>
+<li>Conduct and interpret a 2 × 2 repeated factorial ANOVA in R.</li>
+<li>Interpret main effects and interactions between two independent variables.</li>
+<li>Conduct and interpret simple-effects analyses following a significant interaction.</li>
+<li>Report the results of a factorial ANOVA and simple-effects analyses in APA style.</li>
+</ul>
+<p>The data for this chapter come from:</p>
+<blockquote>
+<p>El Basbasse, Y., Packheiser, J., Peterburs, J., Maymon, C., Güntürkün, O., Grimshaw, G., &amp; Ocklenburg, S. (2023). <a href="https://doi.org/10.1098/rsos.221239">Walk the plank! Using mobile electroencephalography to investigate emotional lateralization of immersive fear in virtual reality</a>. <em>Royal Society Open Science, 10(5),</em> 221239. <a href="doi:10.1098/rsos.221239" class="uri">doi:10.1098/rsos.221239</a></p>
+</blockquote>
+<p>In this study, the researchers investigated experiencing a virtual reality (VR) “walk the plank” would induce fear, and whether fear increased as participants moved along the plank. Participants completed two different plank conditions: a neutral condition where the plank was at street level and a negative condition where the plank was positioned at the top of a high rise building.</p>
+<p>Participants completed a subjective fear rating scale (higher score indicates greater fear) at three time points during the VR task: (1) in the elevator before the plank, (2) at the start of the plank, and (3) at the end of the plank.</p>
+<p>This study includes other measures, including physiological (e.g., EEG) and other behavioural tasks, however, for this chapter you will analyse the subjective fear rating data. Your task is the replicate the analysis presented in section 3.2.1 of the published paper.</p>
+<hr>
+<div id="variables-and-hypotheses-4" class="section level3" number="9.0.1">
+<h3>
+<span class="header-section-number">9.0.1</span> <strong>Variables and Hypotheses</strong><a class="anchor" aria-label="anchor" href="#variables-and-hypotheses-4"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Q1(a)</strong> What were the independent variables in this study? How many levels for each and what were they?</p>
+<p><strong>Q1(b)</strong> What was the dependent variables used in this study (hint: choose the variable used for the analysis in this chapter)?</p>
+<p><strong>Q1(c)</strong> What would be a suitable alternative hypothesis for the interaction between factors in this study?</p>
+<p><strong>Q1(d)</strong> What is the design of this study and what would be a suitable method of analysis?</p>
+<hr>
+</div>
+</div>
+<div id="load-packages-and-import-data-8" class="section level2" number="9.1">
+<h2>
+<span class="header-section-number">9.1</span> <strong>Load Packages and Import Data</strong><a class="anchor" aria-label="anchor" href="#load-packages-and-import-data-8"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://afex.singmann.science/">afex</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/car/">car</a></span><span class="op">)</span></span></code></pre></div>
+<p>Download the planlk.csv from the workshop materials and save it in your R project folder. Then import it:</p>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"plank.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="data-wrangling-1" class="section level2" number="9.2">
+<h2>
+<span class="header-section-number">9.2</span> <strong>Data Wrangling</strong><a class="anchor" aria-label="anchor" href="#data-wrangling-1"><i class="fas fa-link"></i></a>
+</h2>
+<div id="select-variables-1" class="section level3" number="9.2.1">
+<h3>
+<span class="header-section-number">9.2.1</span> Select Variables<a class="anchor" aria-label="anchor" href="#select-variables-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>You will not need to include all variables in the data set. Use the <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> function to include: the participant identifier variable, and then the repeated conditions:<code>negative_elevator</code>, <code>negative_start</code>, <code>negative_end</code>, <code>neutral_elevator</code> <code>neutral_start</code>, and <code>neutral_end</code>.</p>
+<p>Save these as a new object called <code>data</code>.</p>
+<details class="dropdown"><summary>
+❓ Help
+</summary><div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="cn">NULL</span>, <span class="cn">NULL</span>, <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+</details><hr>
+</div>
+<div id="pivot-data-1" class="section level3" number="9.2.2">
+<h3>
+<span class="header-section-number">9.2.2</span> Pivot Data<a class="anchor" aria-label="anchor" href="#pivot-data-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>As some of the variables are repeated measures, you will need to check if the data in its current form is in long format and pivot if needed.</p>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datalong</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    cols <span class="op">=</span> <span class="op">-</span><span class="va">subject</span>,</span>
+<span>    names_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cond"</span>, <span class="st">"time"</span><span class="op">)</span>,</span>
+<span>    names_pattern <span class="op">=</span> <span class="st">"(neutral|negative)_(.*)"</span>,</span>
+<span>    values_to <span class="op">=</span> <span class="st">"fear"</span><span class="op">)</span></span></code></pre></div>
+<details><summary>
+🔍 Code Explained
+</summary><p>The data are reshaped from wide to long format so that the fear ratings for the different conditions and recording points are stored in separate columns.</p>
+<ul>
+<li>
+<code>datalong &lt;- plank %&gt;%</code> starts with the wide-format data frame <code>plank</code> and saves the reshaped data as <code>datalong</code>.</li>
+<li>
+<code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code> converts several columns into rows.</li>
+<li>
+<code>cols = -subject</code> pivots every column except <code>subject</code>. The subject identifier is kept on each row so the observations can still be linked to each participant.</li>
+<li>
+<code>names_to = c("cond", "time")</code> splits the original column names into two new variables: <code>cond</code> for the condition and <code>time</code> for the recording point.</li>
+<li>
+<code>names_pattern = "(neutral|negative)_(.*)"</code> tells R how to split each column name. The first set of brackets captures either <code>neutral</code> or <code>negative</code>; the second captures the text after the underscore, such as <code>elevator</code> or <code>start_of_plank</code>.</li>
+<li>
+<code>values_to = "fear"</code> puts the ratings from the original columns into a new variable called <code>fear</code>.</li>
+</ul>
+<p>The resulting data have one row for each participant, condition and recording point.</p>
+</details><hr>
+</div>
+<div id="factorise-and-rename-variables-1" class="section level3" number="9.2.3">
+<h3>
+<span class="header-section-number">9.2.3</span> Factorise and Rename Variables<a class="anchor" aria-label="anchor" href="#factorise-and-rename-variables-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <code>cond</code> and <code>time</code> variables are both factors, and so they need to be coded as a “Factor”.</p>
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datalong</span> <span class="op">&lt;-</span> <span class="va">datalong</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>cond <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">cond</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"neutral"</span>, <span class="st">"negative"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>         time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">time</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"elevator"</span>, <span class="st">"start"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The variable names are clear enough, and so no renaming needed.</p>
+<p><code>levels = c()</code> is useful here because we need to put the levels of <code>time</code> in a logical order rather than R’s default alphabetical. Remember that <code>elevator</code> comes first, then <code>start</code>, then <code>end</code> at the end of this experiment.</p>
+</div>
+</div>
+<div id="descriptive-statistics-8" class="section level2" number="9.3">
+<h2>
+<span class="header-section-number">9.3</span> <strong>Descriptive Statistics</strong><a class="anchor" aria-label="anchor" href="#descriptive-statistics-8"><i class="fas fa-link"></i></a>
+</h2>
+<p>Calculate descriptive statistics. If you have any difficulty, use the help option below.</p>
+<details class="dropdown"><summary>
+❓ Help
+</summary><p>I admit I set you up for failure there. If you check the descriptive statistics, one of the conditions has <code>NA</code>. <strong>Usually</strong> (but not always) this is due to R not knowing what to do with missing data.</p>
+<p>First check, is there missing data. The code below will calculate how many blank cells there are:</p>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">datalong</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Seems there is one. The code below will tell you which exact row(s) have missing data:</p>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">datalong</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Check row 127 of the data and make a note of the subject number. It will be best to remove this case as they did not complete the full experiment.</p>
+<p>The code below will filter out any subject IDs you place in the <code>NULL</code>. Remember, be specific, R needs the exact subject ID as it appears in the data set.</p>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datalong</span> <span class="op">&lt;-</span> <span class="va">datalong</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subject</span> <span class="op">!=</span> <span class="st">"NULL"</span><span class="op">)</span></span></code></pre></div>
+<p>After you have completed these steps, try to re-run your descriptive statistics again.</p>
+</details><hr>
+</div>
+<div id="create-a-suitable-plot-7" class="section level2" number="9.4">
+<h2>
+<span class="header-section-number">9.4</span> <strong>Create a Suitable Plot</strong><a class="anchor" aria-label="anchor" href="#create-a-suitable-plot-7"><i class="fas fa-link"></i></a>
+</h2>
+<p>You will want to create something fairly similar to Figure 9 in the original paper. However, you should create a box plot. You should then compare it to the figure in the published paper.</p>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">datalong</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">fear</span>, fill <span class="op">=</span> <span class="va">cond</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Q2</strong>: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean fluency score across the four combinations of conditions in the 2x2 design.</p>
+</div>
+<div id="check-assumptions-7" class="section level2" number="9.5">
+<h2>
+<span class="header-section-number">9.5</span> <strong>Check Assumptions</strong><a class="anchor" aria-label="anchor" href="#check-assumptions-7"><i class="fas fa-link"></i></a>
+</h2>
+<div id="continuous-dependent-variable-7" class="section level3" number="9.5.1">
+<h3>
+<span class="header-section-number">9.5.1</span> <strong>Continuous Dependent Variable</strong><a class="anchor" aria-label="anchor" href="#continuous-dependent-variable-7"><i class="fas fa-link"></i></a>
+</h3>
+<p>The dependent variable should be numerical and a continuous score.</p>
+<p>This assumption holds for this study.</p>
+<hr>
+</div>
+<div id="independent-observations-6" class="section level3" number="9.5.2">
+<h3>
+<span class="header-section-number">9.5.2</span> <strong>Independent Observations</strong><a class="anchor" aria-label="anchor" href="#independent-observations-6"><i class="fas fa-link"></i></a>
+</h3>
+<p>This is a fully repeated-measures design: each participant provided fear ratings in both conditions (<code>neutral</code> and <code>negative</code>) and at all three recording locations. Their scores across these conditions and locations are therefore related.</p>
+<p>The independence assumption applies <strong>between participants</strong>: one participant’s ratings should not influence another participant’s ratings. This is assumed from the study design.</p>
+<hr>
+</div>
+<div id="roughly-normally-distributed-residuals-5" class="section level3" number="9.5.3">
+<h3>
+<span class="header-section-number">9.5.3</span> <strong>Roughly Normally Distributed Residuals</strong><a class="anchor" aria-label="anchor" href="#roughly-normally-distributed-residuals-5"><i class="fas fa-link"></i></a>
+</h3>
+<p>The residuals from the ANOVA model should be approximately normally distributed.</p>
+<p>You can use the same approach as previously.</p>
+<div id="obtaining-the-model-residuals-4" class="section level4 unnumbered">
+<h4>
+<strong>Obtaining the Model Residuals</strong><a class="anchor" aria-label="anchor" href="#obtaining-the-model-residuals-4"><i class="fas fa-link"></i></a>
+</h4>
+<p>If you need a reminder of the variable names use:</p>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>Then fit the model:</p>
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"NULL"</span>,</span>
+<span>       data <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>       within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NULL"</span>, <span class="st">"NULL"</span><span class="op">)</span>,</span>
+<span>       dv <span class="op">=</span> <span class="st">"NULL"</span>, </span>
+<span>       type <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>       anova_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>es <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+</div>
+</div>
+<div id="q-q-plot-and-shapiro-wilk-2" class="section level3 unnumbered">
+<h3>Q-Q Plot and Shapiro-Wilk<a class="anchor" aria-label="anchor" href="#q-q-plot-and-shapiro-wilk-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>This is not new to you by now. Use the code below and interpret the output.</p>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">lm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/car/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="sphericity-2" class="section level3 unnumbered">
+<h3>
+<strong>Sphericity</strong><a class="anchor" aria-label="anchor" href="#sphericity-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>To check for sphericity, we again need to use the model <code>mod</code> from earlier. This time use:</p>
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
+<p>Check the output for “Mauchly Tests for Sphericity” and interpret the test(s).</p>
+<p>Reporting this is the same as the Shapiro-Wilk test, you just need to report the test statistics (<em>w</em> = XX) and the p-value.</p>
+</div>
+<div id="issues-with-assumptions" class="section level3 unnumbered">
+<h3>
+<strong>Issues with Assumptions</strong><a class="anchor" aria-label="anchor" href="#issues-with-assumptions"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+</div>
+<div id="summary-of-assumption-checks" class="section level2" number="9.6">
+<h2>
+<span class="header-section-number">9.6</span> <strong>Summary of Assumption Checks</strong><a class="anchor" aria-label="anchor" href="#summary-of-assumption-checks"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Shapiro–Wilk test was significant (W = 0.951, p &lt; .001), and the Q–Q plot shows that the residuals do not follow a normal distribution closely, particularly at the tails.</p>
+<p>Mauchly’s test was also significant, indicating that the assumption of sphericity was violated. This affects the location factor and the cond × location interaction, because location has three levels. Sphericity is automatically met for cond, which has two levels.</p>
+<p>For the effects involving location, we use the Greenhouse–Geisser corrected results. This correction accounts for the sphericity violation, but it does not address the non-normality of the residuals. The assumptions are therefore not fully met, so the results should be interpreted with caution. This does not automatically mean that the analysis cannot be used; real data are messy. Real data do not always meet every assumption.</p>
+<p><strong>Q3</strong>: Write up the assumptions in a style suitable for a lab report. Ensure you include any necessary statistics.</p>
+</div>
+<div id="interpret-the-anova-4" class="section level2" number="9.7">
+<h2>
+<span class="header-section-number">9.7</span> <strong>Interpret the ANOVA</strong><a class="anchor" aria-label="anchor" href="#interpret-the-anova-4"><i class="fas fa-link"></i></a>
+</h2>
+<p>You already did the hard work earlier setting up the code for the ANOVA model. Now you will just need to call it back.</p>
+<p>If the sphericity assumption was not met, use this to check the corrected model output.
+You’ll know the correction has been applied as the degrees of freedom are <strong>not</strong> whole number (they have decimal places).</p>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"GG"</span><span class="op">)</span></span></code></pre></div>
+<p>If the sphericity assumption has been met, then use this to check the uncorrected model output:</p>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<p>The two options above will allow you to use either the uncorrected model (if Sphericity was met) or the corrected model (if the assumption of Sphericity was not met).</p>
+</div>
+<div id="simple-effects-analysis-2" class="section level2" number="9.8">
+<h2>
+<span class="header-section-number">9.8</span> <strong>Simple Effects Analysis</strong><a class="anchor" aria-label="anchor" href="#simple-effects-analysis-2"><i class="fas fa-link"></i></a>
+</h2>
+<p>The interaction asks whether the difference in fear ratings between the <code>neutral</code> and <code>negative</code> conditions changes across the three locations. To explore this, we will compare the two conditions at each location: <code>elevator</code>, <code>start</code> and <code>end</code>.</p>
+<p>First, plot the data.</p>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/afex_plot.html">afex_plot</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">mod</span>, </span>
+<span>          x <span class="op">=</span> <span class="st">"time"</span>, </span>
+<span>          trace <span class="op">=</span> <span class="st">"cond"</span>, </span>
+<span>          error <span class="op">=</span> <span class="st">"within"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>You used this code last week but see below for a reminder of how it works.</p>
+<details class="dropdown"><summary>
+🔍 Code Explained
+</summary><ul>
+<li>
+<code>x =</code> sets the x-axis variable. Here, <code>location</code> has three levels: <code>elevator</code>, <code>start</code> and <code>end</code>.</li>
+<li>
+<code>trace =</code> separates the data by another variable. Here, <code>cond</code> shows the <code>neutral</code> and <code>negative</code> conditions at each location.</li>
+<li>
+<code>error = "within"</code> is used because both <code>location</code> and <code>cond</code> are within-subjects variables. Each participant provided ratings in every condition and at every location.</li>
+</ul></details><hr>
+<p>Now obtain the statistics for the pairwise comparisons so you can interpret them alongside the afex_plot().</p>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">cond</span><span class="op">*</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span>interaction <span class="op">=</span> <span class="st">"pairwise"</span>, </span>
+<span>           simple <span class="op">=</span> <span class="st">"each"</span>, </span>
+<span>           combine <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>           adjust <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span></span></code></pre></div>
+<p>Look through the output and select the relevant comparisons. For this simple effects analysis, report the t-tests comparing the neutral and negative conditions at each location: elevator, start and end.</p>
+<p>In total, you will need three t-tests per <code>cond</code> (three for neutral, three for negative). The Bonferroni adjustment (used in the published paper) is applied to account for multiple comparisons.</p>
+<p>Remember to include effect sizes…</p>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datalong</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cond</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">rstatix</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span></span>
+<span>        <span class="va">fear</span> <span class="op">~</span> <span class="va">time</span>,</span>
+<span>        paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Q4</strong>: Write up the findings from the analysis (including any main effects and the simple effects analysis if the interaction is significant) in a style suitable for a research paper or lab report.</p>
+<hr>
+<p><strong>Well done. You have reached the end of this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="factorial-anova-mixed-design.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design)</a></div>
+<div class="next"><a href="factorial-anova-interpreting-main-effects.html"><span class="header-section-number">10</span> Factorial ANOVA (Interpreting Main Effects)</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#factorial-anova-repeated-design"><span class="header-section-number">9</span> Factorial ANOVA (Repeated Design)</a></li>
+<li>
+<a class="nav-link" href="#learning-outcomes-8">Learning Outcomes</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#variables-and-hypotheses-4"><span class="header-section-number">9.0.1</span> Variables and Hypotheses</a></li></ul>
+</li>
+<li><a class="nav-link" href="#load-packages-and-import-data-8"><span class="header-section-number">9.1</span> Load Packages and Import Data</a></li>
+<li>
+<a class="nav-link" href="#data-wrangling-1"><span class="header-section-number">9.2</span> Data Wrangling</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#select-variables-1"><span class="header-section-number">9.2.1</span> Select Variables</a></li>
+<li><a class="nav-link" href="#pivot-data-1"><span class="header-section-number">9.2.2</span> Pivot Data</a></li>
+<li><a class="nav-link" href="#factorise-and-rename-variables-1"><span class="header-section-number">9.2.3</span> Factorise and Rename Variables</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#descriptive-statistics-8"><span class="header-section-number">9.3</span> Descriptive Statistics</a></li>
+<li><a class="nav-link" href="#create-a-suitable-plot-7"><span class="header-section-number">9.4</span> Create a Suitable Plot</a></li>
+<li>
+<a class="nav-link" href="#check-assumptions-7"><span class="header-section-number">9.5</span> Check Assumptions</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#continuous-dependent-variable-7"><span class="header-section-number">9.5.1</span> Continuous Dependent Variable</a></li>
+<li><a class="nav-link" href="#independent-observations-6"><span class="header-section-number">9.5.2</span> Independent Observations</a></li>
+<li><a class="nav-link" href="#roughly-normally-distributed-residuals-5"><span class="header-section-number">9.5.3</span> Roughly Normally Distributed Residuals</a></li>
+<li><a class="nav-link" href="#q-q-plot-and-shapiro-wilk-2">Q-Q Plot and Shapiro-Wilk</a></li>
+<li><a class="nav-link" href="#sphericity-2">Sphericity</a></li>
+<li><a class="nav-link" href="#issues-with-assumptions">Issues with Assumptions</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#summary-of-assumption-checks"><span class="header-section-number">9.6</span> Summary of Assumption Checks</a></li>
+<li><a class="nav-link" href="#interpret-the-anova-4"><span class="header-section-number">9.7</span> Interpret the ANOVA</a></li>
+<li><a class="nav-link" href="#simple-effects-analysis-2"><span class="header-section-number">9.8</span> Simple Effects Analysis</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS2010 Workshop Code Book</strong>" was written by Luke Kendrick. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

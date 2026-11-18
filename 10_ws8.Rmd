@@ -1,0 +1,167 @@
+# Factorial ANOVA (Interpreting Main Effects)
+
+## **Learning Outcomes** {.unnumbered}
+
+The data for this chapter come from the same paper used in the previous chapter:
+
+- Understand how to interpret and report a significant main effect for a factor with two levels.
+- Understand how to interpret and report a significant main effect for a factor with three levels, including post-hoc tests.
+
+> El Basbasse, Y., Packheiser, J., Peterburs, J., Maymon, C., Güntürkün, O., Grimshaw, G., & Ocklenburg, S. (2023). [Walk the plank! Using mobile electroencephalography to investigate emotional lateralization of immersive fear in virtual reality](https://doi.org/10.1098/rsos.221239). *Royal Society Open Science, 10(5),* 221239. <doi:10.1098/rsos.221239>
+
+\*\*You will need the model from the previous chapter "Factorial ANOVA (Repeated Design)" in order to complete this one.
+
+## Before Your Begin
+
+### Significant Interactions
+
+In the previous three chapters, you analysed data from real, published research using factorial ANOVAs with independent, mixed and repeated-measures designs. In each analysis, the interaction was significant. Remember that a significant interaction means the effect of one factor depends on the level of the other factor. You can still report the main effects, but interpret cautiously because they average across the levels of the other factor. Focus your interpretation on the interaction and follow it up by examining the simple effects.
+
+However, what happens if the interaction is not significant?
+
+### Main Effects
+
+A main effect is the effect of one factor on the dependent variable, averaged across the levels of the other factor.
+
+Using the VR plank study, this would mean we could **only** look at the effect of `time` (elevator, start, end) on subjective fear scores (main effect of `time`), ignoring that there were two other conditions (condition: neutral, negative).
+
+Alternatively, we could **only** look at the effect of `condition` (neutral street level vs. negative high rise) on subjective fear scores (main effect of `condition`), ignoring that there were three other conditions (time: elevator, start, end).
+
+To demonstrate how to look at significant main effects when an interaction is not significant, we are going to have to play pretend. For the rest of this chapter, let's pretend that the `cond` x `time` interaction was **not** significant with *p* > .05.
+
+## Main Effect for a Factor with Two Levels
+
+Use the same model output as the previous chapter
+
+```r
+nice(mod, es = "pes", correction = "GG")
+```
+
+You should notice that the main effect for `cond` is significant with *p* <.001.
+
+How would you interpret and report this main effect if the interaction was not significant?
+
+---
+
+### Descriptive Statistics
+
+This time you need the descriptive statistics for **only** the factor you are interested in, here it is `cond`.
+
+To do this, you **only** need to include the factor you care about in the `group-by()` part of the code.
+
+```r
+datalong %>%
+  group_by(cond) %>%
+  summarise(mean_fear = mean(fear),
+            sd_fear = sd(fear),
+            n = n()
+```
+
+This should give you the mean subjective fear scores for **only** the factor of `cond`: neutral vs. negative.
+
+---
+
+### Plot
+
+Similarly for any plot, just remove the `time` factor from code.
+
+```r
+ggplot(datalong, aes(x = cond, y = fear, fill = cond)) +
+  geom_boxplot() +
+  theme_classic()
+```
+
+---
+
+### Interpreting and Reporting the Main Effect
+
+Our ANOVA model has told us there is a significant main effect. This means the levels of this factor are significantly different. As there are only two levels, there is a really easy way to interpret this main effect...just look at the means and/or plot and determine which condition is higher and which one is lower!
+
+Our model is telling you that the difference observed here is statistically significant.
+
+You can report the necessary statistics for the main effect (*F*, df, *p*, and effect size) alongside the descriptive statistics or nicely presented plot. Remember to state the direction of the finding, i.e., state which condition was higher.
+
+The approach here is very similar to that of a *t*-test, except the ANOVA model provides the statistics for you.
+
+Finally, if you were to have a 2 x 2 design with **two** significant main effects, you'd need to follow this process twice--once for each main effect.
+
+**Q1**: Write up the significant main effect of condition in a style suitable for a lab report and using APA format. Remember to include any necessary desctriptive statistics (tip: write up in a style very similar to a *t*-test).
+
+---
+
+## Main Effect for a Factor with Three or more Levels
+
+A main effect with three levels is a little bit trickier because you cannot simply look at means and know which ones do differ. This does mean some follow-up statistics are required to determine where exactly across the three (or more) levels any differences are.
+
+it could be all levels differ from one another, or it might be only one level differs from all of the others.
+
+The approach here is very similar to that of a One-Way ANOVA.
+
+### Descriptive Statistics
+
+---
+
+This time you need the descriptive statistics for **only** the factor you are interested in, this time it is `time` which has three levels.
+
+To do this, you **only** need to include the factor you care about in the `group-by()` part of the code.
+
+```r
+datalong %>%
+  group_by(time) %>%
+  summarise(mean_fear = mean(fear),
+            sd_fear = sd(fear),
+            n = n()
+```
+
+This should give you the mean subjective fear scores for **only** the factor of `time`: elevator vs. start vs.end.
+
+---
+
+### Plot
+
+Similarly for any plot, just ensure `time` is the only factor in the code.
+
+```r
+ggplot(datalong, aes(x = time, y = fear, fill = time)) +
+  geom_boxplot() +
+  theme_classic()
+```
+
+---
+
+### Post-Hoc Multiple Comparisons
+
+To determine exactly which levels differ, you will need to use pairwise comparison (just like previously with one-way ANOVAs).
+
+```r
+# Pairwise comparisons
+emmeans(
+  mod,
+  pairwise ~ time,
+  adjust = "bonferroni")
+
+#Cohen's D (change to paired = FALSE if a between subjects factor)
+datalong %>%
+  rstatix::cohens_d(
+    fear ~ time,
+    paired = TRUE)
+```
+
+This code will produce three pairwise comparisons (*t*-tests) with Cohen's d, comparing:
+
+- `elevator` and `start`
+- `elevator` and `end`
+- `start` and `end`.
+
+As there are three comparisons, the code also applies a Bonferroni correction (I selected this correction because it was the same approach used in the published paper). It could also be possible to use a polynomial trend, as this factor had three levels (see Chapter Four).
+
+Finally, if you were to have a 3 x 3 design with **two** significant main effects, you'd need to follow this process twice--once for each main effect.
+
+**Q2**: Write up the significant main effect of condition in a style suitable for a lab report and using APA format. Remember to include any necessary descriptive statistics (tip: write up in a style very similar to a One-Way ANOVA).
+
+---
+
+**Well done. You have reached the end of this chapter.**
+
+Remember to keep the answers to your questions as you'll need these for the Moodle quiz.
+

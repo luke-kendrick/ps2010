@@ -121,6 +121,7 @@ data <- data %>%
         occasion = factor(occasion, levels = c("InitialFluency", "FollowFluency")))
 ```
 
+
 The mixing of uppercase and lowercase for the factor names is annoying. Stick with best practice and keep everything lowercase.
 
 ``` r
@@ -274,7 +275,7 @@ ggplot(data, aes(x = occasion, y = fluency)) +
   geom_boxplot(width = 0.4)
 ```
 
-This plot shows that there is an increase in fluency score from the `InitialFluency` occasion (pre-treatment) to the `FolloFluency` occasion (post-treatment).
+This plot shows that there is an increase in fluency score from the `InitialFluency` occasion (pre-treatment) to the `FollowFluency` occasion (post-treatment).
 
 From this main effect, can you conclude that the treatment has worked? What does the increase of scores mean?
 

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>10 Factorial ANOVA (Interpreting Main Effects) | PS2010 Workshop Code Book</title>
+<meta name="author" content="Luke Kendrick">
+<meta name="description" content="Learning Outcomes The data for this chapter come from the same paper used in the previous chapter: Understand how to interpret and report a significant main effect for a factor with two levels....">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="10 Factorial ANOVA (Interpreting Main Effects) | PS2010 Workshop Code Book">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Learning Outcomes The data for this chapter come from the same paper used in the previous chapter: Understand how to interpret and report a significant main effect for a factor with two levels....">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10 Factorial ANOVA (Interpreting Main Effects) | PS2010 Workshop Code Book">
+<meta name="twitter:description" content="Learning Outcomes The data for this chapter come from the same paper used in the previous chapter: Understand how to interpret and report a significant main effect for a factor with two levels....">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS2010 Workshop Code Book</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="descriptive-statistics-and-plots.html"><span class="header-section-number">1</span> Descriptive Statistics and Plots</a></li>
+<li><a class="" href="two-sample-t-test.html"><span class="header-section-number">2</span> Two-Sample t-Test</a></li>
+<li><a class="" href="paired-t-test.html"><span class="header-section-number">3</span> Paired t-Test</a></li>
+<li><a class="" href="one-way-anova-independent.html"><span class="header-section-number">4</span> One-Way ANOVA (Independent)</a></li>
+<li><a class="" href="one-way-anova-repeated.html"><span class="header-section-number">5</span> One-Way ANOVA (Repeated)</a></li>
+<li><a class="" href="data-cleaning-and-wrangling-experimental-research.html"><span class="header-section-number">6</span> Data Cleaning and Wrangling (Experimental Research)</a></li>
+<li><a class="" href="factorial-anova-independent-design.html"><span class="header-section-number">7</span> Factorial ANOVA (Independent Design)</a></li>
+<li><a class="" href="factorial-anova-mixed-design.html"><span class="header-section-number">8</span> Factorial ANOVA (Mixed Design)</a></li>
+<li><a class="" href="factorial-anova-repeated-design.html"><span class="header-section-number">9</span> Factorial ANOVA (Repeated Design)</a></li>
+<li><a class="active" href="factorial-anova-interpreting-main-effects.html"><span class="header-section-number">10</span> Factorial ANOVA (Interpreting Main Effects)</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="factorial-anova-interpreting-main-effects" class="section level1" number="10">
+<h1>
+<span class="header-section-number">10</span> Factorial ANOVA (Interpreting Main Effects)<a class="anchor" aria-label="anchor" href="#factorial-anova-interpreting-main-effects"><i class="fas fa-link"></i></a>
+</h1>
+<div id="learning-outcomes-9" class="section level2 unnumbered">
+<h2>
+<strong>Learning Outcomes</strong><a class="anchor" aria-label="anchor" href="#learning-outcomes-9"><i class="fas fa-link"></i></a>
+</h2>
+<p>The data for this chapter come from the same paper used in the previous chapter:</p>
+<ul>
+<li>Understand how to interpret and report a significant main effect for a factor with two levels.</li>
+<li>Understand how to interpret and report a significant main effect for a factor with three levels, including post-hoc tests.</li>
+</ul>
+<blockquote>
+<p>El Basbasse, Y., Packheiser, J., Peterburs, J., Maymon, C., Güntürkün, O., Grimshaw, G., &amp; Ocklenburg, S. (2023). <a href="https://doi.org/10.1098/rsos.221239">Walk the plank! Using mobile electroencephalography to investigate emotional lateralization of immersive fear in virtual reality</a>. <em>Royal Society Open Science, 10(5),</em> 221239. <a href="doi:10.1098/rsos.221239" class="uri">doi:10.1098/rsos.221239</a></p>
+</blockquote>
+<p>**You will need the model from the previous chapter “Factorial ANOVA (Repeated Design)” in order to complete this one.</p>
+</div>
+<div id="before-your-begin" class="section level2" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> Before Your Begin<a class="anchor" aria-label="anchor" href="#before-your-begin"><i class="fas fa-link"></i></a>
+</h2>
+<div id="significant-interactions" class="section level3" number="10.1.1">
+<h3>
+<span class="header-section-number">10.1.1</span> Significant Interactions<a class="anchor" aria-label="anchor" href="#significant-interactions"><i class="fas fa-link"></i></a>
+</h3>
+<p>In the previous three chapters, you analysed data from real, published research using factorial ANOVAs with independent, mixed and repeated-measures designs. In each analysis, the interaction was significant. Remember that a significant interaction means the effect of one factor depends on the level of the other factor. You can still report the main effects, but interpret cautiously because they average across the levels of the other factor. Focus your interpretation on the interaction and follow it up by examining the simple effects.</p>
+<p>However, what happens if the interaction is not significant?</p>
+</div>
+<div id="main-effects" class="section level3" number="10.1.2">
+<h3>
+<span class="header-section-number">10.1.2</span> Main Effects<a class="anchor" aria-label="anchor" href="#main-effects"><i class="fas fa-link"></i></a>
+</h3>
+<p>A main effect is the effect of one factor on the dependent variable, averaged across the levels of the other factor.</p>
+<p>Using the VR plank study, this would mean we could <strong>only</strong> look at the effect of <code>time</code> (elevator, start, end) on subjective fear scores (main effect of <code>time</code>), ignoring that there were two other conditions (condition: neutral, negative).</p>
+<p>Alternatively, we could <strong>only</strong> look at the effect of <code>condition</code> (neutral street level vs. negative high rise) on subjective fear scores (main effect of <code>condition</code>), ignoring that there were three other conditions (time: elevator, start, end).</p>
+<p>To demonstrate how to look at significant main effects when an interaction is not significant, we are going to have to play pretend. For the rest of this chapter, let’s pretend that the <code>cond</code> x <code>time</code> interaction was <strong>not</strong> significant with <em>p</em> &gt; .05.</p>
+</div>
+</div>
+<div id="main-effect-for-a-factor-with-two-levels" class="section level2" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> Main Effect for a Factor with Two Levels<a class="anchor" aria-label="anchor" href="#main-effect-for-a-factor-with-two-levels"><i class="fas fa-link"></i></a>
+</h2>
+<p>Use the same model output as the previous chapter</p>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/nice.html">nice</a></span><span class="op">(</span><span class="va">mod</span>, es <span class="op">=</span> <span class="st">"pes"</span>, correction <span class="op">=</span> <span class="st">"GG"</span><span class="op">)</span></span></code></pre></div>
+<p>You should notice that the main effect for <code>cond</code> is significant with <em>p</em> &lt;.001.</p>
+<p>How would you interpret and report this main effect if the interaction was not significant?</p>
+<hr>
+<div id="descriptive-statistics-9" class="section level3" number="10.2.1">
+<h3>
+<span class="header-section-number">10.2.1</span> Descriptive Statistics<a class="anchor" aria-label="anchor" href="#descriptive-statistics-9"><i class="fas fa-link"></i></a>
+</h3>
+<p>This time you need the descriptive statistics for <strong>only</strong> the factor you are interested in, here it is <code>cond</code>.</p>
+<p>To do this, you <strong>only</strong> need to include the factor you care about in the <code>group-by()</code> part of the code.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="factorial-anova-interpreting-main-effects.html#cb143-1" tabindex="-1"></a>datalong <span class="sc">%&gt;%</span></span>
+<span id="cb143-2"><a href="factorial-anova-interpreting-main-effects.html#cb143-2" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span></span>
+<span id="cb143-3"><a href="factorial-anova-interpreting-main-effects.html#cb143-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_fear =</span> <span class="fu">mean</span>(fear),</span>
+<span id="cb143-4"><a href="factorial-anova-interpreting-main-effects.html#cb143-4" tabindex="-1"></a>            <span class="at">sd_fear =</span> <span class="fu">sd</span>(fear),</span>
+<span id="cb143-5"><a href="factorial-anova-interpreting-main-effects.html#cb143-5" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()</span></code></pre></div>
+<p>This should give you the mean subjective fear scores for <strong>only</strong> the factor of <code>cond</code>: neutral vs. negative.</p>
+<hr>
+</div>
+<div id="plot" class="section level3" number="10.2.2">
+<h3>
+<span class="header-section-number">10.2.2</span> Plot<a class="anchor" aria-label="anchor" href="#plot"><i class="fas fa-link"></i></a>
+</h3>
+<p>Similarly for any plot, just remove the <code>time</code> factor from code.</p>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">datalong</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cond</span>, y <span class="op">=</span> <span class="va">fear</span>, fill <span class="op">=</span> <span class="va">cond</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+<div id="interpreting-and-reporting-the-main-effect" class="section level3" number="10.2.3">
+<h3>
+<span class="header-section-number">10.2.3</span> Interpreting and Reporting the Main Effect<a class="anchor" aria-label="anchor" href="#interpreting-and-reporting-the-main-effect"><i class="fas fa-link"></i></a>
+</h3>
+<p>Our ANOVA model has told us there is a significant main effect. This means the levels of this factor are significantly different. As there are only two levels, there is a really easy way to interpret this main effect…just look at the means and/or plot and determine which condition is higher and which one is lower!</p>
+<p>Our model is telling you that the difference observed here is statistically significant.</p>
+<p>You can report the necessary statistics for the main effect (<em>F</em>, df, <em>p</em>, and effect size) alongside the descriptive statistics or nicely presented plot. Remember to state the direction of the finding, i.e., state which condition was higher.</p>
+<p>The approach here is very similar to that of a <em>t</em>-test, except the ANOVA model provides the statistics for you.</p>
+<p>Finally, if you were to have a 2 x 2 design with <strong>two</strong> significant main effects, you’d need to follow this process twice–once for each main effect.</p>
+<p><strong>Q1</strong>: Write up the significant main effect of condition in a style suitable for a lab report and using APA format. Remember to include any necessary desctriptive statistics (tip: write up in a style very similar to a <em>t</em>-test).</p>
+<hr>
+</div>
+</div>
+<div id="main-effect-for-a-factor-with-three-or-more-levels" class="section level2" number="10.3">
+<h2>
+<span class="header-section-number">10.3</span> Main Effect for a Factor with Three or more Levels<a class="anchor" aria-label="anchor" href="#main-effect-for-a-factor-with-three-or-more-levels"><i class="fas fa-link"></i></a>
+</h2>
+<p>A main effect with three levels is a little bit trickier because you cannot simply look at means and know which ones do differ. This does mean some follow-up statistics are required to determine where exactly across the three (or more) levels any differences are.</p>
+<p>it could be all levels differ from one another, or it might be only one level differs from all of the others.</p>
+<p>The approach here is very similar to that of a One-Way ANOVA.</p>
+<div id="descriptive-statistics-10" class="section level3" number="10.3.1">
+<h3>
+<span class="header-section-number">10.3.1</span> Descriptive Statistics<a class="anchor" aria-label="anchor" href="#descriptive-statistics-10"><i class="fas fa-link"></i></a>
+</h3>
+<hr>
+<p>This time you need the descriptive statistics for <strong>only</strong> the factor you are interested in, this time it is <code>time</code> which has three levels.</p>
+<p>To do this, you <strong>only</strong> need to include the factor you care about in the <code>group-by()</code> part of the code.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="factorial-anova-interpreting-main-effects.html#cb145-1" tabindex="-1"></a>datalong <span class="sc">%&gt;%</span></span>
+<span id="cb145-2"><a href="factorial-anova-interpreting-main-effects.html#cb145-2" tabindex="-1"></a>  <span class="fu">group_by</span>(time) <span class="sc">%&gt;%</span></span>
+<span id="cb145-3"><a href="factorial-anova-interpreting-main-effects.html#cb145-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_fear =</span> <span class="fu">mean</span>(fear),</span>
+<span id="cb145-4"><a href="factorial-anova-interpreting-main-effects.html#cb145-4" tabindex="-1"></a>            <span class="at">sd_fear =</span> <span class="fu">sd</span>(fear),</span>
+<span id="cb145-5"><a href="factorial-anova-interpreting-main-effects.html#cb145-5" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()</span></code></pre></div>
+<p>This should give you the mean subjective fear scores for <strong>only</strong> the factor of <code>time</code>: elevator vs. start vs.end.</p>
+<hr>
+</div>
+<div id="plot-1" class="section level3" number="10.3.2">
+<h3>
+<span class="header-section-number">10.3.2</span> Plot<a class="anchor" aria-label="anchor" href="#plot-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Similarly for any plot, just ensure <code>time</code> is the only factor in the code.</p>
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">datalong</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">fear</span>, fill <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+<div id="post-hoc-multiple-comparisons" class="section level3" number="10.3.3">
+<h3>
+<span class="header-section-number">10.3.3</span> Post-Hoc Multiple Comparisons<a class="anchor" aria-label="anchor" href="#post-hoc-multiple-comparisons"><i class="fas fa-link"></i></a>
+</h3>
+<p>To determine exactly which levels differ, you will need to use pairwise comparison (just like previously with one-way ANOVAs).</p>
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Pairwise comparisons</span></span>
+<span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span></span>
+<span>  <span class="va">mod</span>,</span>
+<span>  <span class="va">pairwise</span> <span class="op">~</span> <span class="va">time</span>,</span>
+<span>  adjust <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Cohen's D (change to paired = FALSE if a between subjects factor)</span></span>
+<span><span class="va">datalong</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">rstatix</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span></span>
+<span>    <span class="va">fear</span> <span class="op">~</span> <span class="va">time</span>,</span>
+<span>    paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>This code will produce three pairwise comparisons (<em>t</em>-tests) with Cohen’s d, comparing:</p>
+<ul>
+<li>
+<code>elevator</code> and <code>start</code>
+</li>
+<li>
+<code>elevator</code> and <code>end</code>
+</li>
+<li>
+<code>start</code> and <code>end</code>.</li>
+</ul>
+<p>As there are three comparisons, the code also applies a Bonferroni correction (I selected this correction because it was the same approach used in the published paper). It could also be possible to use a polynomial trend, as this factor had three levels (see Chapter Four).</p>
+<p>Finally, if you were to have a 3 x 3 design with <strong>two</strong> significant main effects, you’d need to follow this process twice–once for each main effect.</p>
+<p><strong>Q2</strong>: Write up the significant main effect of condition in a style suitable for a lab report and using APA format. Remember to include any necessary descriptive statistics (tip: write up in a style very similar to a One-Way ANOVA).</p>
+<hr>
+<p><strong>Well done. You have reached the end of this chapter.</strong></p>
+<p>Remember to keep the answers to your questions as you’ll need these for the Moodle quiz.</p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="factorial-anova-repeated-design.html"><span class="header-section-number">9</span> Factorial ANOVA (Repeated Design)</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#factorial-anova-interpreting-main-effects"><span class="header-section-number">10</span> Factorial ANOVA (Interpreting Main Effects)</a></li>
+<li><a class="nav-link" href="#learning-outcomes-9">Learning Outcomes</a></li>
+<li>
+<a class="nav-link" href="#before-your-begin"><span class="header-section-number">10.1</span> Before Your Begin</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#significant-interactions"><span class="header-section-number">10.1.1</span> Significant Interactions</a></li>
+<li><a class="nav-link" href="#main-effects"><span class="header-section-number">10.1.2</span> Main Effects</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#main-effect-for-a-factor-with-two-levels"><span class="header-section-number">10.2</span> Main Effect for a Factor with Two Levels</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#descriptive-statistics-9"><span class="header-section-number">10.2.1</span> Descriptive Statistics</a></li>
+<li><a class="nav-link" href="#plot"><span class="header-section-number">10.2.2</span> Plot</a></li>
+<li><a class="nav-link" href="#interpreting-and-reporting-the-main-effect"><span class="header-section-number">10.2.3</span> Interpreting and Reporting the Main Effect</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#main-effect-for-a-factor-with-three-or-more-levels"><span class="header-section-number">10.3</span> Main Effect for a Factor with Three or more Levels</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#descriptive-statistics-10"><span class="header-section-number">10.3.1</span> Descriptive Statistics</a></li>
+<li><a class="nav-link" href="#plot-1"><span class="header-section-number">10.3.2</span> Plot</a></li>
+<li><a class="nav-link" href="#post-hoc-multiple-comparisons"><span class="header-section-number">10.3.3</span> Post-Hoc Multiple Comparisons</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS2010 Workshop Code Book</strong>" was written by Luke Kendrick. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
