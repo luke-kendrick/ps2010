@@ -9,7 +9,7 @@ The data for this chapter come from the same paper used in the previous chapter:
 
 > El Basbasse, Y., Packheiser, J., Peterburs, J., Maymon, C., Güntürkün, O., Grimshaw, G., & Ocklenburg, S. (2023). [Walk the plank! Using mobile electroencephalography to investigate emotional lateralization of immersive fear in virtual reality](https://doi.org/10.1098/rsos.221239). *Royal Society Open Science, 10(5),* 221239. <doi:10.1098/rsos.221239>
 
-\*\*You will need the model from the previous chapter "Factorial ANOVA (Repeated Design)" in order to complete this one.
+**You will need the model from the previous chapter "Factorial ANOVA (Repeated Design)" in order to complete this one.**
 
 ## Before Your Begin
 
@@ -164,4 +164,3 @@ Finally, if you were to have a 3 x 3 design with **two** significant main effect
 **Well done. You have reached the end of this chapter.**
 
 Remember to keep the answers to your questions as you'll need these for the Moodle quiz.
-

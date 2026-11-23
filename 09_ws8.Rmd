@@ -168,7 +168,7 @@ ggplot(datalong, aes(x = time, y = fear, fill = cond)) +
   theme_classic()
 ```
 
-**Q2**: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean fluency score across the four combinations of conditions in the 2x2 design.
+**Q2**: Complete the table of descriptive statistics on the question sheet. You should be able to report the mean subjective fear score across the four combinations of conditions in the 3x2 design.
 
 ## **Check Assumptions**
 
