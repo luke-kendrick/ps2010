@@ -85,7 +85,7 @@ The approach here is very similar to that of a *t*-test, except the ANOVA model 
 
 Finally, if you were to have a 2 x 2 design with **two** significant main effects, you'd need to follow this process twice--once for each main effect.
 
-**Q1**: Write up the significant main effect of condition in a style suitable for a lab report and using APA format. Remember to include any necessary desctriptive statistics (tip: write up in a style very similar to a *t*-test).
+**Q1**: Write up the significant main effect of condition in a style suitable for a lab report and using APA format. Remember to include any necessary descriptive statistics (tip: write up in a style very similar to a *t*-test).
 
 ---
 

@@ -4,11 +4,11 @@
 
 By the end of this chapter you should be able to:
 
-- Wrangle and pivot a data set in preparation for a 2 × 2repeated factorial ANOVA.
+- Wrangle and pivot a data set in preparation for a 3 × 2 repeated factorial ANOVA.
 - Produce descriptive statistics and visualisations for a factorial design.
 - Check the assumptions of a factorial ANOVA.
 - Understand how to check the assumption of Sphericity and select a suitable model correction if needed.
-- Conduct and interpret a 2 × 2 repeated factorial ANOVA in R.
+- Conduct and interpret a 3 × 2 repeated factorial ANOVA in R.
 - Interpret main effects and interactions between two independent variables.
 - Conduct and interpret simple-effects analyses following a significant interaction.
 - Report the results of a factorial ANOVA and simple-effects analyses in APA style.
