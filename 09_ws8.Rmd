@@ -199,7 +199,7 @@ You can use the same approach as previously.
 If you need a reminder of the variable names use:
 
 ```r
-names(data)
+names(datalong)
 ```
 
 Then fit the model:

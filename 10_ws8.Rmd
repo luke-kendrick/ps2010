@@ -54,7 +54,7 @@ datalong %>%
   group_by(cond) %>%
   summarise(mean_fear = mean(fear),
             sd_fear = sd(fear),
-            n = n()
+            n = n())
 ```
 
 This should give you the mean subjective fear scores for **only** the factor of `cond`: neutral vs. negative.
@@ -110,7 +110,7 @@ datalong %>%
   group_by(time) %>%
   summarise(mean_fear = mean(fear),
             sd_fear = sd(fear),
-            n = n()
+            n = n())
 ```
 
 This should give you the mean subjective fear scores for **only** the factor of `time`: elevator vs. start vs.end.

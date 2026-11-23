@@ -116,11 +116,12 @@
 </h3>
 <p>This time you need the descriptive statistics for <strong>only</strong> the factor you are interested in, here it is <code>cond</code>.</p>
 <p>To do this, you <strong>only</strong> need to include the factor you care about in the <code>group-by()</code> part of the code.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="factorial-anova-interpreting-main-effects.html#cb143-1" tabindex="-1"></a>datalong <span class="sc">%&gt;%</span></span>
-<span id="cb143-2"><a href="factorial-anova-interpreting-main-effects.html#cb143-2" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span></span>
-<span id="cb143-3"><a href="factorial-anova-interpreting-main-effects.html#cb143-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_fear =</span> <span class="fu">mean</span>(fear),</span>
-<span id="cb143-4"><a href="factorial-anova-interpreting-main-effects.html#cb143-4" tabindex="-1"></a>            <span class="at">sd_fear =</span> <span class="fu">sd</span>(fear),</span>
-<span id="cb143-5"><a href="factorial-anova-interpreting-main-effects.html#cb143-5" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datalong</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cond</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_fear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fear</span><span class="op">)</span>,</span>
+<span>            sd_fear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">fear</span><span class="op">)</span>,</span>
+<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>This should give you the mean subjective fear scores for <strong>only</strong> the factor of <code>cond</code>: neutral vs. negative.</p>
 <hr>
 </div>
@@ -162,11 +163,12 @@
 <hr>
 <p>This time you need the descriptive statistics for <strong>only</strong> the factor you are interested in, this time it is <code>time</code> which has three levels.</p>
 <p>To do this, you <strong>only</strong> need to include the factor you care about in the <code>group-by()</code> part of the code.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="factorial-anova-interpreting-main-effects.html#cb145-1" tabindex="-1"></a>datalong <span class="sc">%&gt;%</span></span>
-<span id="cb145-2"><a href="factorial-anova-interpreting-main-effects.html#cb145-2" tabindex="-1"></a>  <span class="fu">group_by</span>(time) <span class="sc">%&gt;%</span></span>
-<span id="cb145-3"><a href="factorial-anova-interpreting-main-effects.html#cb145-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_fear =</span> <span class="fu">mean</span>(fear),</span>
-<span id="cb145-4"><a href="factorial-anova-interpreting-main-effects.html#cb145-4" tabindex="-1"></a>            <span class="at">sd_fear =</span> <span class="fu">sd</span>(fear),</span>
-<span id="cb145-5"><a href="factorial-anova-interpreting-main-effects.html#cb145-5" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datalong</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_fear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fear</span><span class="op">)</span>,</span>
+<span>            sd_fear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">fear</span><span class="op">)</span>,</span>
+<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>This should give you the mean subjective fear scores for <strong>only</strong> the factor of <code>time</code>: elevator vs. start vs.end.</p>
 <hr>
 </div>
