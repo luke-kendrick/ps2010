@@ -2,10 +2,10 @@
 
 ## **Learning Outcomes** {.unnumbered}
 
-The data for this chapter come from the same paper used in the previous chapter:
-
 - Understand how to interpret and report a significant main effect for a factor with two levels.
 - Understand how to interpret and report a significant main effect for a factor with three levels, including post-hoc tests.
+
+The data for this chapter come from the same paper used in the previous chapter:
 
 > El Basbasse, Y., Packheiser, J., Peterburs, J., Maymon, C., Güntürkün, O., Grimshaw, G., & Ocklenburg, S. (2023). [Walk the plank! Using mobile electroencephalography to investigate emotional lateralization of immersive fear in virtual reality](https://doi.org/10.1098/rsos.221239). *Royal Society Open Science, 10(5),* 221239. <doi:10.1098/rsos.221239>
 
